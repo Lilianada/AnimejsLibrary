@@ -1,8 +1,10 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Input } from './ui/input';
 
 const Hero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const [email, setEmail] = useState('');
   
   useEffect(() => {
     const element = titleRef.current;
@@ -18,6 +20,12 @@ const Hero = () => {
     }
   }, []);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Submitted email:', email);
+    // Handle waitlist submission
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 hero-gradient opacity-20" />
@@ -32,14 +40,24 @@ const Hero = () => {
           <p className="text-sm md:text-base text-foreground/80 mb-8">
             A carefully crafted library of animations to enhance your user experience
           </p>
-          <div className="flex items-center justify-center">
-            <a 
-              href="/examples" 
-              className="bg-secondary text-secondary-foreground px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
-            >
-              View Examples
-            </a>
-          </div>
+          <form onSubmit={handleSubmit} className="flex items-center justify-center max-w-md mx-auto">
+            <div className="relative flex w-full items-center rounded-full bg-white/10 backdrop-blur-lg border border-white/20 p-1.5">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 border-0 bg-transparent px-4 text-foreground placeholder:text-foreground/60 focus-visible:ring-0 focus-visible:ring-offset-0"
+                required
+              />
+              <button 
+                type="submit"
+                className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Join the waitlist
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
