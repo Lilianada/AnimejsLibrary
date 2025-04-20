@@ -1,130 +1,92 @@
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import FloatingLabelInput from "./forms/FloatingLabelInput"
-import BorderAnimationInput from "./forms/BorderAnimationInput"
-import ErrorStateInput from "./forms/ErrorStateInput"
-import SuccessStateInput from "./forms/SuccessStateInput"
-import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import CodeBlock from "./animations/CodeBlock"
-import { Copy, Code, Check } from "lucide-react"
+
+import { useState } from 'react'
+import { Code, Copy, Eye, EyeOff, Check } from 'lucide-react'
+import BorderAnimationInput from './forms/BorderAnimationInput'
+import ErrorStateInput from './forms/ErrorStateInput'
+import FloatingLabelInput from './forms/FloatingLabelInput'
+import PlaceholderAnimationInput from './forms/PlaceholderAnimationInput'
+import SuccessStateInput from './forms/SuccessStateInput'
+import CodeBlock from "../examples/animations/CodeBlock"
+
+const formComponents = [
+  {
+    label: 'Border Animation',
+    code: `<BorderAnimationInput placeholder="Fancy border..." />`,
+    element: <BorderAnimationInput placeholder="Fancy border..." />,
+  },
+  {
+    label: 'Floating Label',
+    code: `<FloatingLabelInput label="Your name" />`,
+    element: <FloatingLabelInput label="Your name" />,
+  },
+  {
+    label: 'Animated Placeholder',
+    code: `<PlaceholderAnimationInput placeholder="Animated..." />`,
+    element: <PlaceholderAnimationInput placeholder="Animated..." />,
+  },
+  {
+    label: 'Error State',
+    code: `<ErrorStateInput error="Required!" />`,
+    element: <ErrorStateInput error="Required!" />,
+  },
+  {
+    label: 'Success State',
+    code: `<SuccessStateInput success="Well done!" />`,
+    element: <SuccessStateInput success="Well done!" />,
+  },
+]
 
 const FormsExamples = () => {
-  const [showCode, setShowCode] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const codeExample = `
-import { useState } from "react"
-import FloatingLabelInput from "./FloatingLabelInput"
+  const [codeVisible, setCodeVisible] = useState(Array(formComponents.length).fill(false))
+  const [copied, setCopied] = useState(Array(formComponents.length).fill(false))
 
-const Example = () => (
-  <FloatingLabelInput />
-)
-  `
-  const handleCopy = async () => {
+  const handleView = (idx: number) => {
+    setCodeVisible((visible: boolean[]) =>
+      visible.map((v, i) => (i === idx ? !v : v))
+    )
+  }
+  const handleCopy = async (idx: number) => {
     try {
-      await navigator.clipboard.writeText(codeExample)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1600)
+      await navigator.clipboard.writeText(formComponents[idx].code)
+      setCopied(c => {
+        const next = [...c]
+        next[idx] = true
+        return next
+      })
+      setTimeout(() => setCopied(c => {
+        const next = [...c]
+        next[idx] = false
+        return next
+      }), 1600)
     } catch {}
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex gap-3 mb-2 justify-end">
-        <button className="flex gap-2 px-2 py-1 rounded border border-border bg-background text-foreground text-sm" onClick={() => setShowCode(v => !v)}>
-          <Code className="h-4 w-4" /> {showCode ? "Hide Code" : "View Code"}
-        </button>
-        <button className="flex gap-2 px-2 py-1 rounded border border-border bg-background text-foreground text-sm" onClick={handleCopy}>
-          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} Copy Code
-        </button>
-      </div>
-      {showCode && <CodeBlock code={codeExample} />}
+    <div className="space-y-10">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-3">Form Examples</h2>
-        <p className="text-muted-foreground">
-          Explore various form input animations and interactions.
-        </p>
+        <h2 className="text-2xl font-bold mb-3">Forms &amp; Inputs</h2>
       </div>
-
-      <Tabs defaultValue="label" className="w-full">
-        <TabsList className="grid grid-cols-5 mb-8">
-          <TabsTrigger value="label">Label Float</TabsTrigger>
-          <TabsTrigger value="border">Border Animation</TabsTrigger>
-          <TabsTrigger value="error">Error State</TabsTrigger>
-          <TabsTrigger value="success">Success State</TabsTrigger>
-          <TabsTrigger value="placeholder">Placeholder</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="label" className="mt-0">
-          <Card className="shadow-lg border-border">
-            <CardHeader>
-              <CardTitle>Floating Label Animation</CardTitle>
-              <CardDescription>
-                The label animates from placeholder position to above the input when focused or filled.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FloatingLabelInput />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="border" className="mt-0">
-          <Card className="shadow-lg border-border">
-            <CardHeader>
-              <CardTitle>Border Animation</CardTitle>
-              <CardDescription>
-                The border color or thickness animates on focus and validation.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <BorderAnimationInput />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="error" className="mt-0">
-          <Card className="shadow-lg border-border">
-            <CardHeader>
-              <CardTitle>Error State Animation</CardTitle>
-              <CardDescription>
-                Shake animation for invalid input and animated error message.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <ErrorStateInput />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="success" className="mt-0">
-          <Card className="shadow-lg border-border">
-            <CardHeader>
-              <CardTitle>Success State Animation</CardTitle>
-              <CardDescription>
-                Border color transition and checkmark animation for successful validation.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <SuccessStateInput />
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="placeholder" className="mt-0">
-          <Card className="shadow-lg border-border">
-            <CardHeader>
-              <CardTitle>Placeholder Animation</CardTitle>
-              <CardDescription>
-                Fade or slide placeholder text on focus.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <PlaceholderAnimationInput />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {formComponents.map((fc, idx) => (
+          <div key={fc.label} className="bg-muted p-6 rounded-lg flex flex-col items-center">
+            {/* Top actions */}
+            <div className="flex gap-2 items-center justify-end w-full mb-2">
+              <button onClick={() => handleView(idx)} className="p-2 rounded hover:bg-muted/50">
+                {codeVisible[idx]
+                  ? <EyeOff className="h-4 w-4" />
+                  : <Eye className="h-4 w-4" />}
+              </button>
+              <button onClick={() => handleCopy(idx)} className="p-2 rounded hover:bg-muted/50">
+                {copied[idx] ? <Check className="h-4 w-4 text-green-500"/> : <Copy className="h-4 w-4" />}
+              </button>
+            </div>
+            {codeVisible[idx]
+              ? <CodeBlock code={fc.code} />
+              : <div className="w-full flex-1 flex items-center justify-center">{fc.element}</div>
+            }
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -2,10 +2,10 @@
 import ButtonExamples from './ButtonExamples'
 import AnimationExamples from './AnimationExamples'
 import FormsExamples from './FormsExamples'
-import CardsExamples from './CardsExamples'
+import CardsGallery from './CardsGallery'
+import LoaderShowcase from './LoaderShowcase'
 import LayoutsExamples from './LayoutsExamples'
 import ModalsExamples from './ModalsExamples'
-import LoadersExamples from './LoadersExamples'
 
 interface MainContainerProps {
   category: string
@@ -18,9 +18,9 @@ const MainContainer = ({ category }: MainContainerProps) => {
       {category === 'animations' && <AnimationExamples />}
       {category === 'forms' && <FormsExamples />}
       {category === 'layouts' && <LayoutsExamples />}
-      {category === 'cards' && <CardsExamples />}
+      {category === 'cards' && <CardsGallery />}
       {category === 'modals' && <ModalsExamples />}
-      {category === 'loaders' && <LoadersExamples />}
+      {category === 'loaders' && <LoaderShowcase />}
     </main>
   )
 }

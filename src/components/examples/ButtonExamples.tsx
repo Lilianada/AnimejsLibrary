@@ -1,9 +1,42 @@
 import { useRef, useEffect, useState } from 'react'
 import { animate, createScope } from 'animejs'
-import { Code, Copy, ArrowRight, Zap, Check, X } from 'lucide-react'
+import { Code, Copy, Check, X, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import CodeBlock from "./animations/CodeBlock"
+
+const IndividualCodeDemo = ({
+  children,
+  code,
+  copied,
+  onCopy,
+}: {
+  children: React.ReactNode,
+  code: string,
+  copied: boolean,
+  onCopy: () => void,
+}) => {
+  const [showCode, setShowCode] = useState(false)
+
+  return (
+    <div className="bg-muted p-6 rounded-lg flex flex-col items-center">
+      <div className="flex gap-2 items-center justify-end w-full mb-2">
+        <button onClick={() => setShowCode(v => !v)} className="p-2 rounded hover:bg-muted/50">
+          {showCode
+            ? <EyeOff className="h-4 w-4" />
+            : <Eye className="h-4 w-4" />}
+        </button>
+        <button onClick={onCopy} className="p-2 rounded hover:bg-muted/50">
+          {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+        </button>
+      </div>
+      {showCode
+        ? <CodeBlock code={code} />
+        : <div className="w-full flex-1 flex items-center justify-center">{children}</div>
+      }
+    </div>
+  )
+}
 
 const ButtonExamples = () => {
   const scaleButtonRef = useRef<HTMLButtonElement>(null)
@@ -15,6 +48,16 @@ const ButtonExamples = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [showCodeBlock, setShowCodeBlock] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [copiedDemo, setCopiedDemo] = useState([false, false, false, false, false, false, false])
+  const codeSnippets = [
+    `// Scale Button\n<Button className="hover:bg-[#F97316]/80 transition-colors">Hover Me</Button>`,
+    `// Color Shift\n<Button className="btn-color-shift">Hover Me</Button>`,
+    `// Shadow Effect\n<Button className="btn-pulse">Hover Me</Button>`,
+    `// Spin Icon\n<Button><ArrowRight /></Button>`,
+    `// Bounce Icon\n<Button><Zap /></Button>`,
+    `// Press Effect\n<Button className="btn-press">Click Me</Button>`,
+    `// Ripple Effect\n<Button className="btn-ripple">Ripple</Button>`,
+  ]
 
   const codeExample = `
 import { Button } from '@/components/ui/button'
@@ -29,7 +72,7 @@ const AnimatedButton = () => {
       animate(buttonRef.current, {
         scale: [
           { value: 1, duration: 0 },
-          { value: 1.1, duration: 200, ease: 'easeInOutQuad'}
+          { value: 1.1, duration: 200, ease: 'easeInOutQuad' }
         ],
         autoplay: false
       });
@@ -46,6 +89,22 @@ const AnimatedButton = () => {
       await navigator.clipboard.writeText(codeExample)
       setCopied(true)
       setTimeout(() => setCopied(false), 1600)
+    } catch {}
+  }
+
+  const handleCopyDemo = async (idx: number) => {
+    try {
+      await navigator.clipboard.writeText(codeSnippets[idx])
+      setCopiedDemo(arr => {
+        const next = [...arr];
+        next[idx] = true;
+        return next;
+      });
+      setTimeout(() => setCopiedDemo(arr => {
+        const next = [...arr];
+        next[idx] = false;
+        return next;
+      }), 1700)
     } catch {}
   }
 
@@ -285,144 +344,80 @@ const AnimatedButton = () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex gap-3 mb-2 justify-end">
-        <Button variant="outline" size="sm" onClick={() => setShowCodeBlock(v => !v)} className="flex gap-2">
-          <Code className="h-4 w-4" /> {showCodeBlock ? "Hide Code" : "View Code"}
-        </Button>
-        <Button variant="outline" size="sm" onClick={handleCopy} className="flex gap-2">
-          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} Copy Code
-        </Button>
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-3">Buttons</h2>
       </div>
-      {showCodeBlock && <CodeBlock code={codeExample} />}
-      <Card className="border-border bg-card shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl font-medium">Hover Animations</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Scale Effect</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button ref={scaleButtonRef} className="glass-btn">
-                Hover to Scale
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Color Shift</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button className="btn-color-shift">
-                Hover for Colors
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Shadow Effect</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button ref={pulseButtonRef} className="glass-btn">
-                Hover for Glow
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Icon Animations</h3>
-            <div className="flex items-center justify-center p-6 gap-4">
-              <Button ref={rotateIconRef} className="glass-btn">
-                <span className="mr-2">Spin</span>
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button ref={bounceIconRef} className="glass-btn">
-                <span className="mr-2">Bounce</span>
-                <Zap className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-border bg-card shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl font-medium">Focus & Click Animations</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Focus Effect</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button className="btn-focus-outline glass-btn">
-                Focus Me (Tab)
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Ripple Effect</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button 
-                ref={rippleButtonRef} 
-                className="btn-ripple glass-btn relative overflow-hidden"
-                onClick={createRipple}
-              >
-                Click for Ripple
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Press Effect</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button ref={pressButtonRef} className="glass-btn">
-                Click to Press
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Toggle State</h3>
-            <div className="flex items-center justify-center p-6">
-              <Button 
-                className="glass-btn"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                {isOpen ? (
-                  <>
-                    <span className="mr-2">Close</span>
-                    <X className="h-4 w-4" />
-                  </>
-                ) : (
-                  <>
-                    <span className="mr-2">Open</span>
-                    <Check className="h-4 w-4" />
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-border bg-card shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl font-medium">Disabled State</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 gap-6">
-          <div className="bg-muted p-6 rounded-lg">
-            <h3 className="text-lg font-medium mb-4">Disabled Buttons</h3>
-            <div className="flex items-center justify-center p-6 gap-4 flex-wrap">
-              <Button disabled className="glass-btn btn-disabled">
-                Disabled Button
-              </Button>
-              <Button disabled className="btn-disabled" variant="secondary">
-                Disabled Secondary
-              </Button>
-              <Button disabled className="btn-disabled" variant="outline">
-                Disabled Outline
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <IndividualCodeDemo
+          code={codeSnippets[0]}
+          copied={copiedDemo[0]}
+          onCopy={() => handleCopyDemo(0)}
+        >
+          <Button ref={scaleButtonRef} className="hover:bg-[#F97316]/80 bg-primary transition-colors">
+            Hover to Scale
+          </Button>
+        </IndividualCodeDemo>
+        <IndividualCodeDemo
+          code={codeSnippets[1]}
+          copied={copiedDemo[1]}
+          onCopy={() => handleCopyDemo(1)}
+        >
+          <Button className="btn-color-shift">
+            Hover for Colors
+          </Button>
+        </IndividualCodeDemo>
+        <IndividualCodeDemo
+          code={codeSnippets[2]}
+          copied={copiedDemo[2]}
+          onCopy={() => handleCopyDemo(2)}
+        >
+          <Button ref={pulseButtonRef} className="btn-pulse glass-btn">
+            Hover for Glow
+          </Button>
+        </IndividualCodeDemo>
+        <IndividualCodeDemo
+          code={codeSnippets[3]}
+          copied={copiedDemo[3]}
+          onCopy={() => handleCopyDemo(3)}
+        >
+          <Button ref={rotateIconRef} className="glass-btn hover:bg-[#F97316]/80">
+            <span className="mr-2">Spin</span>
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </IndividualCodeDemo>
+        <IndividualCodeDemo
+          code={codeSnippets[4]}
+          copied={copiedDemo[4]}
+          onCopy={() => handleCopyDemo(4)}
+        >
+          <Button ref={bounceIconRef} className="glass-btn hover:bg-[#F97316]/80">
+            <span className="mr-2">Bounce</span>
+            <Zap className="h-4 w-4" />
+          </Button>
+        </IndividualCodeDemo>
+        <IndividualCodeDemo
+          code={codeSnippets[5]}
+          copied={copiedDemo[5]}
+          onCopy={() => handleCopyDemo(5)}
+        >
+          <Button ref={pressButtonRef} className="glass-btn btn-press hover:bg-[#F97316]/80">
+            Click to Press
+          </Button>
+        </IndividualCodeDemo>
+        <IndividualCodeDemo
+          code={codeSnippets[6]}
+          copied={copiedDemo[6]}
+          onCopy={() => handleCopyDemo(6)}
+        >
+          <Button
+            ref={rippleButtonRef}
+            className="btn-ripple glass-btn relative overflow-hidden hover:bg-[#F97316]/80"
+            onClick={createRipple}
+          >
+            Click for Ripple
+          </Button>
+        </IndividualCodeDemo>
+      </div>
     </div>
   )
 }

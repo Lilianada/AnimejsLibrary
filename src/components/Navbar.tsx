@@ -30,12 +30,12 @@ const Navbar = () => {
                 className={`
                   flex items-center space-x-1 text-sm px-3 py-1 rounded transition
                   ${location.pathname.startsWith(link.href)
-                    ? "font-bold text-yellow-300"
+                    ? "font-bold text-[#FDA858]"
                     : "text-foreground hover:opacity-80"}
                 `}
                 tabIndex={0}
                 style={{
-                  background: "transparent", // Remove active background.
+                  background: "transparent",
                   boxShadow: "none",
                 }}
               >
@@ -47,11 +47,10 @@ const Navbar = () => {
               href="/waitlist"
               className={`
                 text-base px-5 py-2 rounded-full font-bold shadow-lg
-                bg-primary text-primary-foreground
-                hover:bg-primary/90 transition
+                bg-[#FDA858] text-[#191921]
+                hover:bg-[#F97316] transition
               `}
               style={{
-                background: "hsl(var(--primary))", // simple bg, not gradient
                 textShadow: "0 0 12px #fff"
               }}
             >
