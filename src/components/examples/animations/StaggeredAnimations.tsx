@@ -16,9 +16,9 @@ const StaggeredAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = anime.default.createScope({ root: animationRef.current }).add((scope) => {
+      scopeRef.current = anime.createScope({ root: animationRef.current }).add((scope) => {
         const setupAnimation = () => {
-          return anime.default.animate('.stagger-item', {
+          return anime.animate('.stagger-item', {
             translateY: [
               { value: 0, duration: 0 },
               { value: -30, duration: 500 },
@@ -43,7 +43,7 @@ const StaggeredAnimations = () => {
               { value: 1, duration: 500 },
               { value: 0.5, duration: 500 }
             ],
-            delay: anime.default.stagger(staggerDelay),
+            delay: anime.stagger(staggerDelay),
             easing: 'easeInOutQuad',
             loop: true,
             autoplay: false
@@ -122,8 +122,8 @@ const StaggeredAnimation = () => {
   
   useEffect(() => {
     if (containerRef.current) {
-      const scope = anime.default.createScope({ root: containerRef.current }).add(scope => {
-        anime.default.animate('.stagger-item', {
+      const scope = anime.createScope({ root: containerRef.current }).add(scope => {
+        anime.animate('.stagger-item', {
           translateY: [
             { value: 0, duration: 0 },
             { value: -30, duration: 500 },
@@ -148,7 +148,7 @@ const StaggeredAnimation = () => {
             { value: 1, duration: 500 },
             { value: 0.5, duration: 500 }
           ],
-          delay: anime.default.stagger(100), // 100ms between each element
+          delay: anime.stagger(100), // 100ms between each element
           easing: 'easeInOutQuad',
           loop: true
         })

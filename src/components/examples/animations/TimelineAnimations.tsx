@@ -6,9 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import CodeBlock from './CodeBlock'
 
+interface AnimeTimelineInstance {
+  play: () => void;
+  pause: () => void;
+  restart: () => void;
+  timelineOffset: number;
+}
+
 const TimelineAnimations = () => {
   const animationRef = useRef<HTMLDivElement>(null)
-  const timelineRef = useRef<anime.AnimeTimelineInstance | null>(null)
+  const timelineRef = useRef<AnimeTimelineInstance | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [codeVisible, setCodeVisible] = useState(false)
@@ -16,7 +23,7 @@ const TimelineAnimations = () => {
   useEffect(() => {
     if (animationRef.current) {
       // Create a timeline
-      timelineRef.current = anime.default.timeline({
+      timelineRef.current = anime.timeline({
         duration: 800,
         autoplay: false,
         loop: true
@@ -52,7 +59,7 @@ const TimelineAnimations = () => {
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: anime.default.stagger(100),
+          delay: anime.stagger(100),
           easing: 'easeOutElastic(1, .8)'
         })
 
@@ -101,7 +108,7 @@ const TimelineAnimation = () => {
   useEffect(() => {
     if (containerRef.current) {
       // Create a timeline
-      timelineRef.current = anime.default.timeline({
+      timelineRef.current = anime.timeline({
         duration: 800,
         loop: true
       })
@@ -136,7 +143,7 @@ const TimelineAnimation = () => {
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: anime.default.stagger(100),
+          delay: anime.stagger(100),
           easing: 'easeOutElastic(1, .8)'
         })
     }

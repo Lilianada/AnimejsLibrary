@@ -1,11 +1,11 @@
 
 import { useRef, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import PropertyAnimations from './animations/PropertyAnimations'
 import TimelineAnimations from './animations/TimelineAnimations'
 import StaggeredAnimations from './animations/StaggeredAnimations'
 import PathAnimations from './animations/PathAnimations'
 import MorphingAnimations from './animations/MorphingAnimations'
+import CardAnimations from './animations/cards/CardAnimations'
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -60,47 +60,11 @@ const AnimationExamples = () => {
         <div className="animation-card lg:col-span-2">
           <MorphingAnimations />
         </div>
+
+        <div className="animation-card lg:col-span-2">
+          <CardAnimations />
+        </div>
       </div>
-      
-      <Card className="animation-card border-border shadow-lg">
-        <CardHeader>
-          <CardTitle>Animation Performance Best Practices</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h3 className="font-bold mb-2">1. Use GPU-accelerated properties</h3>
-            <p className="text-muted-foreground">
-              Properties like transform and opacity are GPU-accelerated and perform better than properties that trigger layout.
-            </p>
-          </div>
-          
-          <div>
-            <h3 className="font-bold mb-2">2. Manage animation lifecycles</h3>
-            <p className="text-muted-foreground">
-              Always clean up animations when components unmount using the revert() method on Anime.js scopes.
-            </p>
-          </div>
-          
-          <div>
-            <h3 className="font-bold mb-2">3. Consider reduced motion</h3>
-            <p className="text-muted-foreground">
-              Provide alternatives for users who prefer reduced motion by checking the prefers-reduced-motion media query.
-            </p>
-            <pre className="bg-muted p-3 rounded-md mt-2 text-sm">
-              <code>{`if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  // Provide alternative or simplified animations
-}`}</code>
-            </pre>
-          </div>
-          
-          <div>
-            <h3 className="font-bold mb-2">4. Profile and optimize</h3>
-            <p className="text-muted-foreground">
-              Use browser developer tools to profile animation performance and identify bottlenecks.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }

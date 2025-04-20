@@ -15,8 +15,8 @@ const PropertyAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = anime.default.createScope({ root: animationRef.current }).add((scope) => {
-        const animation = anime.default.animate('.animation-target', {
+      scopeRef.current = anime.createScope({ root: animationRef.current }).add((scope) => {
+        const animation = anime.animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
             { value: 150, duration: 1000 },
@@ -90,8 +90,8 @@ const PropertyAnimation = () => {
   
   useEffect(() => {
     if (elementRef.current) {
-      const scope = anime.default.createScope({ root: elementRef.current }).add(scope => {
-        anime.default.animate('.animation-target', {
+      const scope = anime.createScope({ root: elementRef.current }).add(scope => {
+        anime.animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
             { value: 150, duration: 1000 },

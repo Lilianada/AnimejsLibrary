@@ -1,0 +1,91 @@
+
+/* Card Hover Lift Animation */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Content Reveal Animation */
+.card-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-reveal .card-overlay {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1rem;
+  transition: bottom 0.3s ease-in-out;
+}
+
+.card-reveal:hover .card-overlay {
+  bottom: 0;
+}
+
+/* Card Selection Animation */
+.card-selectable {
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.card-selectable.selected {
+  border-color: hsl(var(--primary));
+  transform: scale(1.02);
+}
+
+.card-selectable .check-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.2s ease;
+}
+
+.card-selectable.selected .check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Image Zoom Animation */
+.image-zoom-container {
+  height: 200px;
+  overflow: hidden;
+}
+
+.image-zoom {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.image-zoom-container:hover .image-zoom {
+  transform: scale(1.1);
+}
+
+/* Fade In Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.5s ease-out forwards;
+}

@@ -23,8 +23,8 @@ const MorphingAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = anime.default.createScope({ root: animationRef.current }).add((scope) => {
-        const morphAnimation = anime.default.animate('path', {
+      scopeRef.current = anime.createScope({ root: animationRef.current }).add((scope) => {
+        const morphAnimation = anime.animate('path', {
           d: [
             { value: paths.circle, duration: 0 },
             { value: paths.square, duration: 1000, easing: 'easeInOutQuad' },
@@ -102,8 +102,8 @@ const MorphingAnimation = () => {
   
   useEffect(() => {
     if (containerRef.current) {
-      const scope = anime.default.createScope({ root: containerRef.current }).add(scope => {
-        anime.default.animate('path', {
+      const scope = anime.createScope({ root: containerRef.current }).add(scope => {
+        anime.animate('path', {
           d: [
             { value: paths.circle, duration: 0 },
             { value: paths.square, duration: 1000, easing: 'easeInOutQuad' },

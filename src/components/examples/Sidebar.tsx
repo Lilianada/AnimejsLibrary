@@ -1,59 +1,96 @@
 
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Shapes, Sparkles, Layout, Square, MessageSquare } from 'lucide-react'
-
-type CategoryType = 'buttons' | 'animations' | 'forms' | 'layouts' | 'cards'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Menu } from 'lucide-react'
+import useMobile from '@/hooks/use-mobile'
 
 interface SidebarProps {
   selectedCategory: string
-  onSelectCategory: (category: CategoryType) => void
+  onSelectCategory: (category: string) => void
 }
 
 const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
-  const [isHovered, setIsHovered] = useState<CategoryType | null>(null)
+  const isMobile = useMobile()
+  const [mounted, setMounted] = useState(false)
+  const sidebarRef = useRef<HTMLDivElement>(null)
 
+  // Define categories
   const categories = [
-    { id: 'buttons', name: 'Buttons', icon: Sparkles },
-    { id: 'animations', name: 'Animations', icon: Shapes },
-    { id: 'forms', name: 'Forms & Inputs', icon: MessageSquare },
-    { id: 'layouts', name: 'Layouts', icon: Layout },
-    { id: 'cards', name: 'Cards', icon: Square }
+    { id: 'buttons', name: 'Buttons' },
+    { id: 'forms', name: 'Forms & Inputs' },
+    { id: 'animations', name: 'Animations' },
+    { id: 'modals', name: 'Modals & Dialogs' },
+    { id: 'cards', name: 'Cards & Tiles' },
+    { id: 'loaders', name: 'Loaders & Spinners' },
+    { id: 'layouts', name: 'Layouts' }
   ]
 
-  return (
-    <aside className="w-64 border-r border-border bg-card h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] overflow-auto">
-      <ScrollArea className="px-4 py-6 h-full">
-        <h3 className="text-lg font-semibold px-2 mb-3">Categories</h3>
-        <nav className="space-y-1">
-          {categories.map((category) => {
-            const Icon = category.icon
-            return (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? 'default' : 'ghost'}
-                size="sm"
-                className={cn(
-                  'w-full justify-start relative overflow-hidden transition-all duration-300',
-                  selectedCategory === category.id && 'bg-primary text-primary-foreground',
-                  isHovered === category.id && selectedCategory !== category.id && 'bg-muted'
-                )}
-                onClick={() => onSelectCategory(category.id as CategoryType)}
-                onMouseEnter={() => setIsHovered(category.id as CategoryType)}
-                onMouseLeave={() => setIsHovered(null)}
-              >
-                <Icon className="h-4 w-4 mr-2" />
-                {category.name}
-                {selectedCategory === category.id && (
-                  <span className="absolute bottom-0 left-0 h-[3px] w-full bg-accent" />
-                )}
-              </Button>
-            )
-          })}
-        </nav>
-      </ScrollArea>
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Animation for sidebar items
+  useEffect(() => {
+    if (mounted && sidebarRef.current) {
+      const items = sidebarRef.current.querySelectorAll('.sidebar-item')
+      items.forEach((item, index) => {
+        const element = item as HTMLElement
+        element.style.opacity = '0'
+        element.style.transform = 'translateX(-10px)'
+        
+        setTimeout(() => {
+          element.style.transition = 'opacity 300ms ease, transform 300ms ease'
+          element.style.opacity = '1'
+          element.style.transform = 'translateX(0)'
+        }, 100 + index * 50)
+      })
+    }
+  }, [mounted])
+
+  const SidebarContent = () => (
+    <div className="h-full flex flex-col gap-1 pt-4" ref={sidebarRef}>
+      <div className="mb-4 px-4">
+        <h2 className="text-lg font-semibold">Component Categories</h2>
+        <p className="text-sm text-muted-foreground">Select a category to explore examples</p>
+      </div>
+      
+      {categories.map(category => (
+        <Button 
+          key={category.id}
+          variant={selectedCategory === category.id ? "default" : "ghost"}
+          className={`sidebar-item justify-start px-4 ${selectedCategory === category.id ? '' : 'hover:bg-accent'}`}
+          onClick={() => onSelectCategory(category.id)}
+        >
+          {category.name}
+        </Button>
+      ))}
+    </div>
+  )
+
+  if (!mounted) return null
+
+  return isMobile ? (
+    <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center border-b bg-background">
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="mr-2">
+            <Menu className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-72 p-0">
+          <SidebarContent />
+        </SheetContent>
+      </Sheet>
+      <div>
+        <h2 className="text-lg font-semibold">
+          {categories.find(c => c.id === selectedCategory)?.name || 'Examples'}
+        </h2>
+      </div>
+    </div>
+  ) : (
+    <aside className="w-64 border-r h-[calc(100vh-4rem)] sticky top-16">
+      <SidebarContent />
     </aside>
   )
 }
