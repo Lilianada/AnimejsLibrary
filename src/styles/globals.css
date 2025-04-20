@@ -1,11 +1,18 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 60 14% 96%;
-    --foreground: 0 0% 9%;
+    --background: 0 0% 9%;  /* #181818 */
+    --foreground: 0 0% 98%;
+    
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
     
     --primary: 49 98% 80%;
     --primary-foreground: 0 0% 9%;
@@ -13,64 +20,68 @@
     --secondary: 252 100% 86%;
     --secondary-foreground: 0 0% 9%;
     
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
+    
     --accent: 48 89% 85%;
     --accent-foreground: 0 0% 9%;
     
-    --error: 5 100% 61%;
-    --error-foreground: 0 0% 100%;
+    --destructive: 5 100% 61%;
+    --destructive-foreground: 0 0% 100%;
     
     --warning: 33 100% 61%;
     --warning-foreground: 0 0% 100%;
     
     --success: 134 60% 51%;
     --success-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 30%;
+  }
+
+  * {
+    @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground font-satoshi antialiased;
+    @apply bg-background text-foreground font-space-grotesk antialiased;
   }
-}
 
-.hero-gradient {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--primary)) 0%,
-    hsl(var(--secondary)) 50%,
-    hsl(var(--accent)) 100%
-  );
-}
-
-/* Animation classes */
-.fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.slide-up {
-  animation: slideUp 0.5s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+  .glass-btn {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
   }
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
+  /* Button animations */
+  .btn-ripple {
+    @apply relative overflow-hidden;
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
-@layer utilities {
-  .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  .btn-ripple::after {
+    @apply content-[''] block absolute inset-0 pointer-events-none opacity-0 scale-[10];
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 10.01%);
+    transform-origin: center;
+    transition: transform 0.4s ease-out, opacity 0.5s ease-out;
+  }
+
+  .btn-ripple:active::after {
+    @apply scale-0 opacity-30;
+    transition: 0s;
+  }
+
+  .btn-pulse:hover {
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
   }
 }

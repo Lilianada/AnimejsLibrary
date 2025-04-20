@@ -14,7 +14,7 @@ const ButtonExamples = () => {
   const bounceIconRef = useRef<HTMLButtonElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   
-  // Scale animation on hover using Anime.js
+  // Scale animation using Anime.js
   useEffect(() => {
     if (scaleButtonRef.current) {
       const scope = createScope({ root: scaleButtonRef.current }).add(scope => {
@@ -337,23 +337,6 @@ const ButtonExamples = () => {
                 Click for Ripple
               </Button>
             </div>
-            <style jsx>{`
-              .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background-color: rgba(255, 255, 255, 0.4);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-              }
-
-              @keyframes ripple {
-                to {
-                  transform: scale(4);
-                  opacity: 0;
-                }
-              }
-            `}</style>
           </div>
 
           {/* Press effect */}
