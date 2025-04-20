@@ -32,13 +32,7 @@ const Hero = () => {
           <p className="text-sm md:text-base text-foreground/80 mb-8">
             A carefully crafted library of animations to enhance your user experience
           </p>
-          <div className="flex items-center justify-center space-x-4">
-            <a 
-              href="/docs" 
-              className="bg-primary text-primary-foreground px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
-            >
-              Get Started
-            </a>
+          <div className="flex items-center justify-center">
             <a 
               href="/examples" 
               className="bg-secondary text-secondary-foreground px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
