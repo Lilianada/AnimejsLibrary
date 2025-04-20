@@ -1,6 +1,6 @@
 
 import { useRef, useEffect, useState } from 'react'
-import { animate, createScope } from 'animejs'
+import * as anime from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -15,8 +15,8 @@ const PropertyAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
-        const animation = animate('.animation-target', {
+      scopeRef.current = anime.default.createScope({ root: animationRef.current }).add((scope) => {
+        const animation = anime.default.animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
             { value: 150, duration: 1000 },
@@ -83,15 +83,15 @@ const PropertyAnimations = () => {
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import { animate, createScope } from 'animejs'
+import * as anime from 'animejs'
 
 const PropertyAnimation = () => {
   const elementRef = useRef(null)
   
   useEffect(() => {
     if (elementRef.current) {
-      const scope = createScope({ root: elementRef.current }).add(scope => {
-        animate('.animation-target', {
+      const scope = anime.default.createScope({ root: elementRef.current }).add(scope => {
+        anime.default.animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
             { value: 150, duration: 1000 },

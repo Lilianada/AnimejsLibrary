@@ -1,6 +1,6 @@
 
 import { useRef, useEffect, useState } from 'react'
-import { animate, createScope } from 'animejs'
+import * as anime from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -23,8 +23,8 @@ const MorphingAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
-        const morphAnimation = animate('path', {
+      scopeRef.current = anime.default.createScope({ root: animationRef.current }).add((scope) => {
+        const morphAnimation = anime.default.animate('path', {
           d: [
             { value: paths.circle, duration: 0 },
             { value: paths.square, duration: 1000, easing: 'easeInOutQuad' },
@@ -87,7 +87,7 @@ const MorphingAnimations = () => {
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import { animate, createScope } from 'animejs'
+import * as anime from 'animejs'
 
 const MorphingAnimation = () => {
   const containerRef = useRef(null)
@@ -102,8 +102,8 @@ const MorphingAnimation = () => {
   
   useEffect(() => {
     if (containerRef.current) {
-      const scope = createScope({ root: containerRef.current }).add(scope => {
-        animate('path', {
+      const scope = anime.default.createScope({ root: containerRef.current }).add(scope => {
+        anime.default.animate('path', {
           d: [
             { value: paths.circle, duration: 0 },
             { value: paths.square, duration: 1000, easing: 'easeInOutQuad' },

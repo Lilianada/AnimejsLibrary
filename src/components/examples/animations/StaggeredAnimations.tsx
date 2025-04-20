@@ -1,6 +1,6 @@
 
 import { useRef, useEffect, useState } from 'react'
-import { animate, stagger, createScope } from 'animejs'
+import * as anime from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -16,9 +16,9 @@ const StaggeredAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
+      scopeRef.current = anime.default.createScope({ root: animationRef.current }).add((scope) => {
         const setupAnimation = () => {
-          return animate('.stagger-item', {
+          return anime.default.animate('.stagger-item', {
             translateY: [
               { value: 0, duration: 0 },
               { value: -30, duration: 500 },
@@ -43,7 +43,7 @@ const StaggeredAnimations = () => {
               { value: 1, duration: 500 },
               { value: 0.5, duration: 500 }
             ],
-            delay: stagger(staggerDelay),
+            delay: anime.default.stagger(staggerDelay),
             easing: 'easeInOutQuad',
             loop: true,
             autoplay: false
@@ -115,15 +115,15 @@ const StaggeredAnimations = () => {
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import { animate, stagger, createScope } from 'animejs'
+import * as anime from 'animejs'
 
 const StaggeredAnimation = () => {
   const containerRef = useRef(null)
   
   useEffect(() => {
     if (containerRef.current) {
-      const scope = createScope({ root: containerRef.current }).add(scope => {
-        animate('.stagger-item', {
+      const scope = anime.default.createScope({ root: containerRef.current }).add(scope => {
+        anime.default.animate('.stagger-item', {
           translateY: [
             { value: 0, duration: 0 },
             { value: -30, duration: 500 },
@@ -148,7 +148,7 @@ const StaggeredAnimation = () => {
             { value: 1, duration: 500 },
             { value: 0.5, duration: 500 }
           ],
-          delay: stagger(100), // 100ms between each element
+          delay: anime.default.stagger(100), // 100ms between each element
           easing: 'easeInOutQuad',
           loop: true
         })

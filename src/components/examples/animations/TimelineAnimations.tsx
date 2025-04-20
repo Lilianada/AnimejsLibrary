@@ -1,6 +1,6 @@
 
 import { useRef, useEffect, useState } from 'react'
-import anime from 'animejs'
+import * as anime from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -16,7 +16,7 @@ const TimelineAnimations = () => {
   useEffect(() => {
     if (animationRef.current) {
       // Create a timeline
-      timelineRef.current = anime.timeline({
+      timelineRef.current = anime.default.timeline({
         duration: 800,
         autoplay: false,
         loop: true
@@ -52,7 +52,7 @@ const TimelineAnimations = () => {
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: anime.stagger(100),
+          delay: anime.default.stagger(100),
           easing: 'easeOutElastic(1, .8)'
         })
 
@@ -92,7 +92,7 @@ const TimelineAnimations = () => {
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import anime from 'animejs'
+import * as anime from 'animejs'
 
 const TimelineAnimation = () => {
   const containerRef = useRef(null)
@@ -101,7 +101,7 @@ const TimelineAnimation = () => {
   useEffect(() => {
     if (containerRef.current) {
       // Create a timeline
-      timelineRef.current = anime.timeline({
+      timelineRef.current = anime.default.timeline({
         duration: 800,
         loop: true
       })
@@ -136,7 +136,7 @@ const TimelineAnimation = () => {
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: anime.stagger(100),
+          delay: anime.default.stagger(100),
           easing: 'easeOutElastic(1, .8)'
         })
     }
