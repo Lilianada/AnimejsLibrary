@@ -9,8 +9,7 @@ const Examples = () => {
   const [selectedCategory, setSelectedCategory] = useState('buttons')
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900 flex flex-col">
-      <div className="fixed inset-0 bg-noise opacity-60 pointer-events-none" />
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <div className="flex-1 flex mt-16">
         <Sidebar selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
