@@ -31,12 +31,12 @@ const Navbar = () => {
                   flex items-center space-x-1 text-sm px-3 py-1 rounded transition
                   ${location.pathname.startsWith(link.href)
                     ? "font-bold text-[#FDA858]"
-                    : "text-foreground hover:opacity-80"}
+                    : "text-foreground hover:text-[#FDA858] hover:opacity-80"}
                 `}
                 tabIndex={0}
                 style={{
                   background: "transparent",
-                  boxShadow: "none",
+                  boxShadow: "none"
                 }}
               >
                 <link.icon className="h-4 w-4" />
@@ -48,7 +48,7 @@ const Navbar = () => {
               className={`
                 text-base px-5 py-2 rounded-full font-bold shadow-lg
                 bg-[#FDA858] text-[#191921]
-                hover:bg-[#F97316] transition
+                hover:bg-[#F9B143] transition
               `}
               style={{
                 textShadow: "0 0 12px #fff"

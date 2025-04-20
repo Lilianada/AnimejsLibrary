@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu } from 'lucide-react'
-import { useIsMobile } from '@/hooks/use-mobile' // correct hook name!
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface SidebarProps {
   selectedCategory: string
@@ -30,7 +30,6 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
     setMounted(true)
   }, [])
 
-  // Animation for sidebar items
   useEffect(() => {
     if (mounted && sidebarRef.current) {
       const items = sidebarRef.current.querySelectorAll('.sidebar-item')
@@ -40,7 +39,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
         element.style.transform = 'translateX(-10px)'
         
         setTimeout(() => {
-          element.style.transition = 'opacity 300ms ease, transform 300ms ease'
+          element.style.transition = 'opacity 300ms, transform 300ms'
           element.style.opacity = '1'
           element.style.transform = 'translateX(0)'
         }, 100 + index * 50)
@@ -54,12 +53,15 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
         <h2 className="text-lg font-semibold">Component Categories</h2>
         <p className="text-sm text-muted-foreground">Select a category to explore examples</p>
       </div>
-      
       {categories.map(category => (
         <Button 
           key={category.id}
-          variant={selectedCategory === category.id ? "default" : "ghost"}
-          className={`sidebar-item justify-start px-4 ${selectedCategory === category.id ? '' : 'hover:bg-accent'}`}
+          variant="ghost"
+          className={`sidebar-item justify-start px-4 transition-none ${
+            selectedCategory === category.id
+              ? 'text-[#FDA858] font-bold'
+              : 'hover:text-[#FDA858]'
+          }`}
           onClick={() => onSelectCategory(category.id)}
         >
           {category.name}

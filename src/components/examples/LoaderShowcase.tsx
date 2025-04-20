@@ -1,147 +1,180 @@
 
-import { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
 
-const LoaderShowcase = () => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [progress, setProgress] = useState(0)
-  useEffect(() => {
-    // Animate cards in
-    if (containerRef.current) {
-      const cards = containerRef.current.querySelectorAll(".loader-card")
-      cards.forEach((card, i) => {
-        const el = card as HTMLElement
-        el.style.opacity = "0"
-        el.style.transform = "translateY(36px)"
-        setTimeout(() => {
-          el.style.transition = "opacity 0.6s, transform 0.5s"
-          el.style.opacity = "1"
-          el.style.transform = "translateY(0)"
-        }, 60 + i * 140)
-      })
-    }
-    const interval = setInterval(() => {
-      setProgress(p => {
-        if (p >= 100) return 0
-        return p + 5
-      })
-    }, 300)
-    return () => clearInterval(interval)
-  }, [])
+export default function LoaderShowcase() {
+  const [progress, setProgress] = useState(0);
 
-  // Morphing shape SVG animation using setInterval (as a lightweight demo)
-  const [morphIndex, setMorphIndex] = useState(0)
-  const morphPaths = [
-    "M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0", // Circle
-    "M25,25 h50 v50 h-50 Z", // Square
-    "M50,10 L90,90 L10,90 Z" // Triangle
-  ]
+  // Animate progress
   useEffect(() => {
-    const morphTimeout = setInterval(() => {
-      setMorphIndex(i => (i + 1) % morphPaths.length)
-    }, 1200)
-    return () => clearInterval(morphTimeout)
-  }, [])
+    let frame: number;
+    let running = true;
+    const animate = () => {
+      setProgress((old) => (old >= 100 ? 0 : old + 1));
+      if (running) {
+        frame = requestAnimationFrame(animate);
+      }
+    };
+    animate();
+    return () => {
+      running = false;
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
-    <div ref={containerRef} className="space-y-8">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-3">Loaders & Spinners</h2>
-        <p className="text-muted-foreground">
-          Fancy animated loaders: morphing SVGs, bouncy dots, and animated progress!
-        </p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-        {/* Spinner Loader */}
-        <div className="loader-card flex flex-col items-center justify-center gap-2 bg-muted rounded-lg p-8 shadow shadow-primary/20">
-          <div className="spinner" style={{
-            width: '54px',
-            height: '54px',
-            border: '6px solid #333',
-            borderTop: '6px solid #FDA858',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
-          <div className="text-muted-foreground text-xs mt-2">Spinning Loader</div>
-        </div>
-        {/* Bouncing Dots */}
-        <div className="loader-card flex flex-col items-center justify-center gap-2 bg-muted rounded-lg p-8">
-          <div className="flex gap-2 mt-2">
-            {[0,1,2].map(i => (
-              <div key={i} className="w-3 h-3 bg-[#FDA858] rounded-full"
-                style={{
-                  animation: `bounceDot 1s ${i * 0.16}s infinite cubic-bezier(.4,0,.2,1)`
-                }}
-              />
-            ))}
-          </div>
-          <div className="text-muted-foreground text-xs mt-2">Bouncing Dots</div>
-        </div>
-        {/* Animated Progress Bar */}
-        <div className="loader-card flex flex-col items-center justify-center gap-2 bg-muted rounded-lg p-8 w-full">
-          <div className="w-full h-3 bg-[#222] rounded-full overflow-hidden mb-2">
-            <div className="bg-[#FDA858] h-3 rounded-full transition-all" style={{ width: `${progress}%` }} />
-          </div>
-          <div className="text-muted-foreground text-xs">Progress Bar - {progress}%</div>
-        </div>
-        {/* Circular Progress */}
-        <div className="loader-card flex flex-col items-center justify-center gap-2 bg-muted rounded-lg p-8">
-          <svg width={60} height={60}>
-            <circle cx="30" cy="30" r="25" fill="none" stroke="#444" strokeWidth={7} />
+    <section className="py-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      {/* Spinning Gradient Loader */}
+      <div className="flex flex-col gap-4 items-center p-6 bg-card/60 rounded-xl border shadow-lg">
+        <div className="relative">
+          <svg
+            className="animate-spin"
+            width={48}
+            height={48}
+            viewBox="0 0 48 48"
+            fill="none"
+          >
             <circle
-              cx="30" cy="30" r="25"
+              cx="24"
+              cy="24"
+              r="20"
+              stroke="#FDA858"
+              strokeWidth={5}
+              opacity={0.25}
+            />
+            <circle
+              cx="24"
+              cy="24"
+              r="20"
+              stroke="url(#spin-grad)"
+              strokeWidth={5}
+              strokeDasharray="100"
+              strokeDashoffset="30"
+              strokeLinecap="round"
+            />
+            <defs>
+              <linearGradient id="spin-grad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#FDA858" />
+                <stop offset="1" stopColor="#a07cf0" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span className="font-semibold">Spinning Gradient Loader</span>
+      </div>
+
+      {/* Bouncing Dots Loader */}
+      <div className="flex flex-col gap-4 items-center p-6 bg-card/60 rounded-xl border shadow-lg">
+        <div className="flex gap-2 items-end h-8">
+          {[...Array(4)].map((_, i) => (
+            <span
+              key={i}
+              className={clsx(
+                "inline-block w-3 h-3 rounded-full bg-[#FDA858] animate-bounce",
+                "origin-bottom",
+                { "animation-delay-200": i === 1, "animation-delay-400": i === 2, "animation-delay-600": i === 3 }
+              )}
+              style={{
+                animationDelay: `${i * 160}ms`
+              }}
+            ></span>
+          ))}
+        </div>
+        <span className="font-semibold">Bouncing Dots Loader</span>
+      </div>
+
+      {/* Circular Progress Loader */}
+      <div className="flex flex-col gap-4 items-center p-6 bg-card/60 rounded-xl border shadow-lg">
+        <div className="relative w-14 h-14">
+          <svg width={56} height={56}>
+            <circle
+              cx="28"
+              cy="28"
+              r="24"
+              fill="none"
+              stroke="#252525"
+              strokeWidth="5"
+            />
+            <circle
+              cx="28"
+              cy="28"
+              r="24"
               fill="none"
               stroke="#FDA858"
-              strokeWidth={7}
-              strokeDasharray={Math.PI*2*25}
-              strokeDashoffset={Math.PI*2*25 - (Math.PI*2*25*progress/100)}
-              style={{transition: 'stroke-dashoffset 0.35s'}}
+              strokeWidth="5"
+              strokeDasharray="151"
+              strokeDashoffset={151 - (151 * progress) / 100}
+              style={{
+                transition: "stroke-dashoffset 0.33s cubic-bezier(.4,2.6,0,1)"
+              }}
             />
           </svg>
-          <div className="text-muted-foreground text-xs">Circular Progress</div>
-        </div>
-        {/* Morphing SVG */}
-        <div className="loader-card flex flex-col items-center justify-center gap-2 bg-muted rounded-lg p-8">
-          <svg width={80} height={80} viewBox="0 0 100 100">
-            <path
-              fill="#FDA858"
-              d={morphPaths[morphIndex]}
-              style={{ transition: "d .7s cubic-bezier(.86,0,.07,1)" }}
-            />
-          </svg>
-          <div className="text-muted-foreground text-xs">Morphing SVG</div>
-        </div>
-        {/* Indeterminate loader */}
-        <div className="loader-card flex flex-col items-center justify-center gap-2 bg-muted rounded-lg p-8 w-full">
-          <div className="relative w-full h-3 bg-[#2c2c32] rounded-full overflow-hidden">
-            <div className="absolute left-0 h-3 w-1/3 bg-[#FDA858] rounded-full animate-indeterminate" />
+          <div className="absolute inset-0 flex items-center justify-center text-sm text-[#FDA858] font-bold mix-blend-lighten">
+            {progress}%
           </div>
-          <div className="text-muted-foreground text-xs">Indeterminate Loader</div>
         </div>
+        <span className="font-semibold">Animated Circular Progress</span>
       </div>
-      {/* spinner and bounce animations keyframes (scoped) */}
-      <style>
-      {`
-      @keyframes spin {
-        0% { transform: rotate(0);}
-        100% { transform: rotate(360deg);}
-      }
-      @keyframes bounceDot {
-        0%,100% { transform: translateY(0);}
-        40% { transform: translateY(-16px);}
-        60% { transform: translateY(-8px);}
-      }
-      @keyframes indeterminateLoader {
-        0% { left: -33%; width: 33%; }
-        50% { left: 33%; width: 33%; }
-        100% { left: 100%; width: 33%; }
-      }
-      .animate-indeterminate {
-        animation: indeterminateLoader 2s infinite cubic-bezier(.4,0,.2,1);
-      }
-      `}
-      </style>
-    </div>
-  )
+
+      {/* Morphing Loader */}
+      <div className="flex flex-col gap-4 items-center p-6 bg-card/60 rounded-xl border shadow-lg">
+        {/* Morph shape with SVG */}
+        <MorphingShapeLoader />
+        <span className="font-semibold">Morphing Shape Loader</span>
+      </div>
+
+      {/* Animated Progress Bar */}
+      <div className="flex flex-col gap-4 items-center p-6 bg-card/60 rounded-xl border shadow-lg col-span-full">
+        <div className="w-full">
+          <div className="h-3 rounded-lg bg-muted overflow-hidden">
+            <div
+              className="h-3 rounded-l-lg transition-all duration-200"
+              style={{
+                width: `${progress}%`,
+                background: "linear-gradient(90deg,#FDA858,#A07CF0)"
+              }}
+            ></div>
+          </div>
+        </div>
+        <span className="font-semibold">Animated Progress Bar</span>
+      </div>
+    </section>
+  );
 }
 
-export default LoaderShowcase
+// Morphing shape SVG animation using React state for timing
+function MorphingShapeLoader() {
+  const [morphStep, setMorphStep] = useState(0);
+
+  useEffect(() => {
+    const steps = [
+      // Circle
+      "M28 4c13.255 0 24 10.745 24 24S41.255 52 28 52 4 41.255 4 28 14.745 4 28 4z",
+      // Squircle
+      "M12 12 Q28 0,44 12 Q56 28,44 44 Q28 56,12 44 Q0 28,12 12z",
+      // Rounded Square
+      "M10 10 Q10 0,28 0 Q46 0,46 10 Q56 28,46 46 Q46 56,28 56 Q10 56,10 46 Q0 28,10 10z",
+    ];
+    const interval = setInterval(() => {
+      setMorphStep((prev) => (prev + 1) % steps.length);
+    }, 900);
+    return () => clearInterval(interval);
+  }, []);
+  const steps = [
+    "M28 4c13.255 0 24 10.745 24 24S41.255 52 28 52 4 41.255 4 28 14.745 4 28 4z",
+    "M12 12 Q28 0,44 12 Q56 28,44 44 Q28 56,12 44 Q0 28,12 12z",
+    "M10 10 Q10 0,28 0 Q46 0,46 10 Q56 28,46 46 Q46 56,28 56 Q10 56,10 46 Q0 28,10 10z",
+  ];
+  return (
+    <svg width={56} height={56} viewBox="0 0 56 56">
+      <path
+        d={steps[morphStep]}
+        fill="#FDA858"
+        opacity="0.9"
+        style={{
+          transition: "d 0.5s cubic-bezier(.4,2.6,0,1)"
+        }}
+      />
+    </svg>
+  );
+}

@@ -1,94 +1,107 @@
 
-import { useState } from 'react'
-import { Code, Copy, Eye, EyeOff, Check } from 'lucide-react'
-import BorderAnimationInput from './forms/BorderAnimationInput'
-import ErrorStateInput from './forms/ErrorStateInput'
-import FloatingLabelInput from './forms/FloatingLabelInput'
-import PlaceholderAnimationInput from './forms/PlaceholderAnimationInput'
-import SuccessStateInput from './forms/SuccessStateInput'
-import CodeBlock from "../examples/animations/CodeBlock"
+import React, { useState } from "react";
+import FloatingLabelInput from "./forms/FloatingLabelInput";
+import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput";
+import BorderAnimationInput from "./forms/BorderAnimationInput";
+import ErrorStateInput from "./forms/ErrorStateInput";
+import SuccessStateInput from "./forms/SuccessStateInput";
+import { Copy, Eye } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
-const formComponents = [
+const INPUTS = [
   {
-    label: 'Border Animation',
-    code: `<BorderAnimationInput placeholder="Fancy border..." />`,
-    element: <BorderAnimationInput placeholder="Fancy border..." />,
+    label: "Floating Label",
+    code: `<FloatingLabelInput label="Email" />`,
+    render: () => <FloatingLabelInput label="Email" />,
   },
   {
-    label: 'Floating Label',
-    code: `<FloatingLabelInput label="Your name" />`,
-    element: <FloatingLabelInput label="Your name" />,
+    label: "Placeholder Animation",
+    code: `<PlaceholderAnimationInput placeholder="Password" />`,
+    render: () => <PlaceholderAnimationInput placeholder="Password" />,
   },
   {
-    label: 'Animated Placeholder',
-    code: `<PlaceholderAnimationInput placeholder="Animated..." />`,
-    element: <PlaceholderAnimationInput placeholder="Animated..." />,
+    label: "Border Animation",
+    code: `<BorderAnimationInput placeholder="Username" />`,
+    render: () => <BorderAnimationInput placeholder="Username" />,
   },
   {
-    label: 'Error State',
-    code: `<ErrorStateInput error="Required!" />`,
-    element: <ErrorStateInput error="Required!" />,
+    label: "Error State",
+    code: `<ErrorStateInput error="Invalid email format" />`,
+    render: () => <ErrorStateInput error="Invalid email format" />,
   },
   {
-    label: 'Success State',
-    code: `<SuccessStateInput success="Well done!" />`,
-    element: <SuccessStateInput success="Well done!" />,
+    label: "Success State",
+    code: `<SuccessStateInput success="Looks good!" />`,
+    render: () => <SuccessStateInput success="Looks good!" />,
   },
-]
+];
 
-const FormsExamples = () => {
-  const [codeVisible, setCodeVisible] = useState(Array(formComponents.length).fill(false))
-  const [copied, setCopied] = useState(Array(formComponents.length).fill(false))
+const InputCard = ({
+  label,
+  code,
+  render,
+}: {
+  label: string;
+  code: string;
+  render: () => React.ReactNode;
+}) => {
+  const [showCode, setShowCode] = useState(false);
 
-  const handleView = (idx: number) => {
-    setCodeVisible((visible: boolean[]) =>
-      visible.map((v, i) => (i === idx ? !v : v))
-    )
-  }
-  const handleCopy = async (idx: number) => {
-    try {
-      await navigator.clipboard.writeText(formComponents[idx].code)
-      setCopied(c => {
-        const next = [...c]
-        next[idx] = true
-        return next
-      })
-      setTimeout(() => setCopied(c => {
-        const next = [...c]
-        next[idx] = false
-        return next
-      }), 1600)
-    } catch {}
-  }
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    toast({
+      title: "Copied!",
+      description: `${label} code copied to clipboard.`,
+    });
+  };
 
   return (
-    <div className="space-y-10">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-3">Forms &amp; Inputs</h2>
+    <div className="bg-card border rounded-lg shadow-lg p-5 flex flex-col gap-3 items-center w-full max-w-sm mx-auto transition-all hover:shadow-2xl hover:-translate-y-1">
+      <div className="flex w-full justify-between items-center mb-2 relative">
+        <span className="font-semibold text-lg">{label}</span>
+        <div className="flex gap-2">
+          <button
+            aria-label="View Code"
+            className="text-muted-foreground hover:text-[#FDA858] transition"
+            onClick={() => setShowCode((c) => !c)}
+          >
+            <Eye className="h-5 w-5" />
+          </button>
+          <button
+            aria-label="Copy Code"
+            className="text-muted-foreground hover:text-[#FDA858] transition"
+            onClick={handleCopy}
+          >
+            <Copy className="h-5 w-5" />
+          </button>
+        </div>
       </div>
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {formComponents.map((fc, idx) => (
-          <div key={fc.label} className="bg-muted p-6 rounded-lg flex flex-col items-center">
-            {/* Top actions */}
-            <div className="flex gap-2 items-center justify-end w-full mb-2">
-              <button onClick={() => handleView(idx)} className="p-2 rounded hover:bg-muted/50">
-                {codeVisible[idx]
-                  ? <EyeOff className="h-4 w-4" />
-                  : <Eye className="h-4 w-4" />}
-              </button>
-              <button onClick={() => handleCopy(idx)} className="p-2 rounded hover:bg-muted/50">
-                {copied[idx] ? <Check className="h-4 w-4 text-green-500"/> : <Copy className="h-4 w-4" />}
-              </button>
-            </div>
-            {codeVisible[idx]
-              ? <CodeBlock code={fc.code} />
-              : <div className="w-full flex-1 flex items-center justify-center">{fc.element}</div>
-            }
-          </div>
-        ))}
+      <div className="w-full">
+        {showCode ? (
+          <pre className="bg-muted text-xs p-4 rounded-lg overflow-auto text-left select-all">
+            <code>{code}</code>
+          </pre>
+        ) : (
+          <div className="flex justify-center">{render()}</div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FormsExamples
+const FormsExamples = () => {
+  return (
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-2 py-8">
+      {INPUTS.map((inp) => (
+        <InputCard
+          key={inp.label}
+          label={inp.label}
+          code={inp.code}
+          render={inp.render}
+        />
+      ))}
+    </section>
+  );
+};
+
+export default FormsExamples;
