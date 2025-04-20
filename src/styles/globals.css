@@ -1,0 +1,71 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 14% 96%;
+    --foreground: 0 0% 9%;
+    
+    --primary: 49 98% 80%;
+    --primary-foreground: 0 0% 9%;
+    
+    --secondary: 252 100% 86%;
+    --secondary-foreground: 0 0% 9%;
+    
+    --accent: 48 89% 85%;
+    --accent-foreground: 0 0% 9%;
+    
+    --error: 5 100% 61%;
+    --error-foreground: 0 0% 100%;
+    
+    --warning: 33 100% 61%;
+    --warning-foreground: 0 0% 100%;
+    
+    --success: 134 60% 51%;
+    --success-foreground: 0 0% 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-satoshi antialiased;
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--secondary)) 50%,
+    hsl(var(--accent)) 100%
+  );
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
