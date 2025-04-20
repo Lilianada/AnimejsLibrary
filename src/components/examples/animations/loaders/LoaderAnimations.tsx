@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react'
 import { animate, createScope } from 'animejs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -25,27 +26,24 @@ const LoaderAnimations = () => {
   // Setup circular progress animation
   useEffect(() => {
     if (circleProgressRef.current) {
-      const scope = createScope({ root: circleProgressRef.current }).add((scope) => {
+      const scope = createScope({ root: circleProgressRef.current })
+      
+      scope.add(() => {
         animate({
           targets: '.circle-morph',
-          d: [
-            { value: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', duration: 0 },
-            { value: 'M50,50 m-30,-30 l60,0 l0,60 l-60,0 Z', duration: 500 },
-            { value: 'M50,10 L90,90 L10,90 Z', duration: 500 },
-            { value: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', duration: 500 }
-          ],
-          fill: [
-            { value: '#3B82F6', duration: 0 },
-            { value: '#A78BFA', duration: 500 },
-            { value: '#F59E0B', duration: 500 },
-            { value: '#3B82F6', duration: 500 }
+          keyframes: [
+            { d: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', fill: '#3B82F6', duration: 0 },
+            { d: 'M50,50 m-30,-30 l60,0 l0,60 l-60,0 Z', fill: '#A78BFA', duration: 500 },
+            { d: 'M50,10 L90,90 L10,90 Z', fill: '#F59E0B', duration: 500 },
+            { d: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', fill: '#3B82F6', duration: 500 }
           ],
           loop: true,
           easing: 'easeInOutSine'
         })
       })
+      
       return () => {
-        if (scope?.revert) scope.revert()
+        if (scope.revert) scope.revert()
       }
     }
   }, [])
@@ -132,7 +130,7 @@ const LoaderAnimations = () => {
 
 // React component for loaders
 import { useState, useEffect, useRef } from 'react'
-import * as anime from 'animejs'
+import { animate, createScope } from 'animejs'
 
 const LoadersExample = () => {
   const [progress, setProgress] = useState(0)
@@ -149,21 +147,17 @@ const LoadersExample = () => {
   // Setup SVG morphing animation
   useEffect(() => {
     if (morphRef.current) {
-      const scope = anime.createScope({ root: morphRef.current }).add(() => {
-        anime.animate({
+      const scope = createScope({ root: morphRef.current })
+      
+      scope.add(() => {
+        animate({
           targets: '.circle-morph',
-          d: [
+          keyframes: [
             // Circle to square to triangle to circle
-            { value: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', duration: 0 },
-            { value: 'M50,50 m-30,-30 l60,0 l0,60 l-60,0 Z', duration: 500 },
-            { value: 'M50,10 L90,90 L10,90 Z', duration: 500 },
-            { value: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', duration: 500 }
-          ],
-          fill: [
-            { value: '#3B82F6', duration: 0 },
-            { value: '#A78BFA', duration: 500 },
-            { value: '#F59E0B', duration: 500 },
-            { value: '#3B82F6', duration: 500 }
+            { d: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', fill: '#3B82F6', duration: 0 },
+            { d: 'M50,50 m-30,-30 l60,0 l0,60 l-60,0 Z', fill: '#A78BFA', duration: 500 },
+            { d: 'M50,10 L90,90 L10,90 Z', fill: '#F59E0B', duration: 500 },
+            { d: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', fill: '#3B82F6', duration: 500 }
           ],
           loop: true,
           easing: 'easeInOutSine'

@@ -15,46 +15,58 @@ const TimelineAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      // Compose a timeline using the newer anime API
+      // Create a timeline using the newer anime.js API
       timelineRef.current = createTimeline({
         autoplay: false,
         loop: true,
       })
-        .add({
-          targets: animationRef.current.querySelector('.box-1'),
-          translateY: -50,
-          backgroundColor: '#A78BFA',
-          borderRadius: ['0%', '50%'],
-          easing: 'easeOutElastic(1, .8)',
+      
+      // Add animations to the timeline
+      if (timelineRef.current.add) {
+        timelineRef.current.add({
+          animation: {
+            targets: animationRef.current.querySelector('.box-1'),
+            translateY: -50,
+            backgroundColor: '#A78BFA',
+            borderRadius: ['0%', '50%'],
+            easing: 'easeOutElastic(1, .8)',
+          }
         })
         .add({
-          targets: animationRef.current.querySelector('.box-2'),
-          translateX: 50,
-          backgroundColor: '#F59E0B',
-          rotate: 180,
-          easing: 'easeOutElastic(1, .8)',
+          animation: {
+            targets: animationRef.current.querySelector('.box-2'),
+            translateX: 50,
+            backgroundColor: '#F59E0B',
+            rotate: 180,
+            easing: 'easeOutElastic(1, .8)',
+          }
         })
         .add({
-          targets: animationRef.current.querySelector('.box-3'),
-          scale: 1.5,
-          backgroundColor: '#EC4899',
-          easing: 'easeOutElastic(1, .8)',
+          animation: {
+            targets: animationRef.current.querySelector('.box-3'),
+            scale: 1.5,
+            backgroundColor: '#EC4899',
+            easing: 'easeOutElastic(1, .8)',
+          }
         })
         .add({
-          targets: [
-            animationRef.current.querySelector('.box-1'),
-            animationRef.current.querySelector('.box-2'),
-            animationRef.current.querySelector('.box-3'),
-          ],
-          translateY: 0,
-          translateX: 0,
-          backgroundColor: '#3B82F6',
-          borderRadius: '0%',
-          rotate: 0,
-          scale: 1,
-          delay: (el, i) => i * 100,
-          easing: 'easeOutElastic(1, .8)',
+          animation: {
+            targets: [
+              animationRef.current.querySelector('.box-1'),
+              animationRef.current.querySelector('.box-2'),
+              animationRef.current.querySelector('.box-3'),
+            ],
+            translateY: 0,
+            translateX: 0,
+            backgroundColor: '#3B82F6',
+            borderRadius: '0%',
+            rotate: 0,
+            scale: 1,
+            delay: (el: any, i: number) => i * 100,
+            easing: 'easeOutElastic(1, .8)',
+          }
         })
+      }
 
       return () => {
         if (timelineRef.current?.pause) {
@@ -104,39 +116,47 @@ const TimelineAnimation = () => {
         loop: true
       })
         .add({
-          targets: containerRef.current.querySelector('.box-1'),
-          translateY: -50,
-          backgroundColor: '#A78BFA',
-          borderRadius: ['0%', '50%'],
-          easing: 'easeOutElastic(1, .8)'
+          animation: {
+            targets: containerRef.current.querySelector('.box-1'),
+            translateY: -50,
+            backgroundColor: '#A78BFA',
+            borderRadius: ['0%', '50%'],
+            easing: 'easeOutElastic(1, .8)'
+          }
         })
         .add({
-          targets: containerRef.current.querySelector('.box-2'),
-          translateX: 50,
-          backgroundColor: '#F59E0B',
-          rotate: 180,
-          easing: 'easeOutElastic(1, .8)'
+          animation: {
+            targets: containerRef.current.querySelector('.box-2'),
+            translateX: 50,
+            backgroundColor: '#F59E0B',
+            rotate: 180,
+            easing: 'easeOutElastic(1, .8)'
+          }
         })
         .add({
-          targets: containerRef.current.querySelector('.box-3'),
-          scale: 1.5,
-          backgroundColor: '#EC4899',
-          easing: 'easeOutElastic(1, .8)'
+          animation: {
+            targets: containerRef.current.querySelector('.box-3'),
+            scale: 1.5,
+            backgroundColor: '#EC4899',
+            easing: 'easeOutElastic(1, .8)'
+          }
         })
         .add({
-          targets: [
-            containerRef.current.querySelector('.box-1'),
-            containerRef.current.querySelector('.box-2'),
-            containerRef.current.querySelector('.box-3'),
-          ],
-          translateY: 0,
-          translateX: 0,
-          backgroundColor: '#3B82F6',
-          borderRadius: '0%',
-          rotate: 0,
-          scale: 1,
-          delay: (el, i) => i * 100,
-          easing: 'easeOutElastic(1, .8)'
+          animation: {
+            targets: [
+              containerRef.current.querySelector('.box-1'),
+              containerRef.current.querySelector('.box-2'),
+              containerRef.current.querySelector('.box-3'),
+            ],
+            translateY: 0,
+            translateX: 0,
+            backgroundColor: '#3B82F6',
+            borderRadius: '0%',
+            rotate: 0,
+            scale: 1,
+            delay: (el, i) => i * 100,
+            easing: 'easeOutElastic(1, .8)'
+          }
         })
     }
   }, [])
@@ -196,4 +216,3 @@ const TimelineAnimation = () => {
 }
 
 export default TimelineAnimations
-

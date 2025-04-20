@@ -1,8 +1,9 @@
+
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu } from 'lucide-react'
-import { useMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface SidebarProps {
   selectedCategory: string
@@ -10,7 +11,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
-  const isMobile = useMobile()
+  const isMobile = useIsMobile()
   const [mounted, setMounted] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
 
