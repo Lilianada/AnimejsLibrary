@@ -1,71 +1,63 @@
 
 import { useRef, useEffect, useState } from 'react'
-import * as anime from 'animejs'
+import { animate, createTimeline } from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import CodeBlock from './CodeBlock'
 
-interface AnimeTimelineInstance {
-  play: () => void;
-  pause: () => void;
-  restart: () => void;
-  timelineOffset: number;
-}
-
 const TimelineAnimations = () => {
   const animationRef = useRef<HTMLDivElement>(null)
-  const timelineRef = useRef<AnimeTimelineInstance | null>(null)
+  const timelineRef = useRef<any>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [codeVisible, setCodeVisible] = useState(false)
 
   useEffect(() => {
     if (animationRef.current) {
-      // Create a timeline
-      timelineRef.current = anime.timeline({
-        duration: 800,
+      // Compose a timeline using the newer anime API
+      timelineRef.current = createTimeline({
         autoplay: false,
-        loop: true
+        loop: true,
       })
-
-      // Add animations to the timeline
-      timelineRef.current
         .add({
-          targets: '.box-1',
+          targets: animationRef.current.querySelector('.box-1'),
           translateY: -50,
           backgroundColor: '#A78BFA',
           borderRadius: ['0%', '50%'],
-          easing: 'easeOutElastic(1, .8)'
+          easing: 'easeOutElastic(1, .8)',
         })
         .add({
-          targets: '.box-2',
+          targets: animationRef.current.querySelector('.box-2'),
           translateX: 50,
           backgroundColor: '#F59E0B',
           rotate: 180,
-          easing: 'easeOutElastic(1, .8)'
+          easing: 'easeOutElastic(1, .8)',
         })
         .add({
-          targets: '.box-3',
+          targets: animationRef.current.querySelector('.box-3'),
           scale: 1.5,
           backgroundColor: '#EC4899',
-          easing: 'easeOutElastic(1, .8)'
+          easing: 'easeOutElastic(1, .8)',
         })
         .add({
-          targets: ['.box-1', '.box-2', '.box-3'],
+          targets: [
+            animationRef.current.querySelector('.box-1'),
+            animationRef.current.querySelector('.box-2'),
+            animationRef.current.querySelector('.box-3'),
+          ],
           translateY: 0,
           translateX: 0,
           backgroundColor: '#3B82F6',
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: anime.stagger(100),
-          easing: 'easeOutElastic(1, .8)'
+          delay: (el, i) => i * 100,
+          easing: 'easeOutElastic(1, .8)',
         })
 
-      // Clean up
       return () => {
-        if (timelineRef.current) {
+        if (timelineRef.current?.pause) {
           timelineRef.current.pause()
         }
       }
@@ -74,17 +66,17 @@ const TimelineAnimations = () => {
 
   useEffect(() => {
     if (timelineRef.current) {
-      if (isPlaying) {
+      if (isPlaying && timelineRef.current.play) {
         timelineRef.current.play()
-      } else {
+      } else if (timelineRef.current.pause) {
         timelineRef.current.pause()
       }
     }
   }, [isPlaying])
 
   useEffect(() => {
-    if (timelineRef.current) {
-      timelineRef.current.timelineOffset = 1 / speed
+    if (timelineRef.current && typeof timelineRef.current.speed !== 'undefined') {
+      timelineRef.current.speed = speed
     }
   }, [speed])
 
@@ -92,58 +84,58 @@ const TimelineAnimations = () => {
   const handlePause = () => setIsPlaying(false)
   const handleRestart = () => {
     if (timelineRef.current) {
-      timelineRef.current.restart()
+      if (timelineRef.current.restart) timelineRef.current.restart()
       setIsPlaying(true)
     }
   }
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import * as anime from 'animejs'
+import { createTimeline } from 'animejs'
 
 const TimelineAnimation = () => {
   const containerRef = useRef(null)
-  const timelineRef = useRef(null)
   
   useEffect(() => {
     if (containerRef.current) {
-      // Create a timeline
-      timelineRef.current = anime.timeline({
+      const timeline = createTimeline({
         duration: 800,
+        autoplay: false,
         loop: true
       })
-      
-      // Add animations to the timeline
-      timelineRef.current
         .add({
-          targets: '.box-1',
+          targets: containerRef.current.querySelector('.box-1'),
           translateY: -50,
           backgroundColor: '#A78BFA',
           borderRadius: ['0%', '50%'],
           easing: 'easeOutElastic(1, .8)'
         })
         .add({
-          targets: '.box-2',
+          targets: containerRef.current.querySelector('.box-2'),
           translateX: 50,
           backgroundColor: '#F59E0B',
           rotate: 180,
           easing: 'easeOutElastic(1, .8)'
         })
         .add({
-          targets: '.box-3',
+          targets: containerRef.current.querySelector('.box-3'),
           scale: 1.5,
           backgroundColor: '#EC4899',
           easing: 'easeOutElastic(1, .8)'
         })
         .add({
-          targets: ['.box-1', '.box-2', '.box-3'],
+          targets: [
+            containerRef.current.querySelector('.box-1'),
+            containerRef.current.querySelector('.box-2'),
+            containerRef.current.querySelector('.box-3'),
+          ],
           translateY: 0,
           translateX: 0,
           backgroundColor: '#3B82F6',
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: anime.stagger(100),
+          delay: (el, i) => i * 100,
           easing: 'easeOutElastic(1, .8)'
         })
     }
@@ -204,3 +196,4 @@ const TimelineAnimation = () => {
 }
 
 export default TimelineAnimations
+

@@ -1,9 +1,8 @@
-
 import { useState, useEffect, useRef } from 'react'
+import { animate, createScope } from 'animejs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import CodeBlock from '../CodeBlock'
-import * as anime from 'animejs'
 import './loader-animations.css'
 
 const LoaderAnimations = () => {
@@ -26,8 +25,8 @@ const LoaderAnimations = () => {
   // Setup circular progress animation
   useEffect(() => {
     if (circleProgressRef.current) {
-      const scope = anime.createScope({ root: circleProgressRef.current }).add((scope) => {
-        const animation = anime.animate({
+      const scope = createScope({ root: circleProgressRef.current }).add((scope) => {
+        animate({
           targets: '.circle-morph',
           d: [
             { value: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0', duration: 0 },
@@ -45,9 +44,8 @@ const LoaderAnimations = () => {
           easing: 'easeInOutSine'
         })
       })
-
       return () => {
-        scope.revert()
+        if (scope?.revert) scope.revert()
       }
     }
   }, [])

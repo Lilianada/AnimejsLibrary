@@ -1,9 +1,8 @@
-
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu } from 'lucide-react'
-import useMobile from '@/hooks/use-mobile'
+import { useMobile } from '@/hooks/use-mobile'
 
 interface SidebarProps {
   selectedCategory: string
