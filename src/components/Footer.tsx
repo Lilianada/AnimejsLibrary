@@ -1,4 +1,3 @@
-
 const Footer = () => {
   return (
     <footer className="bg-foreground text-background">
@@ -8,10 +7,9 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-4">
               <img 
                 src="/lovable-uploads/4b01183e-bc11-41ee-bfc1-0ac9ce1e7576.png" 
-                alt="Animelibrary.xyz Logo" 
+                alt="Logo" 
                 className="h-8 w-8 object-contain"
               />
-              <span className="text-lg font-semibold">Animelibrary.xyz</span>
             </div>
             <p className="text-sm text-background/70">
               Beautiful animations for modern web applications

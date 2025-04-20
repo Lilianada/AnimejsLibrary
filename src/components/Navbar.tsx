@@ -1,9 +1,13 @@
 
-import { Book, Grid2X2 } from "lucide-react";
+import { Book, Grid2X2, Moon, Sun } from "lucide-react";
+import { Button } from "./ui/button";
+import { useTheme } from "./theme-provider";
 
 const Navbar = () => {
+  const { theme, setTheme } = useTheme();
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b dark:bg-gray-900/80 dark:border-gray-800">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <a href="/" className="flex items-center">
@@ -23,6 +27,17 @@ const Navbar = () => {
               <Grid2X2 className="h-4 w-4" />
               <span>Examples</span>
             </a>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            >
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
+            </Button>
             <a href="/premium" className="text-sm bg-primary px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
               Get More
             </a>
