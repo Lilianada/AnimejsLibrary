@@ -1,6 +1,6 @@
 
 import { useRef, useEffect } from 'react'
-import anime from 'animejs/lib/anime.es.js'
+import anime from 'animejs'
 import { Code, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
