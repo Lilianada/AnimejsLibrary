@@ -21,57 +21,42 @@ const TimelineAnimations = () => {
           autoplay: false,
           loop: true
         })
-        
-        // First animation in sequence
+        // Add each step as an animation parameter object
         timeline.add({
-          animation: animate('.box-1', {
-            translateY: -50,
-            backgroundColor: '#A78BFA',
-            borderRadius: ['0%', '50%'],
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: '.box-1',
+          translateY: -50,
+          backgroundColor: '#A78BFA',
+          borderRadius: ['0%', '50%'],
+          easing: 'easeOutElastic(1, .8)'
         })
-        
-        // Second animation in sequence
         timeline.add({
-          animation: animate('.box-2', {
-            translateX: 50,
-            backgroundColor: '#F59E0B',
-            rotate: 180,
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: '.box-2',
+          translateX: 50,
+          backgroundColor: '#F59E0B',
+          rotate: 180,
+          easing: 'easeOutElastic(1, .8)'
         })
-        
-        // Third animation in sequence
         timeline.add({
-          animation: animate('.box-3', {
-            scale: 1.5,
-            backgroundColor: '#EC4899',
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: '.box-3',
+          scale: 1.5,
+          backgroundColor: '#EC4899',
+          easing: 'easeOutElastic(1, .8)'
         })
-
-        // Return to original state
         timeline.add({
-          animation: animate(['.box-1', '.box-2', '.box-3'], {
-            translateY: 0,
-            translateX: 0,
-            backgroundColor: '#3B82F6',
-            borderRadius: '0%',
-            rotate: 0,
-            scale: 1,
-            delay: function(el, i) { return i * 100; }, // Staggered delay
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: ['.box-1', '.box-2', '.box-3'],
+          translateY: 0,
+          translateX: 0,
+          backgroundColor: '#3B82F6',
+          borderRadius: '0%',
+          rotate: 0,
+          scale: 1,
+          delay: function(el, i) { return i * 100; }, // Staggered delay
+          easing: 'easeOutElastic(1, .8)'
         })
-        
         scope.add('play', () => { timeline.play(); })
         scope.add('pause', () => { timeline.pause(); })
         scope.add('restart', () => { timeline.restart(); })
-        scope.add('setSpeed', (speed: number) => { 
-          timeline.speed = speed;
-          return undefined;
-        })
+        scope.add('setSpeed', (speed: number) => { timeline.speed = speed })
       })
 
       return () => {
@@ -121,51 +106,38 @@ const TimelineAnimation = () => {
           duration: 800,
           loop: true
         })
-        
-        // First animation in sequence
         timeline.add({
-          animation: animate('.box-1', {
-            translateY: -50,
-            backgroundColor: '#A78BFA',
-            borderRadius: ['0%', '50%'],
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: '.box-1',
+          translateY: -50,
+          backgroundColor: '#A78BFA',
+          borderRadius: ['0%', '50%'],
+          easing: 'easeOutElastic(1, .8)'
         })
-        
-        // Second animation in sequence
         timeline.add({
-          animation: animate('.box-2', {
-            translateX: 50,
-            backgroundColor: '#F59E0B',
-            rotate: 180,
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: '.box-2',
+          translateX: 50,
+          backgroundColor: '#F59E0B',
+          rotate: 180,
+          easing: 'easeOutElastic(1, .8)'
         })
-        
-        // Third animation in sequence
         timeline.add({
-          animation: animate('.box-3', {
-            scale: 1.5,
-            backgroundColor: '#EC4899',
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: '.box-3',
+          scale: 1.5,
+          backgroundColor: '#EC4899',
+          easing: 'easeOutElastic(1, .8)'
         })
-        
-        // Return to original state
         timeline.add({
-          animation: animate(['.box-1', '.box-2', '.box-3'], {
-            translateY: 0,
-            translateX: 0,
-            backgroundColor: '#3B82F6',
-            borderRadius: '0%',
-            rotate: 0,
-            scale: 1,
-            delay: function(el, i) { return i * 100; }, // Staggered delay
-            easing: 'easeOutElastic(1, .8)'
-          })
+          targets: ['.box-1', '.box-2', '.box-3'],
+          translateY: 0,
+          translateX: 0,
+          backgroundColor: '#3B82F6',
+          borderRadius: '0%',
+          rotate: 0,
+          scale: 1,
+          delay: function(el, i) { return i * 100; },
+          easing: 'easeOutElastic(1, .8)'
         })
       })
-      
       return () => scope.revert()
     }
   }, [])
@@ -225,3 +197,4 @@ const TimelineAnimation = () => {
 }
 
 export default TimelineAnimations
+
