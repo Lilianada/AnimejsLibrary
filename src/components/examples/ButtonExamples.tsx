@@ -1,9 +1,9 @@
-
 import { useRef, useEffect, useState } from 'react'
 import { animate, createScope } from 'animejs'
 import { Code, Copy, ArrowRight, Zap, Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import CodeBlock from "./animations/CodeBlock"
 
 const ButtonExamples = () => {
   const scaleButtonRef = useRef<HTMLButtonElement>(null)
@@ -13,8 +13,42 @@ const ButtonExamples = () => {
   const pressButtonRef = useRef<HTMLButtonElement>(null)
   const bounceIconRef = useRef<HTMLButtonElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  
-  // Scale animation using Anime.js
+  const [showCodeBlock, setShowCodeBlock] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const codeExample = `
+import { Button } from '@/components/ui/button'
+import { animate, createScope } from 'animejs'
+import { useEffect } from 'react'
+
+const AnimatedButton = () => {
+  const buttonRef = useRef(null)
+  useEffect(() => {
+    const scope = createScope({ root: buttonRef.current });
+    scope.add(() => {
+      animate(buttonRef.current, {
+        scale: [
+          { value: 1, duration: 0 },
+          { value: 1.1, duration: 200, ease: 'easeInOutQuad'}
+        ],
+        autoplay: false
+      });
+      // ... Add other effects here as in ButtonExamples
+    });
+    return () => scope.revert()
+  }, []);
+  return <Button ref={buttonRef}>Hover Me</Button>
+}
+  `
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(codeExample)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1600)
+    } catch {}
+  }
+
   useEffect(() => {
     if (scaleButtonRef.current) {
       const scope = createScope({ root: scaleButtonRef.current }).add(scope => {
@@ -56,7 +90,6 @@ const ButtonExamples = () => {
     }
   }, [])
 
-  // Press animation using Anime.js
   useEffect(() => {
     if (pressButtonRef.current) {
       const scope = createScope({ root: pressButtonRef.current }).add(scope => {
@@ -91,7 +124,6 @@ const ButtonExamples = () => {
     }
   }, [])
 
-  // Rotate icon animation using Anime.js
   useEffect(() => {
     if (rotateIconRef.current) {
       const iconElement = rotateIconRef.current.querySelector('svg')
@@ -136,7 +168,6 @@ const ButtonExamples = () => {
     }
   }, [])
 
-  // Bounce icon animation using Anime.js
   useEffect(() => {
     if (bounceIconRef.current) {
       const iconElement = bounceIconRef.current.querySelector('svg')
@@ -187,7 +218,6 @@ const ButtonExamples = () => {
     }
   }, [])
 
-  // Pulse animation using Anime.js
   useEffect(() => {
     if (pulseButtonRef.current) {
       const scope = createScope({ root: pulseButtonRef.current }).add(scope => {
@@ -234,7 +264,6 @@ const ButtonExamples = () => {
     }
   }, [])
 
-  // Ripple effect on click
   const createRipple = (event: React.MouseEvent<HTMLButtonElement>) => {
     const button = event.currentTarget;
     const circle = document.createElement("span");
@@ -256,13 +285,20 @@ const ButtonExamples = () => {
 
   return (
     <div className="space-y-8">
-      {/* Hover animations section */}
+      <div className="flex gap-3 mb-2 justify-end">
+        <Button variant="outline" size="sm" onClick={() => setShowCodeBlock(v => !v)} className="flex gap-2">
+          <Code className="h-4 w-4" /> {showCodeBlock ? "Hide Code" : "View Code"}
+        </Button>
+        <Button variant="outline" size="sm" onClick={handleCopy} className="flex gap-2">
+          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} Copy Code
+        </Button>
+      </div>
+      {showCodeBlock && <CodeBlock code={codeExample} />}
       <Card className="border-border bg-card shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-medium">Hover Animations</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Scale on hover */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Scale Effect</h3>
             <div className="flex items-center justify-center p-6">
@@ -272,7 +308,6 @@ const ButtonExamples = () => {
             </div>
           </div>
 
-          {/* Color shift on hover */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Color Shift</h3>
             <div className="flex items-center justify-center p-6">
@@ -282,7 +317,6 @@ const ButtonExamples = () => {
             </div>
           </div>
 
-          {/* Shadow pulse on hover */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Shadow Effect</h3>
             <div className="flex items-center justify-center p-6">
@@ -292,7 +326,6 @@ const ButtonExamples = () => {
             </div>
           </div>
 
-          {/* Icon animations */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Icon Animations</h3>
             <div className="flex items-center justify-center p-6 gap-4">
@@ -309,13 +342,11 @@ const ButtonExamples = () => {
         </CardContent>
       </Card>
 
-      {/* Focus and click animations */}
       <Card className="border-border bg-card shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-medium">Focus & Click Animations</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Focus animation */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Focus Effect</h3>
             <div className="flex items-center justify-center p-6">
@@ -325,7 +356,6 @@ const ButtonExamples = () => {
             </div>
           </div>
 
-          {/* Ripple effect */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Ripple Effect</h3>
             <div className="flex items-center justify-center p-6">
@@ -339,7 +369,6 @@ const ButtonExamples = () => {
             </div>
           </div>
 
-          {/* Press effect */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Press Effect</h3>
             <div className="flex items-center justify-center p-6">
@@ -349,7 +378,6 @@ const ButtonExamples = () => {
             </div>
           </div>
 
-          {/* Icon morph or spin */}
           <div className="bg-muted p-6 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Toggle State</h3>
             <div className="flex items-center justify-center p-6">
@@ -374,7 +402,6 @@ const ButtonExamples = () => {
         </CardContent>
       </Card>
 
-      {/* Disabled state */}
       <Card className="border-border bg-card shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-medium">Disabled State</CardTitle>

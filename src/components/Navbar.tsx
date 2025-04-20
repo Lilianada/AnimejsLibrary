@@ -30,10 +30,14 @@ const Navbar = () => {
                 className={`
                   flex items-center space-x-1 text-sm px-3 py-1 rounded transition
                   ${location.pathname.startsWith(link.href)
-                    ? "bg-gradient-to-r from-[#fdfcfb] via-[#e2d1c3] to-[#fdfcfb] text-[#181818] shadow-md font-bold"
+                    ? "font-bold text-yellow-300"
                     : "text-foreground hover:opacity-80"}
                 `}
                 tabIndex={0}
+                style={{
+                  background: "transparent", // Remove active background.
+                  boxShadow: "none",
+                }}
               >
                 <link.icon className="h-4 w-4" />
                 <span>{link.label}</span>
@@ -43,13 +47,12 @@ const Navbar = () => {
               href="/waitlist"
               className={`
                 text-base px-5 py-2 rounded-full font-bold shadow-lg
-                bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-400
-                text-[#181818] 
-                drop-shadow-[0_0_6px_rgba(230,110,255,0.7)]
-                hover:scale-105 hover:drop-shadow-[0_0_12px_rgba(230,110,255,1)] transition
+                bg-primary text-primary-foreground
+                hover:bg-primary/90 transition
               `}
               style={{
-                textShadow: "0 0 12px #ffffff, 0 0 5px #FFD6FE"
+                background: "hsl(var(--primary))", // simple bg, not gradient
+                textShadow: "0 0 12px #fff"
               }}
             >
               Join Waitlist

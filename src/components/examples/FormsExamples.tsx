@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import FloatingLabelInput from "./forms/FloatingLabelInput"
@@ -7,10 +6,39 @@ import ErrorStateInput from "./forms/ErrorStateInput"
 import SuccessStateInput from "./forms/SuccessStateInput"
 import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import CodeBlock from "./animations/CodeBlock"
+import { Copy, Code, Check } from "lucide-react"
 
 const FormsExamples = () => {
+  const [showCode, setShowCode] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const codeExample = `
+import { useState } from "react"
+import FloatingLabelInput from "./FloatingLabelInput"
+
+const Example = () => (
+  <FloatingLabelInput />
+)
+  `
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(codeExample)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1600)
+    } catch {}
+  }
+
   return (
     <div className="space-y-8">
+      <div className="flex gap-3 mb-2 justify-end">
+        <button className="flex gap-2 px-2 py-1 rounded border border-border bg-background text-foreground text-sm" onClick={() => setShowCode(v => !v)}>
+          <Code className="h-4 w-4" /> {showCode ? "Hide Code" : "View Code"}
+        </button>
+        <button className="flex gap-2 px-2 py-1 rounded border border-border bg-background text-foreground text-sm" onClick={handleCopy}>
+          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} Copy Code
+        </button>
+      </div>
+      {showCode && <CodeBlock code={codeExample} />}
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-3">Form Examples</h2>
         <p className="text-muted-foreground">
