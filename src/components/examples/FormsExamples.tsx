@@ -1,5 +1,12 @@
 
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import FloatingLabelInput from "./forms/FloatingLabelInput"
+import BorderAnimationInput from "./forms/BorderAnimationInput"
+import ErrorStateInput from "./forms/ErrorStateInput"
+import SuccessStateInput from "./forms/SuccessStateInput"
+import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const FormsExamples = () => {
   return (
@@ -7,30 +14,89 @@ const FormsExamples = () => {
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-3">Form Examples</h2>
         <p className="text-muted-foreground">
-          This section will showcase various form designs and interactions.
+          Explore various form input animations and interactions.
         </p>
       </div>
 
-      <Card className="shadow-lg border-border">
-        <CardHeader>
-          <CardTitle>Coming Soon</CardTitle>
-          <CardDescription>
-            Form examples are being developed and will be available shortly.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>
-            The forms section will include examples of:
-          </p>
-          <ul className="list-disc list-inside mt-2 space-y-1 text-muted-foreground">
-            <li>Input validation patterns</li>
-            <li>Multi-step forms</li>
-            <li>Dynamic form fields</li>
-            <li>Form layouts and responsive designs</li>
-            <li>Accessibility-focused form patterns</li>
-          </ul>
-        </CardContent>
-      </Card>
+      <Tabs defaultValue="label" className="w-full">
+        <TabsList className="grid grid-cols-5 mb-8">
+          <TabsTrigger value="label">Label Float</TabsTrigger>
+          <TabsTrigger value="border">Border Animation</TabsTrigger>
+          <TabsTrigger value="error">Error State</TabsTrigger>
+          <TabsTrigger value="success">Success State</TabsTrigger>
+          <TabsTrigger value="placeholder">Placeholder</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="label" className="mt-0">
+          <Card className="shadow-lg border-border">
+            <CardHeader>
+              <CardTitle>Floating Label Animation</CardTitle>
+              <CardDescription>
+                The label animates from placeholder position to above the input when focused or filled.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FloatingLabelInput />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="border" className="mt-0">
+          <Card className="shadow-lg border-border">
+            <CardHeader>
+              <CardTitle>Border Animation</CardTitle>
+              <CardDescription>
+                The border color or thickness animates on focus and validation.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <BorderAnimationInput />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="error" className="mt-0">
+          <Card className="shadow-lg border-border">
+            <CardHeader>
+              <CardTitle>Error State Animation</CardTitle>
+              <CardDescription>
+                Shake animation for invalid input and animated error message.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <ErrorStateInput />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="success" className="mt-0">
+          <Card className="shadow-lg border-border">
+            <CardHeader>
+              <CardTitle>Success State Animation</CardTitle>
+              <CardDescription>
+                Border color transition and checkmark animation for successful validation.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <SuccessStateInput />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="placeholder" className="mt-0">
+          <Card className="shadow-lg border-border">
+            <CardHeader>
+              <CardTitle>Placeholder Animation</CardTitle>
+              <CardDescription>
+                Fade or slide placeholder text on focus.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <PlaceholderAnimationInput />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 
 import { useRef, useEffect, useState } from 'react'
-import { animate, createTimeline, createScope } from 'animejs'
+import anime from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,41 +8,43 @@ import CodeBlock from './CodeBlock'
 
 const TimelineAnimations = () => {
   const animationRef = useRef<HTMLDivElement>(null)
-  const scopeRef = useRef<any>(null)
+  const timelineRef = useRef<anime.AnimeTimelineInstance | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [codeVisible, setCodeVisible] = useState(false)
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
-        const timeline = createTimeline({
-          duration: 800,
-          autoplay: false,
-          loop: true
-        })
-        // Add each step as an animation parameter object
-        timeline.add({
+      // Create a timeline
+      timelineRef.current = anime.timeline({
+        duration: 800,
+        autoplay: false,
+        loop: true
+      })
+
+      // Add animations to the timeline
+      timelineRef.current
+        .add({
           targets: '.box-1',
           translateY: -50,
           backgroundColor: '#A78BFA',
           borderRadius: ['0%', '50%'],
           easing: 'easeOutElastic(1, .8)'
         })
-        timeline.add({
+        .add({
           targets: '.box-2',
           translateX: 50,
           backgroundColor: '#F59E0B',
           rotate: 180,
           easing: 'easeOutElastic(1, .8)'
         })
-        timeline.add({
+        .add({
           targets: '.box-3',
           scale: 1.5,
           backgroundColor: '#EC4899',
           easing: 'easeOutElastic(1, .8)'
         })
-        timeline.add({
+        .add({
           targets: ['.box-1', '.box-2', '.box-3'],
           translateY: 0,
           translateX: 0,
@@ -50,83 +52,83 @@ const TimelineAnimations = () => {
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: function(el, i) { return i * 100; }, // Staggered delay
+          delay: anime.stagger(100),
           easing: 'easeOutElastic(1, .8)'
         })
-        scope.add('play', () => { timeline.play(); })
-        scope.add('pause', () => { timeline.pause(); })
-        scope.add('restart', () => { timeline.restart(); })
-        scope.add('setSpeed', (speed: number) => { timeline.speed = speed })
-      })
 
+      // Clean up
       return () => {
-        if (scopeRef.current) {
-          scopeRef.current.revert()
+        if (timelineRef.current) {
+          timelineRef.current.pause()
         }
       }
     }
   }, [])
 
   useEffect(() => {
-    if (scopeRef.current) {
+    if (timelineRef.current) {
       if (isPlaying) {
-        scopeRef.current.methods.play()
+        timelineRef.current.play()
       } else {
-        scopeRef.current.methods.pause()
+        timelineRef.current.pause()
       }
     }
   }, [isPlaying])
 
   useEffect(() => {
-    if (scopeRef.current) {
-      scopeRef.current.methods.setSpeed(speed)
+    if (timelineRef.current) {
+      timelineRef.current.timelineOffset = 1 / speed
     }
   }, [speed])
 
   const handlePlay = () => setIsPlaying(true)
   const handlePause = () => setIsPlaying(false)
   const handleRestart = () => {
-    if (scopeRef.current) {
-      scopeRef.current.methods.restart()
+    if (timelineRef.current) {
+      timelineRef.current.restart()
       setIsPlaying(true)
     }
   }
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import { createTimeline, createScope, animate } from 'animejs'
+import anime from 'animejs'
 
 const TimelineAnimation = () => {
   const containerRef = useRef(null)
+  const timelineRef = useRef(null)
   
   useEffect(() => {
     if (containerRef.current) {
-      const scope = createScope({ root: containerRef.current }).add(scope => {
-        const timeline = createTimeline({
-          duration: 800,
-          loop: true
-        })
-        timeline.add({
+      // Create a timeline
+      timelineRef.current = anime.timeline({
+        duration: 800,
+        loop: true
+      })
+      
+      // Add animations to the timeline
+      timelineRef.current
+        .add({
           targets: '.box-1',
           translateY: -50,
           backgroundColor: '#A78BFA',
           borderRadius: ['0%', '50%'],
           easing: 'easeOutElastic(1, .8)'
         })
-        timeline.add({
+        .add({
           targets: '.box-2',
           translateX: 50,
           backgroundColor: '#F59E0B',
           rotate: 180,
           easing: 'easeOutElastic(1, .8)'
         })
-        timeline.add({
+        .add({
           targets: '.box-3',
           scale: 1.5,
           backgroundColor: '#EC4899',
           easing: 'easeOutElastic(1, .8)'
         })
-        timeline.add({
+        .add({
           targets: ['.box-1', '.box-2', '.box-3'],
           translateY: 0,
           translateX: 0,
@@ -134,11 +136,9 @@ const TimelineAnimation = () => {
           borderRadius: '0%',
           rotate: 0,
           scale: 1,
-          delay: function(el, i) { return i * 100; },
+          delay: anime.stagger(100),
           easing: 'easeOutElastic(1, .8)'
         })
-      })
-      return () => scope.revert()
     }
   }, [])
   
@@ -197,4 +197,3 @@ const TimelineAnimation = () => {
 }
 
 export default TimelineAnimations
-
