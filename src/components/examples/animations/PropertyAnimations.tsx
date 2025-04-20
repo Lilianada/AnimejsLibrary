@@ -15,7 +15,7 @@ const PropertyAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add(scope => {
+      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
         const animation = animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
@@ -39,10 +39,13 @@ const PropertyAnimations = () => {
           loop: true
         })
 
-        scope.add('play', () => animation.play())
-        scope.add('pause', () => animation.pause())
-        scope.add('restart', () => animation.restart())
-        scope.add('setSpeed', (speed: number) => animation.speed = speed)
+        scope.add('play', () => { animation.play(); })
+        scope.add('pause', () => { animation.pause(); })
+        scope.add('restart', () => { animation.restart(); })
+        scope.add('setSpeed', (speed: number) => { 
+          animation.speed = speed;
+          return undefined;
+        })
       })
 
       return () => {

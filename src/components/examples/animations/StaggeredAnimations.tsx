@@ -16,7 +16,7 @@ const StaggeredAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add(scope => {
+      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
         const setupAnimation = () => {
           return animate('.stagger-item', {
             translateY: [
@@ -32,10 +32,10 @@ const StaggeredAnimations = () => {
               { value: 0, duration: 500 }
             ],
             backgroundColor: [
-              { value: 'hsl(var(--primary))', duration: 0 },
-              { value: 'hsl(var(--secondary))', duration: 500 },
-              { value: 'hsl(var(--accent))', duration: 500 },
-              { value: 'hsl(var(--primary))', duration: 500 }
+              { value: '#3B82F6', duration: 0 },
+              { value: '#A78BFA', duration: 500 },
+              { value: '#F59E0B', duration: 500 },
+              { value: '#3B82F6', duration: 500 }
             ],
             scale: [
               { value: 0.5, duration: 0 },
@@ -52,20 +52,25 @@ const StaggeredAnimations = () => {
 
         let animation = setupAnimation()
         
-        scope.add('play', () => animation.play())
-        scope.add('pause', () => animation.pause())
+        scope.add('play', () => { animation.play(); })
+        scope.add('pause', () => { animation.pause(); })
         scope.add('restart', () => {
-          animation.pause()
-          animation = setupAnimation()
-          animation.play()
+          animation.pause();
+          animation = setupAnimation();
+          animation.play();
+          return undefined;
         })
-        scope.add('setSpeed', (speed: number) => animation.speed = speed)
+        scope.add('setSpeed', (speed: number) => { 
+          animation.speed = speed;
+          return undefined;
+        })
         scope.add('updateStaggerDelay', (delay: number) => {
-          animation.pause()
-          animation = setupAnimation()
+          animation.pause();
+          animation = setupAnimation();
           if (isPlaying) {
-            animation.play()
+            animation.play();
           }
+          return undefined;
         })
       })
 

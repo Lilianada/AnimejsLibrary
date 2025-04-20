@@ -23,7 +23,7 @@ const MorphingAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = createScope({ root: animationRef.current }).add(scope => {
+      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
         const morphAnimation = animate('path', {
           d: [
             { value: paths.circle, duration: 0 },
@@ -33,20 +33,23 @@ const MorphingAnimations = () => {
             { value: paths.circle, duration: 1000, easing: 'easeInOutQuad' }
           ],
           fill: [
-            { value: 'hsl(var(--primary))', duration: 0 },
-            { value: 'hsl(var(--secondary))', duration: 1000 },
-            { value: 'hsl(var(--accent))', duration: 1000 },
-            { value: 'hsl(var(--destructive))', duration: 1000 },
-            { value: 'hsl(var(--primary))', duration: 1000 }
+            { value: '#3B82F6', duration: 0 },
+            { value: '#A78BFA', duration: 1000 },
+            { value: '#F59E0B', duration: 1000 },
+            { value: '#EC4899', duration: 1000 },
+            { value: '#3B82F6', duration: 1000 }
           ],
           autoplay: false,
           loop: true
         })
         
-        scope.add('play', () => morphAnimation.play())
-        scope.add('pause', () => morphAnimation.pause())
-        scope.add('restart', () => morphAnimation.restart())
-        scope.add('setSpeed', (speed: number) => morphAnimation.speed = speed)
+        scope.add('play', () => { morphAnimation.play(); })
+        scope.add('pause', () => { morphAnimation.pause(); })
+        scope.add('restart', () => { morphAnimation.restart(); })
+        scope.add('setSpeed', (speed: number) => { 
+          morphAnimation.speed = speed;
+          return undefined;
+        })
       })
 
       return () => {
@@ -150,7 +153,7 @@ const MorphingAnimation = () => {
       <CardContent>
         <div className="mb-6 p-6 bg-muted rounded-lg flex items-center justify-center min-h-[200px]" ref={animationRef}>
           <svg width="150" height="150" viewBox="0 0 100 100">
-            <path fill="hsl(var(--primary))" d={paths.circle} />
+            <path fill="#3B82F6" d={paths.circle} />
           </svg>
         </div>
         
