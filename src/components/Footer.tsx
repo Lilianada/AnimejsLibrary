@@ -5,12 +5,13 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center mb-4">
+            <div className="flex items-center space-x-2 mb-4">
               <img 
                 src="/lovable-uploads/4b01183e-bc11-41ee-bfc1-0ac9ce1e7576.png" 
                 alt="Animelibrary.xyz Logo" 
                 className="h-8 w-8 object-contain"
               />
+              <span className="text-lg font-semibold">Animelibrary.xyz</span>
             </div>
             <p className="text-sm text-background/70">
               Beautiful animations for modern web applications
@@ -31,6 +32,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><a href="/examples" className="hover:text-primary transition-colors">Examples</a></li>
               <li><a href="/premium" className="hover:text-primary transition-colors">Premium</a></li>
+              <li><a href="/blog" className="hover:text-primary transition-colors">Blog</a></li>
             </ul>
           </div>
           

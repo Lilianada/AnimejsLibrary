@@ -1,9 +1,7 @@
 
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
-import Examples from "./pages/Examples";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -11,7 +9,6 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/examples" element={<Examples />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

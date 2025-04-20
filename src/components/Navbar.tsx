@@ -1,18 +1,7 @@
 
-import { Book, Grid2X2, Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Book, Grid2X2 } from "lucide-react";
 
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b">
       <div className="container mx-auto px-4">
@@ -26,17 +15,6 @@ const Navbar = () => {
           </a>
           
           <div className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => setIsDark(!isDark)}
-              className="p-2 rounded-full hover:bg-accent transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              {isDark ? (
-                <Sun className="h-4 w-4" />
-              ) : (
-                <Moon className="h-4 w-4" />
-              )}
-            </button>
             <a href="/docs" className="flex items-center space-x-1 text-sm hover:opacity-70 transition-opacity">
               <Book className="h-4 w-4" />
               <span>Docs</span>
