@@ -7,7 +7,7 @@ import Examples from "./pages/Examples"
 import NotFound from "./pages/NotFound"
 
 const App = () => (
-  <ThemeProvider defaultTheme="light" storageKey="ui-theme">
+  <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
     <TooltipProvider>
       <BrowserRouter>
         <Routes>
