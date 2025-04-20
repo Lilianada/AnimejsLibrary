@@ -1,26 +1,39 @@
 
 import { useRef, useEffect } from 'react'
-import anime from 'animejs'
+import { animate, createScope } from 'animejs'
 import { Code, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const ButtonExamples = () => {
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const scope = useRef<any>(null)
 
   useEffect(() => {
     if (buttonRef.current) {
-      const animation = anime({
-        targets: buttonRef.current,
-        scale: [1, 1.1],
-        duration: 200,
-        easing: 'easeInOutQuad',
-        autoplay: false
+      scope.current = createScope({ root: buttonRef.current }).add(scope => {
+        animate(buttonRef.current, {
+          scale: [
+            { value: 1, duration: 0 },
+            { value: 1.1, duration: 200, ease: 'easeInOutQuad' }
+          ],
+          autoplay: false
+        })
       })
 
-      const handleMouseEnter = () => animation.play()
+      const handleMouseEnter = () => {
+        animate(buttonRef.current, {
+          scale: 1.1,
+          duration: 200,
+          ease: 'easeInOutQuad'
+        })
+      }
+
       const handleMouseLeave = () => {
-        animation.reverse()
-        animation.play()
+        animate(buttonRef.current, {
+          scale: 1,
+          duration: 200,
+          ease: 'easeInOutQuad'
+        })
       }
 
       buttonRef.current.addEventListener('mouseenter', handleMouseEnter)
@@ -31,6 +44,7 @@ const ButtonExamples = () => {
           buttonRef.current.removeEventListener('mouseenter', handleMouseEnter)
           buttonRef.current.removeEventListener('mouseleave', handleMouseLeave)
         }
+        scope.current.revert()
       }
     }
   }, [])
