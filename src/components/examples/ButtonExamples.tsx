@@ -10,11 +10,11 @@ const buttonVariants = [
     name: 'Primary Button',
     description: 'Used for primary actions',
     component: (
-      <Button className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143]">
+      <Button>
         Primary Action
       </Button>
     ),
-    code: `<Button className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143]">
+    code: `<Button>
   Primary Action
 </Button>`
   },
@@ -128,12 +128,12 @@ const ButtonExamples = () => {
   useEffect(() => {
     const animateElements = () => {
       const cards = containerRef.current?.querySelectorAll('.button-card')
-      
+
       cards?.forEach((card, index) => {
         const element = card as HTMLElement
         element.style.opacity = '0'
         element.style.transform = 'translateY(20px)'
-        
+
         setTimeout(() => {
           element.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out'
           element.style.opacity = '1'
@@ -141,7 +141,7 @@ const ButtonExamples = () => {
         }, index * 100)
       })
     }
-    
+
     animateElements()
   }, []);
 
@@ -153,7 +153,7 @@ const ButtonExamples = () => {
           Our versatile button collection offers various styles, sizes, and states to enhance your UI.
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {buttonVariants.map((button, index) => (
           <div key={index} className="button-card space-y-4 p-6 bg-card rounded-xl border">
@@ -181,7 +181,7 @@ const ButtonExamples = () => {
                 </Button>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-center py-6">
               {showCode === index ? (
                 <CodeBlock code={button.code} />

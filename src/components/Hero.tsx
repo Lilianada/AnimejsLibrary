@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const Hero = () => {
   const [email, setEmail] = useState("");
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
@@ -19,7 +19,6 @@ const Hero = () => {
 
   return (
     <section className="relative bg-[#181818] overflow-hidden h-screen flex items-center">
-      {/* Subtle hero gradient inspired by lovable.dev */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div
           className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[600px] bg-gradient-to-br from-[#201636]/50 via-[#fd8d3d1a] to-[#9046ff33] rounded-full opacity-30 blur-[60px]"
@@ -30,15 +29,15 @@ const Hero = () => {
         <img
           src="/lovable-uploads/4b01183e-bc11-41ee-bfc1-0ac9ce1e7576.png"
           alt="Logo"
-          className="mx-auto mb-6 w-20 h-20 rounded-full shadow-lg bg-[#111]/70"
+          width={64} height={64}
+          className="mx-auto mb-6 w-16 h-16"
         />
-        <h1 className="text-4xl md:text-6xl font-extrabold text-white text-center mb-4 drop-shadow-lg max-w-2xl">
-          Beautiful React Components
+        <h1 className="text-2xl md:text-4xl font-bold text-white text-center mb-4 drop-shadow-lg max-w-[450px] md:max-w-[650px]">
+          Beautiful React <br className="hidden sm:block"/> <span className="block">Components</span>
         </h1>
         <p className="max-w-2xl text-lg md:text-xl text-muted-foreground text-center mb-8">
           Build modern interfaces faster with stunning, animated components.
         </p>
-        
         {/* Waitlist form */}
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md mb-4">
           <Input
@@ -49,7 +48,10 @@ const Hero = () => {
             className="flex-1"
             required
           />
-          <Button type="submit" className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143]">
+          <Button
+            type="submit"
+            className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143] transition-colors"
+          >
             Join Waitlist
           </Button>
         </form>
