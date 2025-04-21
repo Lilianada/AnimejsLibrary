@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useEffect, useRef } from 'react';
 
-// Reduce logo size and set up infinite scroll from left to right, with gradient fade on both sides. 
+// Infinite scroll from left to right, with gradient fade on both sides. 
 const Sponsors = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +28,7 @@ const Sponsors = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Generate sponsors (reduce to small size)
+  // Generate sponsors (small size)
   const sponsorItems = Array(10).fill(null).map((_, i) => (
     <TooltipProvider key={i}>
       <Tooltip>

@@ -29,7 +29,7 @@ const Hero = () => {
         <img
           src="/lovable-uploads/4b01183e-bc11-41ee-bfc1-0ac9ce1e7576.png"
           alt="Logo"
-          width={64} height={64}
+          width={16} height={16}
           className="mx-auto mb-6 w-16 h-16"
         />
         <h1 className="text-2xl md:text-4xl font-bold text-white text-center mb-4 drop-shadow-lg max-w-[450px] md:max-w-[650px]">

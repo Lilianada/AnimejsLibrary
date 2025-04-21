@@ -1,6 +1,5 @@
-
 import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 import './loader-animations.css';
 
 const LoaderAnimations = () => {
