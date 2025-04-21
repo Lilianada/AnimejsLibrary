@@ -11,7 +11,7 @@ const docsSections = [
     title: "1. Introduction & Setup",
     slug: "introduction-setup",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Introduction & Setup</h2>
         <p>
           The React & Anime.js Animation Library provides a comprehensive suite of components and utilities for creating stunning, high-performance UI animations in your React projects. Combining the power and simplicity of Anime.js with a robust suite of ready-made components, it empowers you to build beautiful UIs faster and more easily.
@@ -27,43 +27,43 @@ yarn add animejs react react-dom
           To get started, simply import <code>anime</code> from <code>animejs</code> and use it within your React components. For example:
         </p>
         <pre className="p-3 bg-muted/50 rounded text-sm"><code>
-import anime from 'animejs';
+import anime from &apos;animejs&apos;;
 
-useEffect(() {'{'} 
-  anime({ 
+useEffect(() =&gt; {"{"}
+  anime({"{"} 
     targets: ref.current, 
     opacity: [0, 1], 
     duration: 1000 
-  }); 
-{'}'}, []);
+  {"}"});
+{"}"}, []);
         </code></pre>
         <h3 className="mt-6 text-lg font-semibold">Browser Compatibility</h3>
         <p>
           Anime.js supports all modern browsers. For older browsers, consider adding suitable polyfills.
         </p>
-      </div>
+      </>
     )
   },
   {
     title: "2. Core Concepts",
     slug: "core-concepts",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Core Concepts</h2>
         <ol className="list-disc space-y-2 pl-4">
-          <li><b>Anime.js Integration:</b> Hook Anime.js into React’s lifecycle for seamless, performant animations.</li>
+          <li><b>Anime.js Integration:</b> Hook Anime.js into React's lifecycle for seamless, performant animations.</li>
           <li><b>Refs & Animation Targets:</b> Use React refs to target DOM elements with Anime.js.</li>
           <li><b>Animation Triggers:</b> Trigger animations on mount, state change, or user events.</li>
           <li><b>Performance Considerations:</b> Minimize re-renders and follow Anime.js best practices for performance.</li>
         </ol>
-      </div>
+      </>
     )
   },
   {
     title: "3. Component Documentation",
     slug: "component-documentation",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Component Documentation</h2>
         <ul className="list-disc space-y-3 pl-6">
           <li>
@@ -97,14 +97,14 @@ useEffect(() {'{'}
             <span>ARIA attributes and keyboard navigation provided out of the box.</span>
           </li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     title: "4. Animation Categories",
     slug: "animation-categories",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Animation Categories</h2>
         <p className="mb-4">
           The library covers a broad set of animation categories:
@@ -113,14 +113,14 @@ useEffect(() {'{'}
           <li>Forms, Modals, Cards, Lists, Loaders, Sidebars, Tooltips, Toasts</li>
           <li>Each category lists available components, usage patterns, and interactive examples.</li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     title: "5. Advanced Usage",
     slug: "advanced-usage",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Advanced Usage</h2>
         <ol className="list-decimal pl-6 space-y-2">
           <li><b>Creating Custom Animations:</b> Build your own with Anime.js and the library's hooks.</li>
@@ -128,42 +128,42 @@ useEffect(() {'{'}
           <li><b>Animation Choreography:</b> Coordinate animations using context or callbacks.</li>
           <li><b>State Management Integration:</b> Examples for Redux, Zustand, Context.</li>
         </ol>
-      </div>
+      </>
     )
   },
   {
     title: "6. Animation Recipes",
     slug: "animation-recipes",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Animation Recipes</h2>
         <ul className="list-disc pl-8 space-y-2">
           <li>Common UI Patterns with ready-to-use recipes.</li>
           <li>Copy-paste code examples.</li>
           <li>Troubleshooting tips for common edge cases.</li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     title: "7. API Reference",
     slug: "api-reference",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">API Reference</h2>
         <p>
           <b>Configuration Options:</b> Full list of animation parameters (duration, easing, etc.)<br />
           <b>Easing Functions:</b> Visual chart of supported easings.<br />
           <b>Animation Properties:</b> List of animatable CSS/SVG properties.
         </p>
-      </div>
+      </>
     )
   },
   {
     title: "8. Migration Guide",
     slug: "migration-guide",
     content: (
-      <div>
+      <>
         <h2 className="text-xl font-bold mb-3">Migration Guide</h2>
         <ol className="list-decimal space-y-2 pl-6">
           <li>
@@ -173,49 +173,372 @@ useEffect(() {'{'}
             <b>Breaking Changes:</b> See the list of breaking changes for each release.
           </li>
         </ol>
-      </div>
+      </>
     )
   },
   {
-    title: "9. Playground",
-    slug: "playground",
+    title: "9. Lists & Grids",
+    slug: "lists-grids",
     content: (
-      <div>
-        <h2 className="text-xl font-bold mb-3">Playground</h2>
-        <p>
-          Experiment interactively: Try out different animation settings and see results live.<br />
-          (Coming soon!)
-        </p>
-      </div>
-    )
-  },
-  {
-    title: "10. Examples & Templates",
-    slug: "examples-templates",
-    content: (
-      <div>
-        <h2 className="text-xl font-bold mb-3">Examples & Templates</h2>
-        <ul className="list-disc pl-8 space-y-2">
-          <li>Complete, real-world code examples.</li>
-          <li>Starter templates for common use cases.</li>
+      <>
+        <h2 className="text-xl font-bold mb-3">Lists & Grids</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Item Entrance:</span>
+            <p className="mt-1">Staggered fade/slide in for list/grid items, creating a visually pleasing entrance effect.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Staggered list entrance
+anime({
+  targets: '.list-item',
+  translateY: [20, 0],
+  opacity: [0, 1],
+  delay: anime.stagger(100),
+  easing: 'easeOutQuad'
+});`}
+            </code></pre>
+          </li>
+          <li>
+            <span className="font-semibold">Reordering:</span>
+            <p className="mt-1">Smooth movement of items on drag-and-drop for intuitive user interactions.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Animate item movement during reordering
+anime({
+  targets: '.item-' + itemId,
+  translateX: targetX,
+  translateY: targetY,
+  duration: 300,
+  easing: 'easeOutQuint'
+});`}
+            </code></pre>
+          </li>
+          <li>
+            <span className="font-semibold">Removal:</span>
+            <p className="mt-1">Fade or slide out animations for smooth list item removal.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Animate item removal
+anime({
+  targets: '.item-to-remove',
+  translateX: -20,
+  opacity: 0,
+  duration: 300,
+  easing: 'easeOutQuad',
+  complete: () => {
+    // Remove from DOM or state after animation completes
+  }
+});`}
+            </code></pre>
+          </li>
         </ul>
-      </div>
+      </>
     )
   },
   {
-    title: "11. Contributing Guide",
-    slug: "contributing-guide",
+    title: "10. Tooltips & Popovers",
+    slug: "tooltips-popovers",
     content: (
-      <div>
-        <h2 className="text-xl font-bold mb-3">Contributing Guide</h2>
-        <ol className="list-decimal pl-6 space-y-2">
-          <li><b>Development Setup:</b> How to set up the project locally.</li>
-          <li><b>Submission Guidelines:</b> Details about PR process, code standards.</li>
-          <li><b>Component Requirements:</b> Expected standards for new components.</li>
-        </ol>
-      </div>
+      <>
+        <h2 className="text-xl font-bold mb-3">Tooltips & Popovers</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Show/Hide Animations:</span>
+            <p className="mt-1">Elegant entrance and exit animations for tooltips and popovers.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Fade in tooltip
+anime({
+  targets: '.tooltip',
+  opacity: [0, 1],
+  scale: [0.9, 1],
+  duration: 200,
+  easing: 'easeOutQuad'
+});
+
+// Slide in popover from trigger
+anime({
+  targets: '.popover',
+  translateY: [10, 0],
+  opacity: [0, 1],
+  duration: 250,
+  easing: 'easeOutQuint'
+});`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
     )
   },
+  {
+    title: "11. Alerts & Toasts",
+    slug: "alerts-toasts",
+    content: (
+      <>
+        <h2 className="text-xl font-bold mb-3">Alerts & Toasts</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Entrance & Exit:</span>
+            <p className="mt-1">Smooth animations for alert and toast notifications.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Slide in toast from top
+anime({
+  targets: '.toast-notification',
+  translateY: [-50, 0],
+  opacity: [0, 1],
+  duration: 400,
+  easing: 'easeOutElastic(1, 0.6)'
+});
+
+// Progress bar animation
+anime({
+  targets: '.toast-progress',
+  width: ['0%', '100%'],
+  duration: 3000,
+  easing: 'linear',
+  complete: () => {
+    // Dismiss toast when complete
+    dismissToast();
+  }
+});`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
+    )
+  },
+  {
+    title: "12. Tabs & Accordions",
+    slug: "tabs-accordions",
+    content: (
+      <>
+        <h2 className="text-xl font-bold mb-3">Tabs & Accordions</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Tab Change:</span>
+            <p className="mt-1">Animated tab transitions and underline indicators.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Animate tab underline
+anime({
+  targets: '.tab-underline',
+  translateX: tabPosition,
+  width: tabWidth,
+  easing: 'easeOutQuint',
+  duration: 250
+});
+
+// Fade in new tab content
+anime({
+  targets: '.tab-content',
+  opacity: [0, 1],
+  translateY: [10, 0],
+  easing: 'easeOutQuad',
+  duration: 250
+});`}
+            </code></pre>
+          </li>
+          <li>
+            <span className="font-semibold">Accordion Expand/Collapse:</span>
+            <p className="mt-1">Smooth height transitions and icon rotations.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Animate accordion height
+anime({
+  targets: '.accordion-content',
+  height: [0, expandedHeight],
+  opacity: [0, 1],
+  duration: 300,
+  easing: 'easeOutCubic'
+});
+
+// Rotate accordion chevron
+anime({
+  targets: '.accordion-icon',
+  rotate: isOpen ? 180 : 0,
+  duration: 300,
+  easing: 'easeOutQuad'
+});`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
+    )
+  },
+  {
+    title: "13. SVG & Icon Animations",
+    slug: "svg-icon-animations",
+    content: (
+      <>
+        <h2 className="text-xl font-bold mb-3">SVG & Icon Animations</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Path Animation:</span>
+            <p className="mt-1">Drawing and animating SVG paths.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// SVG path drawing animation
+anime({
+  targets: '.path-draw',
+  strokeDashoffset: [anime.setDashoffset, 0],
+  easing: 'easeInOutCubic',
+  duration: 1500,
+  delay: function(el, i) { return i * 250 },
+  direction: 'alternate',
+  loop: true
+});`}
+            </code></pre>
+          </li>
+          <li>
+            <span className="font-semibold">Morphing:</span>
+            <p className="mt-1">Shape morphing for icons or illustrations.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Morph between SVG paths
+anime({
+  targets: '.morph-path',
+  d: [
+    { value: 'M0,0 C150,100 150,0 300,0' },
+    { value: 'M0,0 C150,0 150,100 300,0' },
+    { value: 'M0,0 C150,100 150,0 300,0' }
+  ],
+  easing: 'easeOutQuad',
+  duration: 1000,
+  loop: true
+});`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
+    )
+  },
+  {
+    title: "14. Page Transitions",
+    slug: "page-transitions",
+    content: (
+      <>
+        <h2 className="text-xl font-bold mb-3">Page Transitions</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Route Change Animations:</span>
+            <p className="mt-1">Smooth transitions between pages for a polished user experience.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Page exit animation
+function exitPage() {
+  return anime({
+    targets: '.page-content',
+    opacity: [1, 0],
+    translateY: [0, -20],
+    easing: 'easeInQuad',
+    duration: 300
+  }).finished;
+}
+
+// Page enter animation
+function enterPage() {
+  anime({
+    targets: '.page-content',
+    opacity: [0, 1],
+    translateY: [20, 0],
+    easing: 'easeOutQuad',
+    duration: 300
+  });
+}
+
+// Usage with React Router
+async function handleRouteChange(to) {
+  await exitPage();
+  history.push(to);
+  enterPage();
+}`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
+    )
+  },
+  {
+    title: "15. Theme Toggles",
+    slug: "theme-toggles",
+    content: (
+      <>
+        <h2 className="text-xl font-bold mb-3">Theme/Mode Toggles</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Dark/Light Mode Transitions:</span>
+            <p className="mt-1">Smooth transitions between theme modes.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Animate theme icon (sun to moon)
+anime({
+  targets: '.theme-icon path',
+  d: [
+    { value: isDarkMode ? moonPath : sunPath },
+  ],
+  duration: 400,
+  easing: 'easeOutQuad'
+});
+
+// Transition background colors
+anime({
+  targets: 'body',
+  backgroundColor: isDarkMode ? '#121212' : '#ffffff',
+  color: isDarkMode ? '#ffffff' : '#121212',
+  duration: 500,
+  easing: 'easeOutQuad'
+});`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
+    )
+  },
+  {
+    title: "16. Miscellaneous Techniques",
+    slug: "miscellaneous",
+    content: (
+      <>
+        <h2 className="text-xl font-bold mb-3">Miscellaneous Animation Techniques</h2>
+        <ul className="list-disc space-y-4 pl-6">
+          <li>
+            <span className="font-semibold">Staggered Animations:</span>
+            <p className="mt-1">Creating sequential animations for multiple elements.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Staggered entrance
+anime({
+  targets: '.menu-item',
+  translateY: [20, 0],
+  opacity: [0, 1],
+  delay: anime.stagger(100, {start: 300}),
+  easing: 'easeOutQuad',
+  duration: 400
+});`}
+            </code></pre>
+          </li>
+          <li>
+            <span className="font-semibold">Timeline Animations:</span>
+            <p className="mt-1">Coordinating complex, multi-step animations.</p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
+{`// Create animation timeline
+const timeline = anime.timeline({
+  easing: 'easeOutQuad',
+  duration: 500
+});
+
+// Add animations to timeline
+timeline
+  .add({
+    targets: '.first-element',
+    translateY: [40, 0],
+    opacity: [0, 1]
+  })
+  .add({
+    targets: '.second-element',
+    translateX: [-40, 0],
+    opacity: [0, 1]
+  }, '-=200')
+  .add({
+    targets: '.third-element',
+    scale: [0.8, 1],
+    opacity: [0, 1]
+  }, '-=150');`}
+            </code></pre>
+          </li>
+        </ul>
+      </>
+    )
+  }
 ];
 
 // Mobile sidebar mode state
@@ -246,7 +569,7 @@ const Docs = () => {
             <li key={section.slug} className={`mb-2`}>
               <Button
                 variant={page === idx ? "default" : "ghost"}
-                className={`w-full justify-start ${page === idx ? 'font-bold' : ''}`}
+                className={`w-full justify-start text-sm ${page === idx ? 'font-bold' : ''}`}
                 onClick={() => goto(idx)}
               >
                 {section.title}
@@ -271,7 +594,7 @@ const Docs = () => {
                   <li key={section.slug} className="mb-2">
                     <Button
                       variant={page === idx ? "default" : "ghost"}
-                      className={`w-full justify-start ${page === idx ? 'font-bold' : ''}`}
+                      className={`w-full justify-start text-sm ${page === idx ? 'font-bold' : ''}`}
                       onClick={() => goto(idx)}
                     >
                       {section.title}
