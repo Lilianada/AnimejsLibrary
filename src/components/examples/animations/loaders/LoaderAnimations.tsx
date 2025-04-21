@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 import * as anime from 'animejs';
 import './loader-animations.css';
@@ -7,8 +8,8 @@ const LoaderAnimations = () => {
 
   useEffect(() => {
     if (containerRef.current) {
-      anime({
-        targets: containerRef.current.querySelectorAll('.loader-animation'),
+      // Use the correct anime.js method
+      anime.animate(containerRef.current.querySelectorAll('.loader-animation'), {
         opacity: [0, 1],
         translateY: [20, 0],
         delay: anime.stagger(100),
