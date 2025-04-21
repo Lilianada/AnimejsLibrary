@@ -3,11 +3,11 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <section className="relative bg-[#191921] overflow-hidden">
+    <section className="relative bg-[#181818] overflow-hidden">
       {/* Subtle hero gradient inspired by lovable.dev */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[480px] bg-gradient-to-br from-[#201636cf] via-[#fd8d3d3d] to-[#9046fff6] rounded-full opacity-60 blur-2xl"
+          className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[600px] bg-gradient-to-br from-[#201636] via-[#fd8d3d1a] to-[#9046ff33] rounded-full opacity-40 blur-[40px]"
         ></div>
       </div>
       <div className="container mx-auto px-4 py-24 flex flex-col items-center relative z-10">

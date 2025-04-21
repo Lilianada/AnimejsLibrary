@@ -12,7 +12,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-20 bg-primary/10">
+    <section className="py-20 bg-[#181818]">
       <div className="container mx-auto px-4 max-w-xl text-center">
         <Mail className="w-12 h-12 mx-auto mb-6 text-primary" />
         <h2 className="text-lg font-bold mb-4">Subscribe to Our Newsletter</h2>
@@ -25,7 +25,7 @@ const Newsletter = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-primary"
+            className="flex-1 px-4 py-2 rounded-full border bg-[#222] focus:outline-none focus:ring-2 focus:ring-primary"
             required
           />
           <button
