@@ -81,4 +81,102 @@
   .neon-glow {
     text-shadow: 0 0 6px #ffd6fe, 0 0 12px #ef32ffaa, 0 0 32px #ef32ff88;
   }
+  
+  /* Loaders CSS */
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: #FDA858;
+    animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .dots-loader {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #FDA858;
+    animation: bounce 0.6s infinite alternate;
+  }
+  
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FDA858, #9046ff);
+    transition: width 0.3s ease;
+  }
+  
+  .circular-progress {
+    position: relative;
+  }
+  
+  .circular-progress-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 4;
+  }
+  
+  .circular-progress-fill {
+    fill: none;
+    stroke: #FDA858;
+    stroke-width: 4;
+    stroke-dasharray: 251.2;
+    stroke-linecap: round;
+    transform-origin: center;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+  
+  .indeterminate-progress {
+    height: 4px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+  }
+  
+  .indeterminate-progress::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    background-color: #FDA858;
+    animation: indeterminate 1.5s infinite;
+    border-radius: 2px;
+  }
+  
+  @keyframes indeterminate {
+    0% { left: -50%; }
+    100% { left: 100%; }
+  }
+  
+  /* Hide scrollbar for webkit */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }

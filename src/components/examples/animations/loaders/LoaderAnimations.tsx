@@ -1,62 +1,65 @@
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import './loader-animations.css';
-
-// Create proper function types
-const initializeAnimations = (element: HTMLElement) => {
-  // Pulse loader animation
-  anime({
-    targets: element.querySelector('.pulse-loader .dot'),
-    scale: [1, 1.5, 1],
-    opacity: [1, 0.5, 1],
-    easing: 'easeInOutSine',
-    duration: 1200,
-    loop: true
-  });
-
-  // Circular loader animation
-  anime({
-    targets: element.querySelector('.circular-loader .path'),
-    strokeDashoffset: [anime.setDashoffset, 0],
-    easing: 'easeInOutSine',
-    duration: 1500,
-    loop: true
-  });
-
-  // Spinner animation
-  anime({
-    targets: element.querySelector('.spinner'),
-    rotate: '360deg',
-    easing: 'linear',
-    duration: 1000,
-    loop: true
-  });
-};
 
 const LoaderAnimations = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (containerRef.current) {
-      initializeAnimations(containerRef.current);
+      anime({
+        targets: containerRef.current.querySelectorAll('.loader-animation'),
+        opacity: [0, 1],
+        translateY: [20, 0],
+        delay: anime.stagger(100),
+        easing: 'easeOutQuad',
+        duration: 600
+      });
     }
   }, []);
 
   return (
-    <div ref={containerRef} className="loader-animations-container">
-      <div className="pulse-loader">
-        <div className="dot"></div>
+    <div ref={containerRef} className="space-y-8">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-3">Loader Animations</h2>
+        <p className="text-muted-foreground">
+          Elegant loading animations to engage users during wait times.
+        </p>
       </div>
-      
-      <div className="circular-loader">
-        <svg viewBox="0 0 50 50">
-          <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
-        </svg>
-      </div>
-      
-      <div className="spinner-container">
-        <div className="spinner"></div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="loader-animation bg-card p-6 rounded-lg">
+          <div className="spinner-loader mb-4"></div>
+          <h3 className="text-lg font-medium mb-2">Spinning Loader</h3>
+          <p className="text-sm text-muted-foreground">
+            A simple spinning loader with gradient colors.
+          </p>
+        </div>
+
+        <div className="loader-animation bg-card p-6 rounded-lg">
+          <div className="pulse-loader mb-4"></div>
+          <h3 className="text-lg font-medium mb-2">Pulse Loader</h3>
+          <p className="text-sm text-muted-foreground">
+            A pulsing circle that provides a subtle loading indicator.
+          </p>
+        </div>
+
+        <div className="loader-animation bg-card p-6 rounded-lg">
+          <div className="dots-loader mb-4"></div>
+          <h3 className="text-lg font-medium mb-2">Dots Loader</h3>
+          <p className="text-sm text-muted-foreground">
+            Three dots bouncing in sequence.
+          </p>
+        </div>
+
+        <div className="loader-animation bg-card p-6 rounded-lg">
+          <div className="progress-loader mb-4"></div>
+          <h3 className="text-lg font-medium mb-2">Progress Loader</h3>
+          <p className="text-sm text-muted-foreground">
+            A horizontal progress bar with a smooth animation.
+          </p>
+        </div>
       </div>
     </div>
   );

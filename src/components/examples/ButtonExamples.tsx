@@ -1,112 +1,198 @@
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Copy, Eye, ArrowRight, Circle } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import React, { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { CornerDownLeft, Zap, RefreshCw, AlertTriangle, Code, Copy } from 'lucide-react';
+import CodeBlock from '@/components/examples/animations/CodeBlock';
+import { toast } from 'sonner';
 
-const BUTTON_CODE = [
+const buttonVariants = [
   {
-    label: "Primary",
-    code: `<Button>Primary Button</Button>`,
-    render: () => <Button>Primary Button</Button>,
+    name: 'Primary Button',
+    description: 'Used for primary actions',
+    component: (
+      <Button className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143]">
+        Primary Action
+      </Button>
+    ),
+    code: `<Button className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143]">
+  Primary Action
+</Button>`
   },
   {
-    label: "Secondary",
-    code: `<Button variant="secondary">Secondary Button</Button>`,
-    render: () => <Button variant="secondary">Secondary Button</Button>,
+    name: 'Secondary Button',
+    description: 'Used for secondary actions',
+    component: (
+      <Button variant="secondary">
+        Secondary Action
+      </Button>
+    ),
+    code: `<Button variant="secondary">
+  Secondary Action
+</Button>`
   },
   {
-    label: "Destructive",
-    code: `<Button variant="destructive">Destructive</Button>`,
-    render: () => <Button variant="destructive">Destructive</Button>,
+    name: 'Ghost Button',
+    description: 'Minimal visual style',
+    component: (
+      <Button variant="ghost">
+        Ghost Button
+      </Button>
+    ),
+    code: `<Button variant="ghost">
+  Ghost Button
+</Button>`
   },
   {
-    label: "With Icon",
-    code: `<Button><ArrowRight className="mr-2" />Next</Button>`,
-    render: () => (
+    name: 'Outline Button',
+    description: 'Bordered button style',
+    component: (
+      <Button variant="outline">
+        Outline Button
+      </Button>
+    ),
+    code: `<Button variant="outline">
+  Outline Button
+</Button>`
+  },
+  {
+    name: 'Destructive Button',
+    description: 'For destructive actions',
+    component: (
+      <Button variant="destructive">
+        Delete Item
+      </Button>
+    ),
+    code: `<Button variant="destructive">
+  Delete Item
+</Button>`
+  },
+  {
+    name: 'Icon Button',
+    description: 'Button with an icon',
+    component: (
       <Button>
-        <ArrowRight className="mr-2" />
-        Next
+        <Zap className="mr-2 h-4 w-4" /> With Icon
       </Button>
     ),
+    code: `<Button>
+  <Zap className="mr-2 h-4 w-4" /> With Icon
+</Button>`
   },
   {
-    label: "Loading",
-    code: `<Button disabled><Circle className="animate-spin mr-2" />Loading</Button>`,
-    render: () => (
+    name: 'Loading Button',
+    description: 'Shows loading state',
+    component: (
       <Button disabled>
-        <Circle className="animate-spin mr-2" />
-        Loading
+        <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading...
       </Button>
     ),
+    code: `<Button disabled>
+  <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading...
+</Button>`
+  },
+  {
+    name: 'Small Button',
+    description: 'Compact size button',
+    component: (
+      <Button size="sm">
+        Small Button
+      </Button>
+    ),
+    code: `<Button size="sm">
+  Small Button
+</Button>`
+  },
+  {
+    name: 'Large Button',
+    description: 'Larger size button',
+    component: (
+      <Button size="lg">
+        Large Button
+      </Button>
+    ),
+    code: `<Button size="lg">
+  Large Button
+</Button>`
   },
 ];
 
-const ButtonCard = ({
-  label,
-  code,
-  render,
-}: {
-  label: string;
-  code: string;
-  render: () => React.ReactNode;
-}) => {
-  const [showCode, setShowCode] = useState(false);
+const ButtonExamples = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showCode, setShowCode] = useState<number | null>(null);
 
-  const handleCopy = () => {
+  const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
-    toast({
-      title: "Copied!",
-      description: `${label} code copied to clipboard.`,
-    });
+    toast.success("Code copied to clipboard!");
   };
 
+  useEffect(() => {
+    const animateElements = () => {
+      const cards = containerRef.current?.querySelectorAll('.button-card')
+      
+      cards?.forEach((card, index) => {
+        const element = card as HTMLElement
+        element.style.opacity = '0'
+        element.style.transform = 'translateY(20px)'
+        
+        setTimeout(() => {
+          element.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out'
+          element.style.opacity = '1'
+          element.style.transform = 'translateY(0)'
+        }, index * 100)
+      })
+    }
+    
+    animateElements()
+  }, []);
+
   return (
-    <div className="bg-card border rounded-lg shadow-lg p-5 flex flex-col gap-3 items-center w-full max-w-sm mx-auto transition-all hover:shadow-2xl hover:-translate-y-1">
-      <div className="flex w-full justify-between items-center mb-2 relative">
-        <span className="font-semibold text-lg">{label}</span>
-        <div className="flex gap-2">
-          <button
-            aria-label="View Code"
-            className="text-muted-foreground hover:text-[#FDA858] transition"
-            onClick={() => setShowCode((c) => !c)}
-          >
-            <Eye className="h-5 w-5" />
-          </button>
-          <button
-            aria-label="Copy Code"
-            className="text-muted-foreground hover:text-[#FDA858] transition"
-            onClick={handleCopy}
-          >
-            <Copy className="h-5 w-5" />
-          </button>
-        </div>
+    <div ref={containerRef} className="space-y-8">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-3">Button Components</h2>
+        <p className="text-muted-foreground">
+          Our versatile button collection offers various styles, sizes, and states to enhance your UI.
+        </p>
       </div>
-      <div className="w-full">
-        {showCode ? (
-          <pre className="bg-muted text-xs p-4 rounded-lg overflow-auto text-left select-all">
-            <code>{code}</code>
-          </pre>
-        ) : (
-          <div className="flex justify-center">{render()}</div>
-        )}
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {buttonVariants.map((button, index) => (
+          <div key={index} className="button-card space-y-4 p-6 bg-card rounded-xl border">
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="font-bold mb-1">{button.name}</h3>
+                <p className="text-sm text-muted-foreground">{button.description}</p>
+              </div>
+              <div className="flex space-x-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowCode(showCode === index ? null : index)}
+                  className="h-8 w-8 rounded-full"
+                >
+                  <Code className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => copyCode(button.code)}
+                  className="h-8 w-8 rounded-full"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-center py-6">
+              {showCode === index ? (
+                <CodeBlock code={button.code} />
+              ) : (
+                button.component
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  );
-};
-
-const ButtonExamples = () => {
-  return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-2 py-8">
-      {BUTTON_CODE.map((btn) => (
-        <ButtonCard
-          key={btn.label}
-          label={btn.label}
-          code={btn.code}
-          render={btn.render}
-        />
-      ))}
-    </section>
   );
 };
 
