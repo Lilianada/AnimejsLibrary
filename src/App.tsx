@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Index from "./pages/Index"
@@ -36,22 +37,27 @@ const App = () => (
   <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
     <TooltipProvider>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={
-            <PageTransition><Index /></PageTransition>
-          } />
-          <Route path="/examples" element={
-            <PageTransition><Examples /></PageTransition>
-          } />
-          <Route path="/docs" element={
-            <PageTransition><Docs /></PageTransition>
-          } />
-          <Route path="*" element={
-            <PageTransition><NotFound /></PageTransition>
-          } />
-        </Routes>
-        <Footer />
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={
+                <PageTransition><Index /></PageTransition>
+              } />
+              <Route path="/examples" element={
+                <PageTransition><Examples /></PageTransition>
+              } />
+              <Route path="/docs" element={
+                <PageTransition><Docs /></PageTransition>
+              } />
+              <Route path="*" element={
+                <PageTransition><NotFound /></PageTransition>
+              } />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+        <Toaster />
       </BrowserRouter>
     </TooltipProvider>
   </ThemeProvider>
