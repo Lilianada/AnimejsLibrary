@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -10,11 +9,10 @@ import Docs from "./pages/Docs"
 import NotFound from "./pages/NotFound"
 import * as React from "react"
 
-// Simple page transition wrapper
 function PageTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [displayChildren, setDisplayChildren] = React.useState(children);
-  const [transitionStage, setTransitionStage] = React.useState("page-fade-exit");
+  const [transitionStage, setTransitionStage] = React.useState("page-fade-enter");
 
   React.useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -45,9 +43,6 @@ function PageTransition({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-export default PageTransition;
-
 
 const App = () => (
   <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
