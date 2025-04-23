@@ -14,23 +14,40 @@ import * as React from "react"
 function PageTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [displayChildren, setDisplayChildren] = React.useState(children);
-  const [transitionStage, setTransitionStage] = React.useState("page-fade-enter");
+  const [transitionStage, setTransitionStage] = React.useState("page-fade-exit");
 
   React.useEffect(() => {
-    setTransitionStage("page-fade-exit");
-    const timeout = setTimeout(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    // Initialize transition on mount
+    setTransitionStage("page-fade-enter");
+
+    // Trigger exit after a short delay to allow enter to complete
+    timeoutId = setTimeout(() => {
+      setTransitionStage("page-fade-exit");
+    }, 300); // Wait for enter transition to complete
+
+    const resetTransition = () => {
       setDisplayChildren(children);
       setTransitionStage("page-fade-enter");
-    }, 300);
-    return () => clearTimeout(timeout);
+      timeoutId = setTimeout(() => {
+        setTransitionStage("page-fade-exit");
+      }, 300); // Wait for enter transition to complete
+    };
+
+    return () => clearTimeout(timeoutId);
+
   }, [children]);
 
   return (
-    <div className={transitionStage}>
+    <div className={`page-fade ${transitionStage}`}>
       {displayChildren}
     </div>
   );
 }
+
+export default PageTransition;
+
 
 const App = () => (
   <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
