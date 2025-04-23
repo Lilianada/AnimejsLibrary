@@ -183,24 +183,32 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+/* --- Page transition (fade) --- */
 
-  /* --- Page transition (fade) --- */
-  .page-fade-enter {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  .page-fade-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.4s, transform 0.4s;
-  }
-  .page-fade-exit {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .page-fade-exit-active {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s, transform 0.3s;
-  }
+/* Start visible, but off-screen */
+.page-fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Active class sets the transition */
+.page-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+/* From state on exit (still visible) */
+.page-fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Active class triggers the exit transition */
+.page-fade-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
 }
