@@ -1,4 +1,3 @@
-
 import { useRef, useEffect, useState } from 'react';
 import { Code, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -161,7 +160,6 @@ const LoadersExamples = () => {
   };
 
   useEffect(() => {
-    // Animate cards in
     if (containerRef.current) {
       const cards = containerRef.current.querySelectorAll(".loader-card");
       cards.forEach((card, i) => {
