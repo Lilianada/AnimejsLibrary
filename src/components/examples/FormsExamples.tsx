@@ -1,105 +1,75 @@
 
-import React, { useState } from "react";
+import React from "react";
 import FloatingLabelInput from "./forms/FloatingLabelInput";
 import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput";
 import BorderAnimationInput from "./forms/BorderAnimationInput";
 import ErrorStateInput from "./forms/ErrorStateInput";
 import SuccessStateInput from "./forms/SuccessStateInput";
-import { Copy, Eye } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { CodeToggle } from "./CodeToggle";
 
 const INPUTS = [
   {
     label: "Floating Label",
+    description: "Smooth label transition on focus",
     code: `<FloatingLabelInput label="Email" />`,
-    render: () => <FloatingLabelInput label="Email" />,
+    component: <FloatingLabelInput label="Email" />,
   },
   {
     label: "Placeholder Animation",
-    code: `<PlaceholderAnimationInput placeholder="Password" />`,
-    render: () => <PlaceholderAnimationInput placeholder="Password" />,
+    description: "Animated placeholder text",
+    code: `<PlaceholderAnimationInput placeholder="Enter your password" />`,
+    component: <PlaceholderAnimationInput placeholder="Enter your password" />,
   },
   {
     label: "Border Animation",
+    description: "Interactive border effect",
     code: `<BorderAnimationInput placeholder="Username" />`,
-    render: () => <BorderAnimationInput placeholder="Username" />,
+    component: <BorderAnimationInput placeholder="Username" />,
   },
   {
     label: "Error State",
-    code: `<ErrorStateInput error="Invalid email format" />`,
-    render: () => <ErrorStateInput error="Invalid email format" />,
+    description: "Form validation feedback",
+    code: `<ErrorStateInput error="Please enter a valid email address" />`,
+    component: <ErrorStateInput error="Please enter a valid email address" />,
   },
   {
     label: "Success State",
-    code: `<SuccessStateInput success="Looks good!" />`,
-    render: () => <SuccessStateInput success="Looks good!" />,
+    description: "Positive feedback indicator",
+    code: `<SuccessStateInput success="Email is available" />`,
+    component: <SuccessStateInput success="Email is available" />,
   },
 ];
 
-const InputCard = ({
-  label,
-  code,
-  render,
-}: {
-  label: string;
-  code: string;
-  render: () => React.ReactNode;
-}) => {
-  const [showCode, setShowCode] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    toast({
-      title: "Copied!",
-      description: `${label} code copied to clipboard.`,
-    });
-  };
-
-  return (
-    <div className="bg-card border rounded-lg shadow-lg p-5 flex flex-col gap-3 items-center w-full max-w-sm mx-auto transition-all hover:shadow-2xl hover:-translate-y-1">
-      <div className="flex w-full justify-between items-center mb-2 relative">
-        <span className="font-semibold text-lg">{label}</span>
-        <div className="flex gap-2">
-          <button
-            aria-label="View Code"
-            className="text-muted-foreground hover:text-[#FDA858] transition"
-            onClick={() => setShowCode((c) => !c)}
-          >
-            <Eye className="h-5 w-5" />
-          </button>
-          <button
-            aria-label="Copy Code"
-            className="text-muted-foreground hover:text-[#FDA858] transition"
-            onClick={handleCopy}
-          >
-            <Copy className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-      <div className="w-full">
-        {showCode ? (
-          <pre className="bg-muted text-xs p-4 rounded-lg overflow-auto text-left select-all">
-            <code>{code}</code>
-          </pre>
-        ) : (
-          <div className="flex justify-center">{render()}</div>
-        )}
-      </div>
-    </div>
-  );
-};
-
 const FormsExamples = () => {
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-2 py-8">
-      {INPUTS.map((inp) => (
-        <InputCard
-          key={inp.label}
-          label={inp.label}
-          code={inp.code}
-          render={inp.render}
-        />
-      ))}
+    <section className="space-y-8">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-3">Form Components</h2>
+        <p className="text-muted-foreground">
+          A collection of form input components with various states and animations.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {INPUTS.map((input) => (
+          <CodeToggle
+            key={input.label}
+            previewContent={
+              <div className="space-y-4">
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold mb-1">{input.label}</h3>
+                  <p className="text-sm text-muted-foreground">{input.description}</p>
+                </div>
+                <div className="flex items-center justify-center py-6">
+                  {input.component}
+                </div>
+              </div>
+            }
+            codeContent={input.code}
+            className="w-full"
+          />
+        ))}
+      </div>
     </section>
   );
 };

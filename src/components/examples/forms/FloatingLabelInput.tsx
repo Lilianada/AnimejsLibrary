@@ -10,6 +10,8 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ label }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState('');
 
+  const isActive = isFocused || value.length > 0;
+
   return (
     <div className="floating-label-container">
       <input
@@ -17,10 +19,12 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ label }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onFocus={() => setIsFocused(true)}
-        onBlur={() => !value && setIsFocused(false)}
+        onBlur={() => setIsFocused(false)}
         className="floating-input"
       />
-      <label className={`floating-label ${isFocused || value ? 'active' : ''}`}>
+      <label
+        className={`floating-label ${isActive ? 'active' : ''}`}
+      >
         {label}
       </label>
     </div>
