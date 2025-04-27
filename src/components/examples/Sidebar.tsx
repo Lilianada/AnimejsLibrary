@@ -48,7 +48,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   }, [mounted])
 
   const SidebarContent = () => (
-    <div className="h-full flex flex-col gap-1 pt-4 overflow-auto" ref={sidebarRef}>
+    <div className="h-full flex flex-col gap-1 pt-4" ref={sidebarRef}>
       <div className="mb-4 px-4 sticky top-0 bg-background z-10 pb-2">
         <h2 className="text-lg font-semibold">Component Categories</h2>
         <p className="text-sm text-muted-foreground">Select a category to explore examples</p>
@@ -72,7 +72,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
     </div>
   )
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   return isMobile ? (
     <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center border-b bg-background">
@@ -94,9 +94,11 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
     </div>
   ) : (
     <aside className="w-64 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col">
-      <SidebarContent />
+      <div className="overflow-y-auto flex-1">
+        <SidebarContent />
+      </div>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

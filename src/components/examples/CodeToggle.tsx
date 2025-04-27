@@ -46,7 +46,7 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
         </button>
       </div>
 
-      <div className="relative min-h-[300px] p-4">
+      <div className="relative min-h-[300px]">
         <div
           className={`absolute inset-0 p-4 transition-opacity duration-300 ${
             isCodeView ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -61,8 +61,8 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
           }`}
         >
           <div className="relative">
-            <pre className="p-4 rounded-lg bg-muted overflow-auto max-h-[500px] text-sm">
-              <code className="text-foreground whitespace-pre-wrap font-mono">{codeContent}</code>
+            <pre className="p-4 rounded-lg bg-muted overflow-x-auto whitespace-pre text-sm">
+              <code className="text-foreground font-mono">{codeContent}</code>
             </pre>
             <button
               onClick={handleCopyCode}

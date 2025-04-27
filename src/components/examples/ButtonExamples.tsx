@@ -154,7 +154,7 @@ const ButtonExamples = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {buttonVariants.map((button, index) => (
           <div key={index} className="button-card space-y-4 p-6 bg-card rounded-xl border">
             <div className="flex justify-between items-start">

@@ -197,8 +197,10 @@ const LoadersExamples = () => {
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {/* Spinner Loader */}
-        <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 shadow shadow-primary/20 relative">
+        <div 
+          key={0} 
+          className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative"
+        >
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
               variant="ghost" 
@@ -221,18 +223,20 @@ const LoadersExamples = () => {
           {showCode === 0 ? (
             <CodeBlock code={loaderExamples[0].code} />
           ) : (
-            <>
-              <div className="spinner mx-auto mb-4"></div>
-              <div className="text-center">
-                <div className="font-medium">{loaderExamples[0].title}</div>
-                <div className="text-muted-foreground text-xs mt-1">{loaderExamples[0].description}</div>
+            <div className="text-center">
+              <div className="wave-loader mx-auto mb-4">
+                <div className="wave-circle"></div>
+                <div className="wave"></div>
               </div>
-            </>
+              <div className="font-medium mt-4">{loaderExamples[0].title}</div>
+              <div className="text-muted-foreground text-xs mt-1">{loaderExamples[0].description}</div>
+            </div>
           )}
         </div>
-        
-        {/* Bouncing Dots */}
-        <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative">
+        <div 
+          key={1} 
+          className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative"
+        >
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
               variant="ghost" 
@@ -255,22 +259,16 @@ const LoadersExamples = () => {
           {showCode === 1 ? (
             <CodeBlock code={loaderExamples[1].code} />
           ) : (
-            <>
-              <div className="dots-loader mx-auto mb-4">
-                <div className="dot"></div>
-                <div className="dot"></div>
-                <div className="dot"></div>
-              </div>
-              <div className="text-center">
-                <div className="font-medium">{loaderExamples[1].title}</div>
-                <div className="text-muted-foreground text-xs mt-1">{loaderExamples[1].description}</div>
-              </div>
-            </>
+            <div className="text-center">
+              <div className="font-medium mt-4">{loaderExamples[1].title}</div>
+              <div className="text-muted-foreground text-xs mt-1">{loaderExamples[1].description}</div>
+            </div>
           )}
         </div>
-        
-        {/* Animated Progress Bar */}
-        <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 w-full relative">
+        <div 
+          key={2} 
+          className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative"
+        >
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
               variant="ghost" 
@@ -293,20 +291,16 @@ const LoadersExamples = () => {
           {showCode === 2 ? (
             <CodeBlock code={loaderExamples[2].code} />
           ) : (
-            <>
-              <div className="progress-bar w-full mb-1">
-                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-              </div>
-              <div className="text-center">
-                <div className="font-medium">{loaderExamples[2].title}</div>
-                <div className="text-muted-foreground text-xs mt-1">{loaderExamples[2].description} - {progress}%</div>
-              </div>
-            </>
+            <div className="text-center">
+              <div className="font-medium mt-4">{loaderExamples[2].title}</div>
+              <div className="text-muted-foreground text-xs mt-1">{loaderExamples[2].description}</div>
+            </div>
           )}
         </div>
-        
-        {/* Circular Progress */}
-        <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative">
+        <div 
+          key={3} 
+          className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative"
+        >
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
               variant="ghost" 
@@ -329,29 +323,16 @@ const LoadersExamples = () => {
           {showCode === 3 ? (
             <CodeBlock code={loaderExamples[3].code} />
           ) : (
-            <>
-              <div className="circular-progress mx-auto mb-4">
-                <svg width={60} height={60}>
-                  <circle className="circular-progress-bg" cx="30" cy="30" r="25" />
-                  <circle 
-                    className="circular-progress-fill" 
-                    cx="30" cy="30" r="25" 
-                    style={{
-                      strokeDashoffset: 251.2 - (251.2 * progress / 100)
-                    }}
-                  />
-                </svg>
-              </div>
-              <div className="text-center">
-                <div className="font-medium">{loaderExamples[3].title}</div>
-                <div className="text-muted-foreground text-xs mt-1">{loaderExamples[3].description}</div>
-              </div>
-            </>
+            <div className="text-center">
+              <div className="font-medium mt-4">{loaderExamples[3].title}</div>
+              <div className="text-muted-foreground text-xs mt-1">{loaderExamples[3].description}</div>
+            </div>
           )}
         </div>
-        
-        {/* Wave Animation - Replacing Morphing SVG */}
-        <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative">
+        <div 
+          key={4} 
+          className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative"
+        >
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
               variant="ghost" 
@@ -374,23 +355,16 @@ const LoadersExamples = () => {
           {showCode === 4 ? (
             <CodeBlock code={loaderExamples[4].code} />
           ) : (
-            <>
-              <div className="mx-auto mb-4">
-                <div className="wave-container" style={{ height: `${wavePercent}px` }}>
-                  <div className="wave"></div>
-                  <div className="wave"></div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="font-medium">{loaderExamples[4].title}</div>
-                <div className="text-muted-foreground text-xs mt-1">{loaderExamples[4].description}</div>
-              </div>
-            </>
+            <div className="text-center">
+              <div className="font-medium mt-4">{loaderExamples[4].title}</div>
+              <div className="text-muted-foreground text-xs mt-1">{loaderExamples[4].description}</div>
+            </div>
           )}
         </div>
-        
-        {/* Indeterminate Linear Progress */}
-        <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 w-full relative">
+        <div 
+          key={5} 
+          className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative"
+        >
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
               variant="ghost" 
@@ -413,48 +387,49 @@ const LoadersExamples = () => {
           {showCode === 5 ? (
             <CodeBlock code={loaderExamples[5].code} />
           ) : (
-            <>
-              <div className="indeterminate-progress w-full mx-auto mb-4"></div>
-              <div className="text-center">
-                <div className="font-medium">{loaderExamples[5].title}</div>
-                <div className="text-muted-foreground text-xs mt-1">{loaderExamples[5].description}</div>
-              </div>
-            </>
+            <div className="text-center">
+              <div className="font-medium mt-4">{loaderExamples[5].title}</div>
+              <div className="text-muted-foreground text-xs mt-1">{loaderExamples[5].description}</div>
+            </div>
           )}
         </div>
       </div>
 
       <style jsx>{`
-        .wave-container {
-          position: relative;
-          width: 60px;
-          overflow: hidden;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .wave {
-          position: absolute;
-          width: 200%;
-          height: 200%;
-          top: -50%;
-          left: -50%;
-          background: #FDA858;
-          border-radius: 40%;
-          animation: wave 3s infinite linear;
-          opacity: 0.8;
-        }
-        
-        .wave:nth-child(2) {
-          animation-delay: -0.5s;
-          opacity: 0.5;
-        }
-        
-        @keyframes wave {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
+          .wave-loader {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+          }
+
+          .wave-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #FDA858;
+            border-radius: 50%;
+            opacity: 0.8;
+          }
+
+          .wave {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: #FDA858;
+            border-radius: 40%;
+            opacity: 0.5;
+            animation: wave 3s infinite linear;
+          }
+
+          @keyframes wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
     </div>
   );
 };
