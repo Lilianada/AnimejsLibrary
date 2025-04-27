@@ -48,25 +48,27 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   }, [mounted])
 
   const SidebarContent = () => (
-    <div className="h-full flex flex-col gap-1 pt-4" ref={sidebarRef}>
-      <div className="mb-4 px-4">
+    <div className="h-full flex flex-col gap-1 pt-4 overflow-auto" ref={sidebarRef}>
+      <div className="mb-4 px-4 sticky top-0 bg-background z-10 pb-2">
         <h2 className="text-lg font-semibold">Component Categories</h2>
         <p className="text-sm text-muted-foreground">Select a category to explore examples</p>
       </div>
-      {categories.map(category => (
-        <Button 
-          key={category.id}
-          variant="ghost"
-          className={`sidebar-item justify-start px-4 transition-none ${
-            selectedCategory === category.id
-              ? 'text-[#FDA858] font-bold'
-              : 'hover:text-[#FDA858]'
-          }`}
-          onClick={() => onSelectCategory(category.id)}
-        >
-          {category.name}
-        </Button>
-      ))}
+      <div className="flex flex-col gap-1 overflow-y-auto">
+        {categories.map(category => (
+          <Button 
+            key={category.id}
+            variant="ghost"
+            className={`sidebar-item justify-start px-4 transition-none ${
+              selectedCategory === category.id
+                ? 'text-[#FDA858] font-bold'
+                : 'hover:text-[#FDA858]'
+            }`}
+            onClick={() => onSelectCategory(category.id)}
+          >
+            {category.name}
+          </Button>
+        ))}
+      </div>
     </div>
   )
 
@@ -91,7 +93,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
       </div>
     </div>
   ) : (
-    <aside className="w-64 border-r h-[calc(100vh-4rem)] sticky top-16">
+    <aside className="w-64 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col">
       <SidebarContent />
     </aside>
   )

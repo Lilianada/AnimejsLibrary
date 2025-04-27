@@ -87,10 +87,37 @@ const loaderExamples = [
 }`
   },
   {
-    title: "Morphing SVG",
-    description: "Shape-shifting SVG animation",
-    code: `.circle-morph {
-  transition: d 0.7s cubic-bezier(.86,0,.07,1);
+    title: "Wave Animation",
+    description: "Fluid wave animation effect",
+    code: `.wave-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.wave {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: #FDA858;
+  border-radius: 40%;
+  animation: wave 3s infinite linear;
+  opacity: 0.8;
+}
+
+.wave:nth-child(2) {
+  animation-delay: -0.5s;
+  opacity: 0.5;
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }`
   },
   {
@@ -125,7 +152,7 @@ const loaderExamples = [
 const LoadersExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
-  const [morphIndex, setMorphIndex] = useState(0);
+  const [wavePercent, setWavePercent] = useState(70);
   const [showCode, setShowCode] = useState<number | null>(null);
   
   const copyCode = (code: string) => {
@@ -153,22 +180,14 @@ const LoadersExamples = () => {
         if (p >= 100) return 0;
         return p + 5;
       });
+      
+      setWavePercent(p => {
+        if (p <= 30) return 90;
+        return p - 3;
+      });
     }, 300);
+    
     return () => clearInterval(interval);
-  }, []);
-
-  // Morphing shape SVG animation using setInterval (as a lightweight demo)
-  const morphPaths = [
-    "M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0", // Circle
-    "M25,25 h50 v50 h-50 Z", // Square
-    "M50,10 L90,90 L10,90 Z" // Triangle
-  ];
-  
-  useEffect(() => {
-    const morphTimeout = setInterval(() => {
-      setMorphIndex(i => (i + 1) % morphPaths.length);
-    }, 1200);
-    return () => clearInterval(morphTimeout);
   }, []);
 
   return (
@@ -176,7 +195,7 @@ const LoadersExamples = () => {
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-3">Loaders & Spinners</h2>
         <p className="text-muted-foreground">
-          A gallery of fancy animated loaders. Enjoy SVG morphs, spinning, progress bars, and bouncy dots!
+          A gallery of fancy animated loaders. Enjoy spinners, progress bars, and interactive animations!
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -333,7 +352,7 @@ const LoadersExamples = () => {
           )}
         </div>
         
-        {/* Morphing SVG */}
+        {/* Wave Animation - Replacing Morphing SVG */}
         <div className="loader-card flex flex-col gap-2 bg-muted rounded-lg p-8 relative">
           <div className="absolute top-3 right-3 flex space-x-2">
             <Button 
@@ -358,14 +377,12 @@ const LoadersExamples = () => {
             <CodeBlock code={loaderExamples[4].code} />
           ) : (
             <>
-              <svg width={80} height={80} viewBox="0 0 100 100" className="mx-auto mb-4">
-                <path
-                  className="circle-morph"
-                  fill="#A78BFA"
-                  d={morphPaths[morphIndex]}
-                  style={{ transition: "d .7s cubic-bezier(.86,0,.07,1)" }}
-                />
-              </svg>
+              <div className="mx-auto mb-4">
+                <div className="wave-container" style={{ height: `${wavePercent}px` }}>
+                  <div className="wave"></div>
+                  <div className="wave"></div>
+                </div>
+              </div>
               <div className="text-center">
                 <div className="font-medium">{loaderExamples[4].title}</div>
                 <div className="text-muted-foreground text-xs mt-1">{loaderExamples[4].description}</div>
@@ -408,6 +425,38 @@ const LoadersExamples = () => {
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        .wave-container {
+          position: relative;
+          width: 60px;
+          overflow: hidden;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .wave {
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background: #FDA858;
+          border-radius: 40%;
+          animation: wave 3s infinite linear;
+          opacity: 0.8;
+        }
+        
+        .wave:nth-child(2) {
+          animation-delay: -0.5s;
+          opacity: 0.5;
+        }
+        
+        @keyframes wave {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };

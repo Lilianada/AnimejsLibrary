@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -37,8 +38,11 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 
   }, [children]);
 
+  // Determine if this is the Docs page
+  const isDocsPage = location.pathname === "/docs";
+
   return (
-    <div className={`page-fade ${transitionStage}`}>
+    <div className={`page-fade ${transitionStage} ${isDocsPage ? "pt-16" : ""}`}>
       {displayChildren}
     </div>
   );
@@ -48,22 +52,25 @@ const App = () => (
   <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
     <TooltipProvider>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={
-            <PageTransition><Index /></PageTransition>
-          } />
-          <Route path="/examples" element={
-            <PageTransition><Examples /></PageTransition>
-          } />
-          <Route path="/docs" element={
-            <PageTransition><Docs /></PageTransition>
-          } />
-          <Route path="*" element={
-            <PageTransition><NotFound /></PageTransition>
-          } />
-        </Routes>
-        <Footer />
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={
+                <PageTransition><Index /></PageTransition>
+              } />
+              <Route path="/examples" element={
+                <PageTransition><Examples /></PageTransition>
+              } />
+              <Route path="/docs" element={
+                <PageTransition><Docs /></PageTransition>
+              } />
+              <Route path="*" element={
+                <PageTransition><NotFound /></PageTransition>
+              } />
+            </Routes>
+          </main>
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </ThemeProvider>

@@ -61,8 +61,8 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
           }`}
         >
           <div className="relative">
-            <pre className="p-4 rounded-lg bg-muted overflow-x-auto text-sm">
-              <code className="text-foreground">{codeContent}</code>
+            <pre className="p-4 rounded-lg bg-muted overflow-auto max-h-[500px] text-sm">
+              <code className="text-foreground whitespace-pre-wrap font-mono">{codeContent}</code>
             </pre>
             <button
               onClick={handleCopyCode}

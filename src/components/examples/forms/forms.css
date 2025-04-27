@@ -65,11 +65,11 @@
 }
 
 .error-state-input {
-  @apply input-base border-destructive focus:border-destructive focus:ring-destructive/20;
+  @apply input-base border border-red-500 focus:border-red-500 focus:ring-red-500/20;
 }
 
 .error-message {
-  @apply text-xs text-destructive font-medium;
+  @apply text-xs text-red-500 font-medium;
   animation: slide-up 0.2s ease-out;
 }
 
@@ -79,11 +79,11 @@
 }
 
 .success-state-input {
-  @apply input-base border-success focus:border-success focus:ring-success/20;
+  @apply input-base border border-green-500 focus:border-green-500 focus:ring-green-500/20;
 }
 
 .success-message {
-  @apply text-xs text-success font-medium;
+  @apply text-xs text-green-500 font-medium;
   animation: slide-up 0.2s ease-out;
 }
 

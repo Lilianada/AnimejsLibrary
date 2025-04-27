@@ -5,6 +5,7 @@ import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput";
 import BorderAnimationInput from "./forms/BorderAnimationInput";
 import ErrorStateInput from "./forms/ErrorStateInput";
 import SuccessStateInput from "./forms/SuccessStateInput";
+import { Button } from "@/components/ui/button";
 import { CodeToggle } from "./CodeToggle";
 
 const INPUTS = [
@@ -60,8 +61,9 @@ const FormsExamples = () => {
                   <h3 className="text-lg font-semibold mb-1">{input.label}</h3>
                   <p className="text-sm text-muted-foreground">{input.description}</p>
                 </div>
-                <div className="flex items-center justify-center py-6">
+                <div className="flex flex-col space-y-4 items-center justify-center py-6">
                   {input.component}
+                  <Button className="mt-4">Submit</Button>
                 </div>
               </div>
             }

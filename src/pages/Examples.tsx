@@ -11,11 +11,13 @@ const Examples = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="flex-1 flex mt-16">
+      <div className="flex flex-1 mt-16">
         <Sidebar selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
-        <MainContainer category={selectedCategory} />
+        <div className="flex-1 overflow-y-auto">
+          <MainContainer category={selectedCategory} />
+          <Footer />
+        </div>
       </div>
-      <Footer />
     </div>
   )
 }
