@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Copy, Code as CodeIcon, Eye } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface CodeToggleProps {
@@ -23,61 +22,57 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <div className="absolute top-3 right-3 z-10 flex space-x-2 bg-background/80 backdrop-blur-sm rounded-md p-1">
-        <Button 
-          variant={isCodeView ? "ghost" : "secondary"} 
-          size="sm" 
-          className="text-xs flex items-center gap-1.5"
+    <div className={`relative rounded-lg border bg-card ${className}`}>
+      <div className="flex items-center border-b px-4">
+        <button
           onClick={() => setIsCodeView(false)}
+          className={`px-4 py-3 text-sm font-medium relative ${
+            !isCodeView 
+              ? 'text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
         >
-          <Eye size={14} />
           Preview
-        </Button>
-        <Button 
-          variant={isCodeView ? "secondary" : "ghost"} 
-          size="sm" 
-          className="text-xs flex items-center gap-1.5"
+        </button>
+        <button
           onClick={() => setIsCodeView(true)}
+          className={`px-4 py-3 text-sm font-medium relative ${
+            isCodeView 
+              ? 'text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
         >
-          <CodeIcon size={14} />
           Code
-        </Button>
-        {isCodeView && (
-          <Button 
-            variant="outline" 
-            size="icon" 
-            className="h-7 w-7"
-            onClick={handleCopyCode}
-            title="Copy code"
-          >
-            <Copy size={14} />
-          </Button>
-        )}
+        </button>
       </div>
 
-      <div 
-        className={`transition-all duration-300 ease-in-out ${
-          isCodeView 
-            ? 'opacity-0 translate-x-full absolute inset-0' 
-            : 'opacity-100 relative'
-        }`}
-      >
-        {!isCodeView && previewContent}
-      </div>
+      <div className="relative min-h-[300px] p-4">
+        <div
+          className={`absolute inset-0 p-4 transition-opacity duration-300 ${
+            isCodeView ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          {previewContent}
+        </div>
 
-      <div 
-        className={`transition-all duration-300 ease-in-out ${
-          isCodeView 
-            ? 'opacity-100 relative' 
-            : 'opacity-0 -translate-x-full absolute inset-0'
-        }`}
-      >
-        {isCodeView && (
-          <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm min-h-[200px] max-h-[500px]">
-            <code className="text-foreground">{codeContent}</code>
-          </pre>
-        )}
+        <div
+          className={`absolute inset-0 transition-opacity duration-300 ${
+            isCodeView ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className="relative">
+            <pre className="p-4 rounded-lg bg-muted overflow-x-auto text-sm">
+              <code className="text-foreground">{codeContent}</code>
+            </pre>
+            <button
+              onClick={handleCopyCode}
+              className="absolute top-3 right-3 p-2 hover:bg-background/50 rounded-md transition-colors"
+              title="Copy code"
+            >
+              <Copy size={16} className="text-muted-foreground hover:text-foreground" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
