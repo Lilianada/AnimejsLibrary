@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Copy, Code as CodeIcon } from 'lucide-react';
+import { Copy, Code as CodeIcon, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface CodeToggleProps {
@@ -24,23 +24,34 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <div className="absolute top-3 right-3 z-10 flex space-x-2">
+      <div className="absolute top-3 right-3 z-10 flex space-x-2 bg-background/80 backdrop-blur-sm rounded-md p-1">
         <Button 
-          variant="ghost" 
-          size="icon" 
-          className="h-8 w-8"
-          onClick={() => setIsCodeView(!isCodeView)}
+          variant={isCodeView ? "ghost" : "secondary"} 
+          size="sm" 
+          className="text-xs flex items-center gap-1.5"
+          onClick={() => setIsCodeView(false)}
         >
-          {isCodeView ? <CodeIcon size={16} /> : <CodeIcon size={16} />}
+          <Eye size={14} />
+          Preview
+        </Button>
+        <Button 
+          variant={isCodeView ? "secondary" : "ghost"} 
+          size="sm" 
+          className="text-xs flex items-center gap-1.5"
+          onClick={() => setIsCodeView(true)}
+        >
+          <CodeIcon size={14} />
+          Code
         </Button>
         {isCodeView && (
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="icon" 
-            className="h-8 w-8"
+            className="h-7 w-7"
             onClick={handleCopyCode}
+            title="Copy code"
           >
-            <Copy size={16} />
+            <Copy size={14} />
           </Button>
         )}
       </div>
@@ -48,7 +59,7 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
       <div 
         className={`transition-all duration-300 ease-in-out ${
           isCodeView 
-            ? 'opacity-0 translate-x-full absolute' 
+            ? 'opacity-0 translate-x-full absolute inset-0' 
             : 'opacity-100 relative'
         }`}
       >
@@ -59,11 +70,11 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
         className={`transition-all duration-300 ease-in-out ${
           isCodeView 
             ? 'opacity-100 relative' 
-            : 'opacity-0 -translate-x-full absolute'
+            : 'opacity-0 -translate-x-full absolute inset-0'
         }`}
       >
         {isCodeView && (
-          <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm">
+          <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm min-h-[200px] max-h-[500px]">
             <code className="text-foreground">{codeContent}</code>
           </pre>
         )}
