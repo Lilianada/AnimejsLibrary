@@ -1,13 +1,13 @@
 
 import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 
 const WaveLoader = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (containerRef.current) {
-      const animation = anime({
+      const animation = anime.default({
         targets: '.wave-dot',
         translateY: [
           { value: -15, duration: 300, easing: 'easeOutCubic' },
