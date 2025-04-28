@@ -1,6 +1,5 @@
 
 import React from "react";
-import FloatingLabelInput from "./forms/FloatingLabelInput";
 import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput";
 import BorderAnimationInput from "./forms/BorderAnimationInput";
 import ErrorStateInput from "./forms/ErrorStateInput";
@@ -9,12 +8,6 @@ import { Button } from "@/components/ui/button";
 import { CodeToggle } from "./CodeToggle";
 
 const INPUTS = [
-  {
-    label: "Floating Label",
-    description: "Smooth label transition on focus",
-    code: `<FloatingLabelInput label="Email" />`,
-    component: <FloatingLabelInput label="Email" />,
-  },
   {
     label: "Placeholder Animation",
     description: "Animated placeholder text",
