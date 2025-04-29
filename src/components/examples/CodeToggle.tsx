@@ -42,11 +42,11 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
               : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          Code
+          Usage
         </button>
       </div>
 
-      <div className="relative min-h-[300px]">
+      <div className="relative min-h-[300px] m-4">
         <div
           className={`absolute inset-0 p-4 transition-opacity duration-300 ${
             isCodeView ? 'opacity-0 pointer-events-none' : 'opacity-100'

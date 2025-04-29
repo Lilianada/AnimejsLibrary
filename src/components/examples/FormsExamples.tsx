@@ -11,25 +11,37 @@ const INPUTS = [
   {
     label: "Placeholder Animation",
     description: "Animated placeholder text",
-    code: `<PlaceholderAnimationInput placeholder="Enter your password" />`,
+    code: `
+    <PlaceholderAnimationInput
+      placeholder="Enter your password" 
+     />`,
     component: <PlaceholderAnimationInput placeholder="Enter your password" />,
   },
   {
     label: "Border Animation",
     description: "Interactive border effect",
-    code: `<BorderAnimationInput placeholder="Username" />`,
+    code: `
+    <BorderAnimationInput 
+      placeholder="Username" 
+    />`,
     component: <BorderAnimationInput placeholder="Username" />,
   },
   {
     label: "Error State",
     description: "Form validation feedback",
-    code: `<ErrorStateInput error="Please enter a valid email address" />`,
+    code: 
+    `<ErrorStateInput 
+      error="Please enter a valid email address" 
+    />`,
     component: <ErrorStateInput error="Please enter a valid email address" />,
   },
   {
     label: "Success State",
     description: "Positive feedback indicator",
-    code: `<SuccessStateInput success="Email is available" />`,
+    code: `
+    <SuccessStateInput 
+      success="Email is available" 
+    />`,
     component: <SuccessStateInput success="Email is available" />,
   },
 ];
@@ -54,7 +66,7 @@ const FormsExamples = () => {
                   <h3 className="text-lg font-semibold mb-1">{input.label}</h3>
                   <p className="text-sm text-muted-foreground">{input.description}</p>
                 </div>
-                <div className="flex flex-col space-y-4 items-center justify-center py-6">
+                <div className="flex flex-col space-y-4  py-6">
                   {input.component}
                   <Button className="mt-4">Submit</Button>
                 </div>

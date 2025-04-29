@@ -18,7 +18,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative bg-[#181818] overflow-hidden h-screen flex items-center">
+    <section className="relative bg-[#181818] overflow-hidden h-[calc(100vh-70px)] flex items-center">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div
           className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[600px] bg-gradient-to-br from-[#201636]/50 via-[#fd8d3d1a] to-[#9046ff33] rounded-full opacity-30 blur-[60px]"
@@ -30,7 +30,7 @@ const Hero = () => {
           src="/lovable-uploads/4b01183e-bc11-41ee-bfc1-0ac9ce1e7576.png"
           alt="Logo"
           width={16} height={16}
-          className="mx-auto mb-6 w-16 h-16"
+          className="mx-auto mb-6 w-12 h-12 object-contain"
         />
         <h1 className="text-2xl md:text-4xl font-bold text-white text-center mb-4 drop-shadow-lg max-w-[450px] md:max-w-[650px]">
           Beautiful React <br className="hidden sm:block"/> <span className="block">Components</span>
@@ -55,7 +55,7 @@ const Hero = () => {
             Join Waitlist
           </Button>
         </form>
-        <p className="text-sm text-muted-foreground">500+ people are already waiting</p>
+        <p className="text-sm text-muted-foreground">200+ people are already waiting...</p>
       </div>
     </section>
   );
