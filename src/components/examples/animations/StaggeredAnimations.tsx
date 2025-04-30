@@ -1,6 +1,5 @@
-
 import { useRef, useEffect, useState } from 'react'
-import * as anime from 'animejs'
+import { animate, stagger } from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,160 +7,93 @@ import CodeBlock from './CodeBlock'
 
 const StaggeredAnimations = () => {
   const animationRef = useRef<HTMLDivElement>(null)
-  const scopeRef = useRef<any>(null)
+  const animationInstanceRef = useRef<ReturnType<typeof animate> | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
+  const [progress, setProgress] = useState(0)
   const [codeVisible, setCodeVisible] = useState(false)
-  const [staggerDelay, setStaggerDelay] = useState(100)
 
   useEffect(() => {
-    if (animationRef.current) {
-      scopeRef.current = anime.createScope({ root: animationRef.current }).add((scope) => {
-        const setupAnimation = () => {
-          return anime.animate('.stagger-item', {
-            translateY: [
-              { value: 0, duration: 0 },
-              { value: -30, duration: 500 },
-              { value: 0, duration: 500 }
-            ],
-            opacity: [
-              { value: 0, duration: 0 },
-              { value: 1, duration: 500 },
-              { value: 1, duration: 500 },
-              { value: 0, duration: 500 },
-              { value: 0, duration: 500 }
-            ],
-            backgroundColor: [
-              { value: '#3B82F6', duration: 0 },
-              { value: '#A78BFA', duration: 500 },
-              { value: '#F59E0B', duration: 500 },
-              { value: '#3B82F6', duration: 500 }
-            ],
-            scale: [
-              { value: 0.5, duration: 0 },
-              { value: 1, duration: 500 },
-              { value: 1, duration: 500 },
-              { value: 0.5, duration: 500 }
-            ],
-            delay: anime.stagger(staggerDelay),
-            easing: 'easeInOutQuad',
-            loop: true,
-            autoplay: false
-          })
-        }
-
-        let animation = setupAnimation()
-        
-        scope.add('play', () => { animation.play(); })
-        scope.add('pause', () => { animation.pause(); })
-        scope.add('restart', () => {
-          animation.pause();
-          animation = setupAnimation();
-          animation.play();
-          return undefined;
-        })
-        scope.add('setSpeed', (speed: number) => { 
-          animation.speed = speed;
-          return undefined;
-        })
-        scope.add('updateStaggerDelay', (delay: number) => {
-          animation.pause();
-          animation = setupAnimation();
-          if (isPlaying) {
-            animation.play();
+    const targets = animationRef.current?.querySelectorAll('.stagger-target')
+    if (targets && targets.length > 0) {
+      animationInstanceRef.current = animate(
+        targets,
+        {
+          translateY: [-20, 0],
+          opacity: [0, 1],
+          scale: [0.8, 1],
+          duration: 600,
+          delay: stagger(100, { easing: 'easeOutQuad' }),
+          autoplay: false,
+          loop: true,
+          direction: 'alternate',
+          update: (anim) => {
+            setProgress(Math.round(anim.progress))
           }
-          return undefined;
-        })
-      })
-
-      return () => {
-        if (scopeRef.current) {
-          scopeRef.current.revert()
         }
+      )
+    }
+    return () => {
+      if (animationInstanceRef.current && typeof animationInstanceRef.current.pause === 'function') {
+        animationInstanceRef.current.pause()
       }
     }
-  }, [staggerDelay, isPlaying])
+  }, [])
 
   useEffect(() => {
-    if (scopeRef.current) {
-      if (isPlaying) {
-        scopeRef.current.methods.play()
-      } else {
-        scopeRef.current.methods.pause()
-      }
+    if (animationInstanceRef.current) {
+      isPlaying ? animationInstanceRef.current.play() : animationInstanceRef.current.pause()
     }
   }, [isPlaying])
 
   useEffect(() => {
-    if (scopeRef.current) {
-      scopeRef.current.methods.setSpeed(speed)
+    if (animationInstanceRef.current) {
+      (animationInstanceRef.current as any).speed = speed
     }
   }, [speed])
-
-  useEffect(() => {
-    if (scopeRef.current) {
-      scopeRef.current.methods.updateStaggerDelay(staggerDelay)
-    }
-  }, [staggerDelay])
 
   const handlePlay = () => setIsPlaying(true)
   const handlePause = () => setIsPlaying(false)
   const handleRestart = () => {
-    if (scopeRef.current) {
-      scopeRef.current.methods.restart()
+    if (animationInstanceRef.current) {
+      animationInstanceRef.current.restart()
       setIsPlaying(true)
     }
   }
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import * as anime from 'animejs'
+import { animate, stagger } from 'animejs'
 
 const StaggeredAnimation = () => {
   const containerRef = useRef(null)
   
   useEffect(() => {
-    if (containerRef.current) {
-      const scope = anime.createScope({ root: containerRef.current }).add(scope => {
-        anime.animate('.stagger-item', {
-          translateY: [
-            { value: 0, duration: 0 },
-            { value: -30, duration: 500 },
-            { value: 0, duration: 500 }
-          ],
-          opacity: [
-            { value: 0, duration: 0 },
-            { value: 1, duration: 500 },
-            { value: 1, duration: 500 },
-            { value: 0, duration: 500 },
-            { value: 0, duration: 500 }
-          ],
-          backgroundColor: [
-            { value: '#3B82F6', duration: 0 },
-            { value: '#A78BFA', duration: 500 },
-            { value: '#F59E0B', duration: 500 },
-            { value: '#3B82F6', duration: 500 }
-          ],
-          scale: [
-            { value: 0.5, duration: 0 },
-            { value: 1, duration: 500 },
-            { value: 1, duration: 500 },
-            { value: 0.5, duration: 500 }
-          ],
-          delay: anime.stagger(100), // 100ms between each element
-          easing: 'easeInOutQuad',
-          loop: true
-        })
-      })
-      
-      return () => scope.revert()
-    }
+    const targets = containerRef.current?.querySelectorAll('.stagger-target')
+    if (!targets || targets.length === 0) return;
+
+    const animation = animate(
+      targets,
+      {
+        translateY: [-20, 0],
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        duration: 600,
+        delay: stagger(100, { easing: 'easeOutQuad' }),
+        loop: true,
+        direction: 'alternate'
+      }
+    );
+    
+    animation.play(); // Autoplay example
+
+    return () => animation.pause();
   }, [])
   
   return (
-    <div ref={containerRef} className="flex gap-2">
-      {[...Array(10)].map((_, i) => (
-        <div key={i} className="stagger-item h-8 w-8 rounded-full bg-blue-500 opacity-0 scale-50" />
+    <div ref={containerRef} className="grid grid-cols-3 gap-4">
+      {[...Array(9)].map((_, i) => (
+        <div key={i} className="stagger-target h-12 w-12 bg-blue-500"></div>
       ))}
     </div>
   )
@@ -184,26 +116,11 @@ const StaggeredAnimation = () => {
       </CardHeader>
       <CardContent>
         <div className="mb-6 p-6 bg-muted rounded-lg flex items-center justify-center min-h-[200px]" ref={animationRef}>
-          <div className="flex gap-3">
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="stagger-item h-10 w-10 rounded-full bg-primary opacity-0 scale-50 flex items-center justify-center text-primary-foreground font-bold">
-                {i+1}
-              </div>
+          <div className="grid grid-cols-4 gap-4">
+            {[...Array(12)].map((_, i) => (
+              <div key={i} className="stagger-target h-10 w-10 bg-accent rounded-md opacity-0"></div>
             ))}
           </div>
-        </div>
-        
-        <div className="mb-4">
-          <label className="block mb-2 text-sm font-medium">Stagger Delay: {staggerDelay}ms</label>
-          <input 
-            type="range" 
-            min="25" 
-            max="300" 
-            step="25" 
-            value={staggerDelay} 
-            onChange={(e) => setStaggerDelay(Number(e.target.value))}
-            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer"
-          />
         </div>
         
         <AnimationControls 
@@ -213,6 +130,7 @@ const StaggeredAnimation = () => {
           onRestart={handleRestart}
           speed={speed}
           onSpeedChange={setSpeed}
+          progress={progress}
         />
         
         {codeVisible && <CodeBlock code={codeExample} />}

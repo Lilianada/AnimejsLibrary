@@ -8,6 +8,7 @@ import Examples from "./pages/Examples"
 import Docs from "./pages/Docs"
 import NotFound from "./pages/NotFound"
 import * as React from "react"
+import { Toaster } from "@/components/ui/sonner"
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -71,6 +72,7 @@ const AppContent = () => {
       </main>
       {/* Conditionally render Footer only on landing page */}
       {location.pathname === '/' && <Footer />}
+      <Toaster />
     </div>
   );
 }

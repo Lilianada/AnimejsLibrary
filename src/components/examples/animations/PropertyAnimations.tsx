@@ -1,6 +1,5 @@
-
 import { useRef, useEffect, useState } from 'react'
-import * as anime from 'animejs'
+import { animate, createScope } from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -15,8 +14,8 @@ const PropertyAnimations = () => {
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = anime.createScope({ root: animationRef.current }).add((scope) => {
-        const animation = anime.animate('.animation-target', {
+      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
+        const animationInstance = animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
             { value: 150, duration: 1000 },
@@ -39,18 +38,20 @@ const PropertyAnimations = () => {
           loop: true
         })
 
-        scope.add('play', () => { animation.play(); })
-        scope.add('pause', () => { animation.pause(); })
-        scope.add('restart', () => { animation.restart(); })
+        scope.add('play', () => { animationInstance.play(); })
+        scope.add('pause', () => { animationInstance.pause(); })
+        scope.add('restart', () => { animationInstance.restart(); })
         scope.add('setSpeed', (speed: number) => { 
-          animation.speed = speed;
+          if (animationInstance && typeof (animationInstance as any).speed !== 'undefined') {
+            (animationInstance as any).speed = speed;
+          }
           return undefined;
         })
       })
 
       return () => {
-        if (scopeRef.current) {
-          scopeRef.current.revert()
+        if (scopeRef.current && typeof scopeRef.current.revert === 'function') {
+          scopeRef.current.revert();
         }
       }
     }
@@ -83,15 +84,15 @@ const PropertyAnimations = () => {
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import * as anime from 'animejs'
+import { animate, createScope } from 'animejs'
 
 const PropertyAnimation = () => {
   const elementRef = useRef(null)
   
   useEffect(() => {
     if (elementRef.current) {
-      const scope = anime.createScope({ root: elementRef.current }).add(scope => {
-        anime.animate('.animation-target', {
+      const scope = createScope({ root: elementRef.current }).add(scope => {
+        animate('.animation-target', {
           translateX: [
             { value: 0, duration: 0 },
             { value: 150, duration: 1000 },

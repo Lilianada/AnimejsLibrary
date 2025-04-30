@@ -1,6 +1,5 @@
-
 import { useRef, useEffect, useState } from 'react'
-import * as anime from 'animejs'
+import { animate, createScope } from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -11,49 +10,51 @@ const MorphingAnimations = () => {
   const scopeRef = useRef<any>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
+  const [progress, setProgress] = useState(0)
   const [codeVisible, setCodeVisible] = useState(false)
 
-  // SVG paths for different shapes
-  const paths = {
-    circle: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0',
-    square: 'M10,10 h80 v80 h-80 Z',
-    triangle: 'M50,10 L90,90 L10,90 Z',
-    star: 'M50,10 L61,39 L92,40 L69,61 L76,90 L50,76 L24,90 L31,61 L8,40 L39,39 Z'
-  }
+  // Define SVG paths
+  const paths = [
+    { d: 'M150 0 L75 200 L225 200 Z', fill: '#A78BFA' }, // Triangle
+    { d: 'M50 50 H250 V250 H50 Z', fill: '#F59E0B' }, // Square
+    { d: 'M150 50 L200 150 L100 150 Z', fill: '#EC4899' } // Different Triangle
+  ]
 
   useEffect(() => {
     if (animationRef.current) {
-      scopeRef.current = anime.createScope({ root: animationRef.current }).add((scope) => {
-        const morphAnimation = anime.animate('path', {
-          d: [
-            { value: paths.circle, duration: 0 },
-            { value: paths.square, duration: 1000, easing: 'easeInOutQuad' },
-            { value: paths.triangle, duration: 1000, easing: 'easeInOutQuad' },
-            { value: paths.star, duration: 1000, easing: 'easeInOutQuad' },
-            { value: paths.circle, duration: 1000, easing: 'easeInOutQuad' }
-          ],
-          fill: [
-            { value: '#3B82F6', duration: 0 },
-            { value: '#A78BFA', duration: 1000 },
-            { value: '#F59E0B', duration: 1000 },
-            { value: '#EC4899', duration: 1000 },
-            { value: '#3B82F6', duration: 1000 }
-          ],
-          autoplay: false,
-          loop: true
-        })
-        
-        scope.add('play', () => { morphAnimation.play(); })
-        scope.add('pause', () => { morphAnimation.pause(); })
-        scope.add('restart', () => { morphAnimation.restart(); })
-        scope.add('setSpeed', (speed: number) => { 
-          morphAnimation.speed = speed;
-          return undefined;
+      const target = animationRef.current.querySelector('.morphing-target path') as SVGPathElement | null
+      if (!target) return
+
+      scopeRef.current = createScope({ root: animationRef.current }).add((scope) => {
+        const animationInstance = animate(
+          target,
+          {
+            d: paths.map(p => p.d),
+            fill: paths.map(p => p.fill),
+            easing: 'easeInOutQuad',
+            duration: 1500,
+            loop: true,
+            direction: 'alternate',
+            autoplay: false,
+            update: (anim) => {
+              setProgress(Math.round(anim.progress))
+            }
+          }
+        )
+
+        scope.add('play', () => { animationInstance.play() })
+        scope.add('pause', () => { animationInstance.pause() })
+        scope.add('restart', () => { animationInstance.restart() })
+        scope.add('setSpeed', (newSpeed: number) => {
+          if (animationInstance && typeof (animationInstance as any).speed !== 'undefined') {
+            (animationInstance as any).speed = newSpeed
+          }
+          return undefined
         })
       })
 
       return () => {
-        if (scopeRef.current) {
+        if (scopeRef.current && typeof scopeRef.current.revert === 'function') {
           scopeRef.current.revert()
         }
       }
@@ -61,17 +62,13 @@ const MorphingAnimations = () => {
   }, [])
 
   useEffect(() => {
-    if (scopeRef.current) {
-      if (isPlaying) {
-        scopeRef.current.methods.play()
-      } else {
-        scopeRef.current.methods.pause()
-      }
+    if (scopeRef.current?.methods) {
+      isPlaying ? scopeRef.current.methods.play() : scopeRef.current.methods.pause()
     }
   }, [isPlaying])
 
   useEffect(() => {
-    if (scopeRef.current) {
+    if (scopeRef.current?.methods) {
       scopeRef.current.methods.setSpeed(speed)
     }
   }, [speed])
@@ -79,7 +76,7 @@ const MorphingAnimations = () => {
   const handlePlay = () => setIsPlaying(true)
   const handlePause = () => setIsPlaying(false)
   const handleRestart = () => {
-    if (scopeRef.current) {
+    if (scopeRef.current?.methods) {
       scopeRef.current.methods.restart()
       setIsPlaying(true)
     }
@@ -87,38 +84,26 @@ const MorphingAnimations = () => {
 
   const codeExample = `
 import { useRef, useEffect } from 'react'
-import * as anime from 'animejs'
+import { animate, createScope } from 'animejs'
 
 const MorphingAnimation = () => {
-  const containerRef = useRef(null)
+  const svgRef = useRef(null)
   
-  // SVG paths for different shapes
-  const paths = {
-    circle: 'M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0',
-    square: 'M10,10 h80 v80 h-80 Z',
-    triangle: 'M50,10 L90,90 L10,90 Z',
-    star: 'M50,10 L61,39 L92,40 L69,61 L76,90 L50,76 L24,90 L31,61 L8,40 L39,39 Z'
-  }
+  const paths = [
+    { d: 'M150 0 L75 200 L225 200 Z' },
+    { d: 'M50 50 H250 V250 H50 Z' },
+    { d: 'M150 50 L200 150 L100 150 Z' }
+  ]
   
   useEffect(() => {
-    if (containerRef.current) {
-      const scope = anime.createScope({ root: containerRef.current }).add(scope => {
-        anime.animate('path', {
-          d: [
-            { value: paths.circle, duration: 0 },
-            { value: paths.square, duration: 1000, easing: 'easeInOutQuad' },
-            { value: paths.triangle, duration: 1000, easing: 'easeInOutQuad' },
-            { value: paths.star, duration: 1000, easing: 'easeInOutQuad' },
-            { value: paths.circle, duration: 1000, easing: 'easeInOutQuad' }
-          ],
-          fill: [
-            { value: '#3B82F6', duration: 0 },
-            { value: '#A78BFA', duration: 1000 },
-            { value: '#F59E0B', duration: 1000 },
-            { value: '#EC4899', duration: 1000 },
-            { value: '#3B82F6', duration: 1000 }
-          ],
-          loop: true
+    if (svgRef.current) {
+      const scope = createScope({ root: svgRef.current }).add(scope => {
+        animate('path', {
+          d: paths.map(p => p.d),
+          easing: 'easeInOutQuad',
+          duration: 1500,
+          loop: true,
+          direction: 'alternate'
         })
       })
       
@@ -127,11 +112,9 @@ const MorphingAnimation = () => {
   }, [])
   
   return (
-    <div ref={containerRef}>
-      <svg width="100" height="100" viewBox="0 0 100 100">
-        <path fill="#3B82F6" d={paths.circle} />
-      </svg>
-    </div>
+    <svg ref={svgRef} viewBox="0 0 300 300">
+      <path fill="blue" d={paths[0].d} />
+    </svg>
   )
 }
 `
@@ -151,9 +134,9 @@ const MorphingAnimation = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-6 p-6 bg-muted rounded-lg flex items-center justify-center min-h-[200px]" ref={animationRef}>
-          <svg width="150" height="150" viewBox="0 0 100 100">
-            <path fill="#3B82F6" d={paths.circle} />
+        <div className="mb-6 p-6 bg-muted rounded-lg flex items-center justify-center min-h-[250px]" ref={animationRef}>
+          <svg className="morphing-target w-48 h-48" viewBox="0 0 300 300">
+            <path fill={paths[0].fill} d={paths[0].d} />
           </svg>
         </div>
         
@@ -164,6 +147,7 @@ const MorphingAnimation = () => {
           onRestart={handleRestart}
           speed={speed}
           onSpeedChange={setSpeed}
+          progress={progress}
         />
         
         {codeVisible && <CodeBlock code={codeExample} />}

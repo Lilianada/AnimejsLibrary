@@ -22,8 +22,8 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
     { id: 'forms', name: 'Forms & Inputs' },
     { id: 'loaders', name: 'Loaders & Spinners' },
     { id: 'modals', name: 'Modals & Dialogs' },
-    { id: 'animations', name: 'Animations' },
-    { id: 'layouts', name: 'Layouts' }
+    { id: 'toasts', name: 'Toasts' },
+    { id: 'animations', name: 'Animations' }
   ]
 
   useEffect(() => {

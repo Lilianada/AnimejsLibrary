@@ -1,6 +1,5 @@
-
 import { useRef, useEffect, useState } from 'react'
-import { animate, createTimeline } from 'animejs'
+import { animate, createTimeline, stagger } from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,86 +7,69 @@ import CodeBlock from './CodeBlock'
 
 const TimelineAnimations = () => {
   const animationRef = useRef<HTMLDivElement>(null)
-  const timelineRef = useRef<any>(null)
+  const timelineRef = useRef<ReturnType<typeof createTimeline> | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
+  const [progress, setProgress] = useState(0)
   const [codeVisible, setCodeVisible] = useState(false)
 
   useEffect(() => {
-    if (animationRef.current) {
-      // Create a timeline using the newer anime.js API
+    const targets = animationRef.current?.querySelectorAll('.timeline-target')
+    if (targets && targets.length > 0) {
+      if (timelineRef.current) {
+        timelineRef.current.pause()
+      }
+
       timelineRef.current = createTimeline({
         autoplay: false,
         loop: true,
-      })
-      
-      // Add animations to the timeline
-      if (timelineRef.current.add) {
-        timelineRef.current.add({
-          animation: {
-            targets: animationRef.current.querySelector('.box-1'),
-            translateY: -50,
-            backgroundColor: '#A78BFA',
-            borderRadius: ['0%', '50%'],
-            easing: 'easeOutElastic(1, .8)',
-          }
-        })
-        .add({
-          animation: {
-            targets: animationRef.current.querySelector('.box-2'),
-            translateX: 50,
-            backgroundColor: '#F59E0B',
-            rotate: 180,
-            easing: 'easeOutElastic(1, .8)',
-          }
-        })
-        .add({
-          animation: {
-            targets: animationRef.current.querySelector('.box-3'),
-            scale: 1.5,
-            backgroundColor: '#EC4899',
-            easing: 'easeOutElastic(1, .8)',
-          }
-        })
-        .add({
-          animation: {
-            targets: [
-              animationRef.current.querySelector('.box-1'),
-              animationRef.current.querySelector('.box-2'),
-              animationRef.current.querySelector('.box-3'),
-            ],
-            translateY: 0,
-            translateX: 0,
-            backgroundColor: '#3B82F6',
-            borderRadius: '0%',
-            rotate: 0,
-            scale: 1,
-            delay: (el: any, i: number) => i * 100,
-            easing: 'easeOutElastic(1, .8)',
-          }
-        })
-      }
-
-      return () => {
-        if (timelineRef.current?.pause) {
-          timelineRef.current.pause()
+        update: (anim) => {
+          setProgress(Math.round(anim.progress))
         }
-      }
+      })
+      .add(
+        targets[0],
+        {
+          translateX: 100,
+          easing: 'easeOutExpo',
+          duration: 500
+        }
+      )
+      .add(
+        targets[1],
+        {
+          translateX: 100,
+          rotate: 180,
+          easing: 'easeOutExpo',
+          duration: 500
+        },
+        '-=300'
+      )
+      .add(
+        targets[2],
+        {
+          translateX: 100,
+          scale: 1.5,
+          easing: 'easeOutExpo',
+          duration: 500
+        },
+        '-=300'
+      )
     }
   }, [])
 
   useEffect(() => {
     if (timelineRef.current) {
-      if (isPlaying && timelineRef.current.play) {
+      if (isPlaying) {
         timelineRef.current.play()
-      } else if (timelineRef.current.pause) {
+      } else {
         timelineRef.current.pause()
       }
     }
   }, [isPlaying])
 
   useEffect(() => {
-    if (timelineRef.current && typeof timelineRef.current.speed !== 'undefined') {
+    if (timelineRef.current) {
       timelineRef.current.speed = speed
     }
   }, [speed])
@@ -96,7 +78,7 @@ const TimelineAnimations = () => {
   const handlePause = () => setIsPlaying(false)
   const handleRestart = () => {
     if (timelineRef.current) {
-      if (timelineRef.current.restart) timelineRef.current.restart()
+      timelineRef.current.restart()
       setIsPlaying(true)
     }
   }
@@ -109,63 +91,24 @@ const TimelineAnimation = () => {
   const containerRef = useRef(null)
   
   useEffect(() => {
-    if (containerRef.current) {
-      const timeline = createTimeline({
-        duration: 800,
-        autoplay: false,
-        loop: true
-      })
-        .add({
-          animation: {
-            targets: containerRef.current.querySelector('.box-1'),
-            translateY: -50,
-            backgroundColor: '#A78BFA',
-            borderRadius: ['0%', '50%'],
-            easing: 'easeOutElastic(1, .8)'
-          }
-        })
-        .add({
-          animation: {
-            targets: containerRef.current.querySelector('.box-2'),
-            translateX: 50,
-            backgroundColor: '#F59E0B',
-            rotate: 180,
-            easing: 'easeOutElastic(1, .8)'
-          }
-        })
-        .add({
-          animation: {
-            targets: containerRef.current.querySelector('.box-3'),
-            scale: 1.5,
-            backgroundColor: '#EC4899',
-            easing: 'easeOutElastic(1, .8)'
-          }
-        })
-        .add({
-          animation: {
-            targets: [
-              containerRef.current.querySelector('.box-1'),
-              containerRef.current.querySelector('.box-2'),
-              containerRef.current.querySelector('.box-3'),
-            ],
-            translateY: 0,
-            translateX: 0,
-            backgroundColor: '#3B82F6',
-            borderRadius: '0%',
-            rotate: 0,
-            scale: 1,
-            delay: (el, i) => i * 100,
-            easing: 'easeOutElastic(1, .8)'
-          }
-        })
-    }
+    const targets = containerRef.current?.querySelectorAll('.timeline-target')
+    if (!targets || targets.length === 0) return;
+
+    const tl = createTimeline({ loop: true })
+      .add(targets[0], { translateX: 100, duration: 500 })
+      .add(targets[1], { translateX: 100, rotate: 180, duration: 500 }, '-=300')
+      .add(targets[2], { translateX: 100, scale: 1.5, duration: 500 }, '-=300')
+      
+    tl.play(); // Example: Autoplay
+
+    return () => tl.pause(); // Basic cleanup
   }, [])
   
   return (
-    <div ref={containerRef} className="flex gap-4">
-      <div className="box-1 h-16 w-16 bg-blue-500"></div>
-      <div className="box-2 h-16 w-16 bg-blue-500"></div>
-      <div className="box-3 h-16 w-16 bg-blue-500"></div>
+    <div ref={containerRef}>
+      <div className="timeline-target">Box 1</div>
+      <div className="timeline-target">Box 2</div>
+      <div className="timeline-target">Box 3</div>
     </div>
   )
 }
@@ -186,18 +129,12 @@ const TimelineAnimation = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-6 p-6 bg-muted rounded-lg flex items-center justify-center min-h-[200px]" ref={animationRef}>
-          <div className="flex gap-8">
-            <div className="box-1 h-16 w-16 bg-primary flex items-center justify-center text-primary-foreground font-medium">
-              1
+        <div className="mb-6 p-6 bg-muted rounded-lg flex flex-col items-center justify-center space-y-4 min-h-[200px]" ref={animationRef}>
+          {[1, 2, 3].map(i => (
+             <div key={i} className="timeline-target h-10 w-10 bg-secondary flex items-center justify-center rounded-md text-secondary-foreground font-medium">
+              Box {i}
             </div>
-            <div className="box-2 h-16 w-16 bg-primary flex items-center justify-center text-primary-foreground font-medium">
-              2
-            </div>
-            <div className="box-3 h-16 w-16 bg-primary flex items-center justify-center text-primary-foreground font-medium">
-              3
-            </div>
-          </div>
+          ))}
         </div>
         
         <AnimationControls 
@@ -207,6 +144,7 @@ const TimelineAnimation = () => {
           onRestart={handleRestart}
           speed={speed}
           onSpeedChange={setSpeed}
+          progress={progress}
         />
         
         {codeVisible && <CodeBlock code={codeExample} />}
