@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { CodeToggle } from "./CodeToggle";
-import { Terminal } from "lucide-react";
+import { Terminal, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
 // Toast Examples Data
 const TOAST_EXAMPLES = [
@@ -12,16 +12,66 @@ const TOAST_EXAMPLES = [
     code: `toast('Event has been created.');`
   },
   {
-    label: "Success Toast",
-    description: "Indicates a successful operation.",
-    trigger: <Button variant="outline" className="text-green-500 border-green-500/50 hover:bg-green-500/10 hover:text-green-600" onClick={() => toast.success('Operation successful!')}>Show Success</Button>,
-    code: `toast.success('Operation successful!');`
+    label: "Success Toast (Styled)",
+    description: "Indicates success with green styling.",
+    trigger: <Button variant="outline" className="text-green-600 border-green-600/50 hover:bg-green-500/10 hover:text-green-700" 
+      onClick={() => toast.success('Operation successful!', {
+        icon: <CheckCircle className="h-4 w-4" />,
+        classNames: { 
+          toast: 'group toast group-[.toaster]:bg-green-100 group-[.toaster]:text-green-900 group-[.toaster]:border-green-300 dark:group-[.toaster]:bg-green-900/30 dark:group-[.toaster]:text-green-100 dark:group-[.toaster]:border-green-700',
+          description: 'group-[.toast]:text-green-800 dark:group-[.toast]:text-green-200',
+        }
+      })}
+      >Show Success</Button>,
+    code: `toast.success('Operation successful!', {\n  classNames: { \n    toast: 'bg-green-100 text-green-900 border-green-300 ...',
+    // ... other element classes
+  }\n});`
   },
   {
-    label: "Error Toast",
-    description: "Indicates a failed operation or error.",
-    trigger: <Button variant="destructive" onClick={() => toast.error('Failed to save changes.')}>Show Error</Button>,
-    code: `toast.error('Failed to save changes.');`
+    label: "Error Toast (Styled)",
+    description: "Indicates error with red styling.",
+    trigger: <Button variant="destructive" 
+      onClick={() => toast.error('Failed to save changes.', {
+         icon: <XCircle className="h-4 w-4" />,
+         classNames: { 
+           toast: 'group toast group-[.toaster]:bg-red-100 group-[.toaster]:text-red-900 group-[.toaster]:border-red-300 dark:group-[.toaster]:bg-red-900/30 dark:group-[.toaster]:text-red-100 dark:group-[.toaster]:border-red-700',
+           description: 'group-[.toast]:text-red-800 dark:group-[.toast]:text-red-200',
+         }
+      })}
+      >Show Error</Button>,
+    code: `toast.error('Failed to save changes.', {\n  classNames: { \n    toast: 'bg-red-100 text-red-900 border-red-300 ...',
+    // ...
+  }\n});`
+  },
+  {
+    label: "Warning Toast (Styled)",
+    description: "Indicates a warning with orange styling.",
+    trigger: <Button variant="outline" className="text-orange-600 border-orange-600/50 hover:bg-orange-500/10 hover:text-orange-700"
+      onClick={() => toast('Potential issue detected.', {
+          icon: <AlertTriangle className="h-4 w-4" />, 
+          classNames: { 
+            toast: 'group toast group-[.toaster]:bg-orange-100 group-[.toaster]:text-orange-900 group-[.toaster]:border-orange-300 dark:group-[.toaster]:bg-orange-900/30 dark:group-[.toaster]:text-orange-100 dark:group-[.toaster]:border-orange-700',
+            description: 'group-[.toast]:text-orange-800 dark:group-[.toast]:text-orange-200',
+          }
+      })}
+      >Show Warning</Button>,
+    code: `toast('Potential issue detected.', {\n  icon: <AlertTriangle />,
+  classNames: { \n    toast: 'bg-orange-100 text-orange-900 border-orange-300 ...',
+    // ...
+  }\n});`
+  },
+  {
+    label: "Top-Right Position Toast",
+    description: "Displays the toast in the top-right corner.",
+    trigger: <Button variant="outline" 
+      onClick={() => toast('Notification', { 
+          description: 'This appeared in the top-right.', 
+          position: 'top-right' 
+        })}
+      >Show Top-Right</Button>,
+    code: `toast('Notification', { \n  description: 'This appeared in the top-right.', 
+  position: 'top-right' 
+});`
   },
   {
     label: "Toast with Action",
@@ -36,12 +86,7 @@ const TOAST_EXAMPLES = [
         Show Action Toast
       </Button>
     ),
-    code: `toast('File uploaded', {
-  action: { 
-    label: 'Undo', 
-    onClick: () => console.log('Undo') 
-  },
-});`
+    code: `toast('File uploaded', {\n  action: { \n    label: 'Undo', \n    onClick: () => console.log('Undo') \n  },\n});`
   },
   {
     label: "Promise Toast",
@@ -59,13 +104,7 @@ const TOAST_EXAMPLES = [
         Show Promise Toast
       </Button>
     ),
-    code: `const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
-
-toast.promise(promise, {
-  loading: 'Loading...',
-  success: 'Data fetched successfully!',
-  error: 'Error fetching data',
-});`
+    code: `const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));\n\ntoast.promise(promise, {\n  loading: 'Loading...',\n  success: 'Data fetched successfully!',\n  error: 'Error fetching data',\n});`
   },
   {
     label: "Custom Style Toast",
@@ -84,15 +123,7 @@ toast.promise(promise, {
         })
       }>Show Custom</Button>
     ),
-    code: `toast('Terminal Command Executed', { 
-  icon: <Terminal className="h-4 w-4"/>, 
-  description: 'npm run build completed.',
-  classNames: { 
-    toast: 'group toast ...',
-    description: 'group-[.toast]:text-muted-foreground',
-    // ... etc.
-  }
-})`
+    code: `toast('Terminal Command Executed', { \n  icon: <Terminal className="h-4 w-4"/>, \n  description: 'npm run build completed.',\n  classNames: { \n    toast: 'group toast ...',\n    description: 'group-[.toast]:text-muted-foreground',\n    // ... etc.\n  }\n})`
   }
 ];
 

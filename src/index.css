@@ -1,43 +1,51 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 9%;
-    --foreground: 0 0% 95%;
+    /* Dark Zinc Background */
+    --background: 240 5% 9.8%; /* zinc-900 */
+    --foreground: 240 4% 96%; /* zinc-50 */
 
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 95%;
+    /* Accent - Use Primary */
+    --primary: 319 100% 65%; /* #ff4bbd */
+    --primary-foreground: 0 100% 10%; /* #ff4bbd */
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 95%;
+    /* Card Background - slightly lighter */
+    --card: 240 5% 12%; /* zinc-900 adjusted */
+    --card-foreground: 240 4% 96%; /* zinc-50 */
 
-    --primary: 49 98% 80%;
-    --primary-foreground: 0 0% 9%;
+    /* Popover - same as card */
+    --popover: 240 5% 12%;
+    --popover-foreground: 240 4% 96%;
 
-    --secondary: 252 100% 86%;
-    --secondary-foreground: 0 0% 9%;
+    /* Primary - Pink/Magenta */
+    --accent: 328 100% 65%; /* #ff4bbd */
+    --accent-foreground: 328 100% 10%; /* Darker Pink for contrast */
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%;
+    /* Secondary - Violet */
+    --secondary: 259 94% 66%; /* violet-500 */
+    --secondary-foreground: 240 4% 96%; /* zinc-50 */
 
-    --accent: 48 89% 85%;
-    --accent-foreground: 0 0% 9%;
+    /* Muted */
+    --muted: 240 5% 14%; /* zinc-800 adjusted */
+    --muted-foreground: 240 5% 65%; /* zinc-400 */
 
-    --destructive: 5 100% 61%;
+    /* Destructive - Keep standard */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
+    /* Warning/Success - Keep for now */
     --warning: 33 100% 61%;
     --warning-foreground: 0 0% 100%;
-
     --success: 134 60% 51%;
     --success-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 30%;
+    /* Border/Input/Ring */
+    --border: 240 4% 16%; /* zinc-800 */
+    --input: 240 4% 16%; /* zinc-800 */
+    --ring: 328 100% 65%; /* Use primary for focus rings */
 
     --radius: 0.5rem;
   }
@@ -45,37 +53,37 @@
   .light {
     --background: 60 14% 96%;
     --foreground: 0 0% 9%;
-    
+
     --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
-    
+
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
-    
-    --primary: 49 98% 80%;
-    --primary-foreground: 0 0% 9%;
-    
-    --secondary: 252 100% 86%;
-    --secondary-foreground: 0 0% 9%;
-    
+
+    --primary: 328 100% 65%; /* Pink */
+    --primary-foreground: 0 0% 100%; /* White on pink */
+
+    --secondary: 259 94% 66%; /* Violet */
+    --secondary-foreground: 0 0% 100%; /* White on violet */
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    
-    --accent: 48 89% 85%;
-    --accent-foreground: 0 0% 9%;
-    
-    --destructive: 5 100% 61%;
+
+    --accent: 328 100% 65%; /* Pink */
+    --accent-foreground: 0 0% 100%; /* White on pink */
+
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    
+
     --warning: 33 100% 61%;
     --warning-foreground: 0 0% 100%;
-    
+
     --success: 134 60% 51%;
     --success-foreground: 0 0% 100%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 328 100% 65%; /* Pink ring */
   }
 }
 
@@ -204,7 +212,8 @@
 }
 
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {

@@ -21,8 +21,8 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
   };
 
   return (
-    <div className={`relative rounded-lg border bg-card ${className}`}>
-      <div className="flex items-center border-b px-4">
+    <div className={`relative rounded-lg border bg-card flex flex-col min-h-[450px] ${className}`}>
+      <div className="flex items-center border-b px-4 shrink-0">
         <button
           onClick={() => setIsCodeView(false)}
           className={`px-4 py-3 text-sm font-medium relative ${
@@ -45,9 +45,9 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
         </button>
       </div>
 
-      <div className="relative min-h-[300px] m-4">
+      <div className="relative flex-1 overflow-hidden m-4">
         <div
-          className={`absolute inset-0 p-4 transition-opacity duration-300 ${
+          className={`absolute inset-0 p-4 transition-opacity duration-300 overflow-auto ${
             isCodeView ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
@@ -56,16 +56,16 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
 
         <div
           className={`absolute inset-0 transition-opacity duration-300 ${
-            isCodeView ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            isCodeView ? 'opacity-100 flex flex-col' : 'opacity-0 pointer-events-none'
           }`}
         >
-          <div className="relative h-full">
-            <pre className="p-4 rounded-lg bg-muted overflow-x-auto overflow-y-auto whitespace-pre text-sm h-full">
+          <div className="relative h-full flex-1 flex flex-col">
+            <pre className="flex-1 p-4 rounded-lg bg-muted overflow-auto whitespace-pre text-sm">
               <code className="text-foreground font-mono">{codeContent}</code>
             </pre>
             <button
               onClick={handleCopyCode}
-              className="absolute top-3 right-3 p-2 hover:bg-background/50 rounded-md transition-colors"
+              className="absolute top-3 right-3 p-2 hover:bg-background/50 rounded-md transition-colors z-10"
               title="Copy code"
             >
               <Copy size={16} className="text-muted-foreground hover:text-foreground" />

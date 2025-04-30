@@ -1,9 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { CodeToggle } from './CodeToggle'
-import PropertyAnimations from './animations/PropertyAnimations'
 import TimelineAnimations from './animations/TimelineAnimations'
 import StaggeredAnimations from './animations/StaggeredAnimations'
-import PathAnimations from './animations/PathAnimations'
 import MorphingAnimations from './animations/MorphingAnimations'
 
 const AnimationExamples = () => {
@@ -41,19 +39,11 @@ const AnimationExamples = () => {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="animation-card">
-          <PropertyAnimations />
-        </div>
-        
-        <div className="animation-card">
           <TimelineAnimations />
         </div>
         
         <div className="animation-card">
           <StaggeredAnimations />
-        </div>
-        
-        <div className="animation-card">
-          <PathAnimations />
         </div>
         
         <div className="animation-card lg:col-span-2">

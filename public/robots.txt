@@ -1,14 +1,11 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# Basic Robots.txt for Animated UI Delights
 
 User-agent: *
 Allow: /
+
+# Disallow access to specific directories if needed (example)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Sitemap location (update if your domain changes)
+Sitemap: https://your-domain.com/sitemap.xml

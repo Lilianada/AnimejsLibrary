@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { CodeToggle } from "./CodeToggle";
-import { animate, stagger } from "animejs";
+
 
 // Loader Components (can be kept separate or inlined)
 const SpinningGradientLoader = () => (
@@ -44,25 +44,29 @@ const WavyDotsLoader = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let animation: ReturnType<typeof animate> | null = null;
-    const targets = containerRef.current?.querySelectorAll('.wave-dot');
+    let animation: anime.AnimeInstance | null = null;
 
-    if (targets && targets.length > 0) {
-      animation = animate(
-        targets,
-        {
+    // Dynamically import Anime.js and initialize the animation
+    import('animejs').then(({ default: anime }) => {
+      const targets = containerRef.current?.querySelectorAll('.wave-dot');
+
+      if (targets && targets.length > 0) {
+        animation = anime({
+          targets,
           translateY: [
             { value: -12, duration: 400, easing: 'easeInOutSine' },
-            { value: 0, duration: 400, easing: 'easeInOutSine' }
+            { value: 0, duration: 400, easing: 'easeInOutSine' },
           ],
-          delay: stagger(90),
+          delay: anime.stagger(90), // Stagger effect
           loop: true,
-          direction: 'alternate'
-        }
-      );
-    }
+          direction: 'alternate',
+        });
+      }
+    }).catch(err => console.error('Failed to load animejs:', err));
+
+    // Cleanup animation on component unmount
     return () => {
-      if (animation && typeof animation.pause === 'function') {
+      if (animation) {
         animation.pause();
       }
     };
@@ -73,7 +77,7 @@ const WavyDotsLoader = () => {
       {[...Array(5)].map((_, i) => (
         <span
           key={i}
-          className="wave-dot inline-block w-3 h-3 rounded-full bg-[#FDA858]"
+          className="wave-dot inline-block w-3 h-3 rounded-full bg-primary"
         ></span>
       ))}
     </div>
@@ -105,14 +109,14 @@ const CircularProgressLoader = ({ progress }: { progress: number }) => (
         }}
       />
     </svg>
-    <div className="absolute inset-0 flex items-center justify-center text-sm text-[#FDA858] font-bold mix-blend-lighten">
+    <div className="absolute inset-0 flex items-center justify-center text-sm text-primary font-bold mix-blend-lighten">
       {progress}%
     </div>
   </div>
 );
 
 const PulsingBarLoader = () => (
-  <div className="w-10 h-10 bg-[#FDA858]/80 rounded animate-pulse"></div>
+  <div className="w-10 h-10 bg-primary/80 rounded animate-pulse"></div>
 );
 
 const AnimatedProgressBar = ({ progress }: { progress: number }) => (
@@ -175,28 +179,51 @@ const LOADER_EXAMPLES = [
     label: "Wavy Dots",
     description: "Dots moving in a sine wave pattern using Anime.js.",
     component: <WavyDotsLoader />,
-    code: `// Requires useEffect, useRef, and animejs
+    code: `// Requires useEffect, useRef, useState, and dynamic import
+import { useEffect, useRef, useState } from 'react';
+
 const WavyDotsLoader = () => {
   const containerRef = useRef(null);
+  const [anime, setAnime] = useState(null);
+
   useEffect(() => {
-    if (!containerRef.current) return;
-    const animation = animate({
-      targets: containerRef.current.querySelectorAll('.wave-dot'),
-      translateY: [
-        { value: -12, duration: 400, easing: 'easeInOutSine' },
-        { value: 0, duration: 400, easing: 'easeInOutSine' }
-      ],
-      delay: stagger(90),
-      loop: true,
-      direction: 'alternate'
-    });
-    return () => animation.pause();
+    import('animejs').then(module => setAnime(() => module));
   }, []);
+
+  useEffect(() => {
+    if (!anime || !containerRef.current || !anime.animate || !anime.stagger) return;
+
+    let animation = null;
+    const targets = containerRef.current?.querySelectorAll('.wave-dot');
+
+    if (targets && targets.length > 0) {
+      animation = anime.animate(
+        targets,
+        {
+          translateY: [
+            { value: -12, duration: 400, easing: 'easeInOutSine' },
+            { value: 0, duration: 400, easing: 'easeInOutSine' }
+          ],
+          delay: anime.stagger(90),
+          loop: true,
+          direction: 'alternate'
+        }
+      );
+    }
+    return () => {
+      if (animation && typeof animation.pause === 'function') {
+        animation.pause();
+      }
+    };
+  }, [anime]);
 
   return (
     <div ref={containerRef} className="flex gap-2 items-center h-8">
       {[...Array(5)].map((_, i) => (
-        <span key={i} className="wave-dot inline-block w-3 h-3 rounded-full bg-[#FDA858]"></span>
+        <span
+          key={i}
+          className="wave-dot inline-block w-3 h-3 rounded-full bg-primary"
+        ></span>
       ))}
     </div>
   );
@@ -217,7 +244,7 @@ const WavyDotsLoader = () => {
       style={{ transition: "stroke-dashoffset 0.33s cubic-bezier(.4,2.6,0,1)" }}
     />
   </svg>
-  <div className="absolute inset-0 flex items-center justify-center text-sm text-[#FDA858] font-bold mix-blend-lighten">
+  <div className="absolute inset-0 flex items-center justify-center text-sm text-primary font-bold mix-blend-lighten">
     {progress}%
   </div>
 </div>`
@@ -226,7 +253,7 @@ const WavyDotsLoader = () => {
     label: "Pulsing Bar",
     description: "Basic pulse animation on an element.",
     component: <PulsingBarLoader />,
-    code: `<div className="w-10 h-10 bg-[#FDA858]/80 rounded animate-pulse"></div>`
+    code: `<div className="w-10 h-10 bg-primary/80 rounded animate-pulse"></div>`
   },
   {
     label: "Animated Progress Bar",

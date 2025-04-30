@@ -89,12 +89,12 @@ const ButtonExamples = () => {
           <CodeToggle
             key={btn.label}
             previewContent={
-              <div className="space-y-4 p-4">
+              <div className="space-y-4">
                  <div className="mb-2">
                   <h3 className="text-lg font-semibold mb-1">{btn.label}</h3>
                   <p className="text-sm text-muted-foreground">{btn.description}</p>
                 </div>
-                <div className="flex justify-center items-center min-h-[60px]">
+                <div className="min-h-[60px]">
                   {btn.component}
                 </div>
               </div>

@@ -1,26 +1,41 @@
 import { useRef, useEffect, useState } from 'react'
-import { animate, createTimeline, stagger } from 'animejs'
 import AnimationControls from './controls/AnimationControls'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import CodeBlock from './CodeBlock'
 
+// Type for the dynamically loaded animejs module
+type AnimeType = any;
+
 const TimelineAnimations = () => {
   const animationRef = useRef<HTMLDivElement>(null)
-  const timelineRef = useRef<ReturnType<typeof createTimeline> | null>(null)
+  const timelineRef = useRef<any | null>(null) // Use any for timeline type
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0) // Keep progress state
   const [codeVisible, setCodeVisible] = useState(false)
+  const [anime, setAnime] = useState<AnimeType>(null); // State for loaded anime
 
+  // Load animejs dynamically
   useEffect(() => {
+    import('animejs').then(module => {
+      setAnime(() => module); // Use the module itself
+    }).catch(err => console.error("Failed to load animejs:", err));
+  }, []);
+
+  // Setup timeline only after animejs is loaded
+  useEffect(() => {
+    // Wait for anime and required function
+    if (!anime || !animationRef.current || !anime.createTimeline) return;
+
     const targets = animationRef.current?.querySelectorAll('.timeline-target')
     if (targets && targets.length > 0) {
-      if (timelineRef.current) {
+      // Clear previous timeline if any
+      if (timelineRef.current && typeof timelineRef.current.pause === 'function') {
         timelineRef.current.pause()
       }
 
-      timelineRef.current = createTimeline({
+      timelineRef.current = anime.createTimeline({
         autoplay: false,
         loop: true,
         update: (anim) => {
@@ -56,8 +71,18 @@ const TimelineAnimations = () => {
         '-=300'
       )
     }
-  }, [])
 
+    // Cleanup: Pause timeline on unmount or when anime changes
+    return () => {
+       if (timelineRef.current && typeof timelineRef.current.pause === 'function') {
+        timelineRef.current.pause()
+      }
+      // No need to clear timelineRef here as the effect will recreate it if needed
+    }
+
+  }, [anime]); // Depend on loaded anime
+
+  // Control logic remains the same (uses timelineRef)
   useEffect(() => {
     if (timelineRef.current) {
       if (isPlaying) {
@@ -74,6 +99,7 @@ const TimelineAnimations = () => {
     }
   }, [speed])
 
+  // Handlers remain the same
   const handlePlay = () => setIsPlaying(true)
   const handlePause = () => setIsPlaying(false)
   const handleRestart = () => {
@@ -83,32 +109,44 @@ const TimelineAnimations = () => {
     }
   }
 
+  // Update Code Example String
   const codeExample = `
-import { useRef, useEffect } from 'react'
-import { createTimeline } from 'animejs'
+import { useRef, useEffect, useState } from 'react'
 
 const TimelineAnimation = () => {
   const containerRef = useRef(null)
+  const timelineRef = useRef(null);
+  const [anime, setAnime] = useState(null);
+
+  useEffect(() => {
+    import('animejs').then(module => setAnime(() => module));
+  }, []);
   
   useEffect(() => {
+    if (!anime || !containerRef.current || !anime.createTimeline) return;
+
     const targets = containerRef.current?.querySelectorAll('.timeline-target')
     if (!targets || targets.length === 0) return;
 
-    const tl = createTimeline({ loop: true })
+    timelineRef.current = anime.createTimeline({ loop: true })
       .add(targets[0], { translateX: 100, duration: 500 })
       .add(targets[1], { translateX: 100, rotate: 180, duration: 500 }, '-=300')
       .add(targets[2], { translateX: 100, scale: 1.5, duration: 500 }, '-=300')
       
-    tl.play(); // Example: Autoplay
+    timelineRef.current.play(); // Example: Autoplay
 
-    return () => tl.pause(); // Basic cleanup
-  }, [])
+    return () => {
+       if (timelineRef.current && typeof timelineRef.current.pause === 'function') {
+         timelineRef.current.pause();
+       }
+    };
+  }, [anime])
   
   return (
     <div ref={containerRef}>
-      <div className="timeline-target">Box 1</div>
-      <div className="timeline-target">Box 2</div>
-      <div className="timeline-target">Box 3</div>
+      <div className="timeline-target"> 1</div>
+      <div className="timeline-target"> 2</div>
+      <div className="timeline-target"> 3</div>
     </div>
   )
 }
@@ -144,7 +182,7 @@ const TimelineAnimation = () => {
           onRestart={handleRestart}
           speed={speed}
           onSpeedChange={setSpeed}
-          progress={progress}
+          // progress={progress} // Remove this prop
         />
         
         {codeVisible && <CodeBlock code={codeExample} />}

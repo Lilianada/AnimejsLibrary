@@ -21,9 +21,9 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
     { id: 'cards', name: 'Cards & Tiles' },
     { id: 'forms', name: 'Forms & Inputs' },
     { id: 'loaders', name: 'Loaders & Spinners' },
-    { id: 'modals', name: 'Modals & Dialogs' },
     { id: 'toasts', name: 'Toasts' },
-    { id: 'animations', name: 'Animations' }
+    { id: 'draggable', name: 'Draggable' },
+    { id: 'animations', name: 'General Animations' }
   ]
 
   useEffect(() => {
@@ -66,8 +66,8 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
             variant="ghost"
             className={`sidebar-item justify-start px-4 transition-none ${
               selectedCategory === category.id
-                ? 'text-[#FDA858] font-bold'
-                : 'hover:text-[#FDA858]'
+                ? 'text-primary font-bold'
+                : 'hover:text-primary'
             }`}
             onClick={() => handleCategorySelect(category.id)}
           >
@@ -83,7 +83,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   return isMobile ? (
     <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center justify-between row-reverse border-b bg-background mb-3">
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetTrigger asChild>
+        <SheetTrigger>
           <Button variant="outline" size="icon" className="mr-2">
             <Menu className="h-5 w-5" />
           </Button>

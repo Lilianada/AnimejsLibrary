@@ -608,7 +608,7 @@ const Docs = () => {
       </div>
       {/* Section Content */}
       <main className="flex-1 px-5 md:px-14 py-12 max-w-3xl mx-auto">
-        <h1 className="text-3xl mb-8 font-bold text-center text-[#FDA858]">Documentation for React & Anime.js Animation Library</h1>
+        <h1 className="text-3xl mb-8 font-bold text-center text-primary">Documentation for React & Anime.js Animation Library</h1>
         <div className="mb-10">{docsSections[page].content}</div>
         <div className="flex justify-between items-center mt-8">
           <Button

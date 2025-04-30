@@ -1,6 +1,5 @@
-import { Book, Grid2X2 } from "lucide-react";
+import { Book, Grid2X2, HeartIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   // Use location for active state
@@ -16,7 +15,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <a href="/" className="flex items-center" tabIndex={0}>
             <img 
-              src="/lovable-uploads/4b01183e-bc11-41ee-bfc1-0ac9ce1e7576.png" 
+              src="/logo.png" 
               alt="Animelibrary.xyz Logo" 
               className="h-8 w-8 object-contain"
             />
@@ -29,8 +28,8 @@ const Navbar = () => {
                 className={`
                   flex items-center space-x-1 text-sm px-3 py-1 rounded transition
                   ${location.pathname.startsWith(link.href)
-                    ? "font-bold text-[#FDA858]"
-                    : "text-foreground hover:text-[#FDA858] hover:opacity-80"}
+                    ? "font-bold text-primary"
+                    : "text-foreground hover:text-primary hover:opacity-80"}
                 `}
                 tabIndex={0}
                 style={{
@@ -42,21 +41,15 @@ const Navbar = () => {
                 <span>{link.label}</span>
               </a>
             ))}
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`
-                text-base px-5 py-2 rounded-full font-bold shadow-lg
-                bg-[#FDA858] text-[#191921]
-                hover:bg-[#F9B143] transition
-              `}
-              style={{
-                textShadow: "0 0 12px #fff"
-              }}
-            >
-              Star on Github
-            </a>
+           <Button
+            asChild // Use asChild to render an anchor tag
+            className="bg-primary text-bg hover:bg-primary/90 transition-colors"
+          >
+             <a href="/examples" className="flex items-center space-x-1">
+                <span>Sponsor</span>
+                <HeartIcon className="h-4 w-4" />
+             </a>
+          </Button>
           </div>
         </div>
       </div>

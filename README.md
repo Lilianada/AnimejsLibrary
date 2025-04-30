@@ -1,73 +1,70 @@
-# Welcome to your Lovable project
+# Animated UI Delights: React Animation Gallery
 
-## Project info
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**URL**: https://lovable.dev/projects/4cee07fd-8297-49af-ab7f-f46a418e4146
+Welcome to Animated UI Delights, a curated collection of modern, delightful UI animations built with React, Next.js (implicitly via Vite setup), Tailwind CSS, Shadcn UI, and the powerful Anime.js library. This project serves as a practical gallery and learning resource, offering copy-pasteable examples for developers looking to enhance their web applications with engaging user experiences.
 
-## How can I edit this code?
+Find inspiration and ready-to-use code snippets for common UI components, demonstrating various animation techniques suitable for React applications.
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+*   **Diverse Animation Examples:** Explore animations for buttons, cards, modals, loaders, form inputs, toasts, draggable elements, and scroll-triggered effects.
+*   **Copy-Paste Friendly:** Each example comes with a clean code snippet for easy integration into your projects.
+*   **Interactive Previews:** See the animations in action directly within the gallery.
+*   **Modern Tech Stack:** Built with industry-standard tools for optimal performance and developer experience.
+*   **Focus on UX:** Animations are designed to be smooth, meaningful, and enhance usability.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4cee07fd-8297-49af-ab7f-f46a418e4146) and start prompting.
+## 🚀 Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+*   **Framework:** [React](https://reactjs.org/) (using [Vite](https://vitejs.dev/) for build tooling)
+*   **Animation Library:** [Anime.js](https://animejs.com/)
+*   **UI Components:** [Shadcn UI](https://ui.shadcn.com/) (built on Radix UI & Tailwind CSS)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
 
-**Use your preferred IDE**
+## 📦 Available Categories
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+*   Buttons (Ripple, Pulse, Shifting, Icon Rotation, etc.)
+*   Cards & Tiles (Hover Effects, Entry Animations)
+*   Forms & Inputs (Focus Effects, Validation Feedback)
+*   Loaders & Spinners (Various Styles)
+*   Modals & Dialogs (Entry/Exit Transitions)
+*   Toasts (Animated Notifications)
+*   Draggable Elements (Simple Drag, Spring Physics, Snapping)
+*   Scroll-Triggered Animations (Fade In, Slide Up, Scale Up)
+*   General Animations
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🏁 Getting Started
 
-Follow these steps:
+To run this project locally:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/lilianada/animejslibrary.git # Replace with your repo URL
+    cd animejslibrary
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    # yarn install
+    ```
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    # yarn dev
+    ```
+    Open [http://localhost:5173](http://localhost:5173) (or the port indicated in your terminal) to view it in your browser.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🤝 Contributing
 
-# Step 3: Install the necessary dependencies.
-npm i
+Contributions are welcome! If you have ideas for new animations, improvements, or bug fixes, please feel free to open an issue or submit a pull request.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 📄 License
 
-**Edit a file directly in GitHub**
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/4cee07fd-8297-49af-ab7f-f46a418e4146) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*Keywords for search engines: React animations, Next.js animations, JavaScript animations, UI animation library, frontend animations, Tailwind CSS animations, Shadcn UI animations, Anime.js examples, interactive components, web animation gallery, delightful UI, UX animations.*
