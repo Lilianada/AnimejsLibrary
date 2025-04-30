@@ -1,4 +1,3 @@
-
 import { Book, Grid2X2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLocation } from "react-router-dom";
@@ -44,7 +43,9 @@ const Navbar = () => {
               </a>
             ))}
             <a
-              href="/waitlist"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`
                 text-base px-5 py-2 rounded-full font-bold shadow-lg
                 bg-[#FDA858] text-[#191921]
@@ -54,7 +55,7 @@ const Navbar = () => {
                 textShadow: "0 0 12px #fff"
               }}
             >
-              Join Waitlist
+              Star on Github
             </a>
           </div>
         </div>

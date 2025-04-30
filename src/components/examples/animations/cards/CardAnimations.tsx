@@ -1,243 +1,151 @@
-
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
-import CodeBlock from '../CodeBlock'
+import AnimationShowcaseCard from '@/components/examples/AnimationShowcaseCard'
 import './card-animations.css'
 
-const CardAnimations = () => {
-  const [codeVisible, setCodeVisible] = useState(false)
-  const [selectedCard, setSelectedCard] = useState<number | null>(null)
+// Define individual animation components or JSX for previews
+const HoverLiftPreview = () => (
+  <Card className="card-hover w-full max-w-xs mx-auto">
+    <CardHeader>
+      <CardTitle>Hover Lift</CardTitle>
+      <CardDescription>Elevate on hover</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Hover over this card to see it lift up.</p>
+    </CardContent>
+    <CardFooter>
+      <Button variant="outline" size="sm">Learn More</Button>
+    </CardFooter>
+  </Card>
+);
 
-  const handleCardSelect = (index: number) => {
-    setSelectedCard(selectedCard === index ? null : index)
-  }
+const ContentRevealPreview = () => (
+  <Card className="card-reveal w-full max-w-xs mx-auto">
+    <CardHeader>
+      <CardTitle>Content Reveal</CardTitle>
+      <CardDescription>Hidden information</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="h-32 flex items-center justify-center bg-muted rounded-md mb-4">
+        <p className="text-center px-4">Hover to reveal additional content below</p>
+      </div>
+      <div className="card-overlay">
+        <h3 className="text-lg font-bold mb-2">Hidden Content</h3>
+        <p>This content slides in!</p>
+      </div>
+    </CardContent>
+  </Card>
+);
 
-  const codeExample = `
-// CSS required for the animations
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
-
-.card-reveal {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-reveal .card-overlay {
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 1rem;
-  transition: bottom 0.3s ease-in-out;
-}
-
-.card-reveal:hover .card-overlay {
-  bottom: 0;
-}
-
-.card-selectable {
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
-}
-
-.card-selectable.selected {
-  border-color: rgb(var(--primary));
-  transform: scale(1.02);
-}
-
-.card-selectable .check-icon {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.2s ease;
-}
-
-.card-selectable.selected .check-icon {
-  opacity: 1;
-  transform: scale(1);
-}
-
-// React component
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Check } from 'lucide-react'
-
-const AnimatedCards = () => {
-  const [selectedCard, setSelectedCard] = useState(null)
-
-  const handleCardSelect = (index) => {
-    setSelectedCard(selectedCard === index ? null : index)
-  }
-
-  return (
-    <div className="grid grid-cols-3 gap-4">
-      {/* Hover Lift Card */}
-      <Card className="card-hover">
-        <CardHeader>
-          <CardTitle>Hover Lift</CardTitle>
-        </CardHeader>
-        <CardContent>
-          Hover over this card to see it lift up with a shadow.
-        </CardContent>
-      </Card>
-
-      {/* Content Reveal Card */}
-      <Card className="card-reveal">
-        <CardHeader>
-          <CardTitle>Content Reveal</CardTitle>
-        </CardHeader>
-        <CardContent>
-          Hover to reveal additional information.
-          <div className="card-overlay">
-            Hidden content that slides in on hover!
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Selectable Card */}
-      <Card 
-        className={\`card-selectable relative \${selectedCard === 2 ? 'selected' : ''}\`}
-        onClick={() => handleCardSelect(2)}
-      >
-        <div className="check-icon">
-          <Check className="h-5 w-5 text-primary" />
-        </div>
-        <CardHeader>
-          <CardTitle>Selectable Card</CardTitle>
-        </CardHeader>
-        <CardContent>
-          Click to select this card with animation.
-        </CardContent>
-      </Card>
+const ImageZoomPreview = () => (
+  <Card className="overflow-hidden w-full max-w-xs mx-auto">
+    <div className="image-zoom-container h-32">
+      <div className="image-zoom" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop')" }} />
     </div>
-  )
-}
-`
+    <CardHeader>
+      <CardTitle>Image Zoom</CardTitle>
+      <CardDescription>Hover effect</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Hover over the image to see a smooth zoom.</p>
+    </CardContent>
+  </Card>
+);
+
+const SelectableCardPreview = () => {
+  const [selected, setSelected] = useState(false);
+  const handleSelect = () => setSelected(!selected);
 
   return (
-    <Card className="shadow-lg border-border">
+    <Card
+      className={`card-selectable relative w-full max-w-xs mx-auto cursor-pointer ${selected ? 'selected' : ''}`}
+      onClick={handleSelect}
+      tabIndex={0} // Accessibility
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleSelect(); }} // Accessibility
+      aria-pressed={selected} // Accessibility
+      role="button" // Accessibility
+    >
+      <div className="check-icon">
+        <Check className="h-5 w-5 text-primary" />
+      </div>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Card & Tile Animations</span>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => setCodeVisible(!codeVisible)}
-          >
-            {codeVisible ? 'Hide Code' : 'View Code'}
-          </Button>
-        </CardTitle>
+        <CardTitle>Selectable Card</CardTitle>
+        <CardDescription>Click to select</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Hover Lift Card */}
-            <Card className="card-hover">
-              <CardHeader>
-                <CardTitle>Hover Lift</CardTitle>
-                <CardDescription>Elevate on hover</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Hover over this card to see it lift up with an enhanced shadow effect.</p>
-              </CardContent>
-              <CardFooter>
-                <Button variant="outline" size="sm">Learn More</Button>
-              </CardFooter>
-            </Card>
-
-            {/* Content Reveal Card */}
-            <Card className="card-reveal">
-              <CardHeader>
-                <CardTitle>Content Reveal</CardTitle>
-                <CardDescription>Hidden information</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-32 flex items-center justify-center bg-muted rounded-md">
-                  <p className="text-center">Hover to reveal additional content</p>
-                </div>
-                <div className="card-overlay">
-                  <h3 className="text-lg font-bold mb-2">Hidden Content</h3>
-                  <p>This content slides in from the bottom when you hover over the card!</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Image Zoom Card */}
-            <Card className="overflow-hidden">
-              <div className="image-zoom-container">
-                <div className="image-zoom" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop')" }} />
-              </div>
-              <CardHeader>
-                <CardTitle>Image Zoom</CardTitle>
-                <CardDescription>Hover effect</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Hover over the image to see a smooth zoom animation.</p>
-              </CardContent>
-            </Card>
-
-            {/* Selectable Card 1 */}
-            <Card 
-              className={`card-selectable relative ${selectedCard === 0 ? 'selected' : ''}`}
-              onClick={() => handleCardSelect(0)}
-            >
-              <div className="check-icon">
-                <Check className="h-5 w-5 text-primary" />
-              </div>
-              <CardHeader>
-                <CardTitle>Selectable Card</CardTitle>
-                <CardDescription>Click to select</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Click to select this card. Notice the animated border and checkmark.</p>
-              </CardContent>
-            </Card>
-
-            {/* Selectable Card 2 */}
-            <Card 
-              className={`card-selectable relative ${selectedCard === 1 ? 'selected' : ''}`}
-              onClick={() => handleCardSelect(1)}
-            >
-              <div className="check-icon">
-                <Check className="h-5 w-5 text-primary" />
-              </div>
-              <CardHeader>
-                <CardTitle>Another Option</CardTitle>
-                <CardDescription>Selection animation</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Select this card to see a different animation style.</p>
-              </CardContent>
-            </Card>
-
-            {/* Fade In Card */}
-            <Card className="animate-fade-in">
-              <CardHeader>
-                <CardTitle>Fade In Card</CardTitle>
-                <CardDescription>Entrance animation</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>This card fades in when the component mounts. Refresh to see the effect again.</p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {codeVisible && <CodeBlock code={codeExample} />}
-        </div>
+        <p>Click this card to select/deselect it.</p>
       </CardContent>
     </Card>
+  );
+};
+
+const FadeInPreview = () => (
+   // Note: Key is added to force remount for demo purposes on toggle
+   // In a real app, this animation usually runs once on initial mount.
+  <Card className="animate-fade-in w-full max-w-xs mx-auto" key={Math.random()}>
+    <CardHeader>
+      <CardTitle>Fade In Card</CardTitle>
+      <CardDescription>Entrance animation</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>This card fades in. (Animation restarts on toggle for demo).</p>
+    </CardContent>
+  </Card>
+);
+
+
+// Array of animation data - Removed title/description from top level
+const CARD_ANIMATIONS = [
+  {
+    label: 'Hover Lift',
+    description: 'Elevates card on hover with subtle shadow.',
+    preview: <HoverLiftPreview />,
+  },
+  {
+    label: 'Content Reveal',
+    description: 'Reveals hidden content from bottom on hover.',
+    preview: <ContentRevealPreview />,
+  },
+  {
+    label: 'Image Zoom',
+    description: 'Smoothly zooms the background image on hover.',
+    preview: <ImageZoomPreview />,
+  },
+  {
+    label: 'Selectable Card',
+    description: 'Indicates selection state with border and checkmark.',
+    preview: <SelectableCardPreview />,
+  },
+  {
+    label: 'Fade In',
+    description: 'Simple fade-in entrance animation on mount.',
+    preview: <FadeInPreview />,
+  },
+];
+
+const CardAnimations = () => {
+  return (
+    <div className="space-y-8">
+       <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-3">Card & Tile Animations</h2>
+        <p className="text-muted-foreground">
+          Explore various interactive animations for card components. Each includes a preview and usage example.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {CARD_ANIMATIONS.map((anim) => (
+          <AnimationShowcaseCard
+            key={anim.label}
+            label={anim.label}
+            description={anim.description}
+            previewContent={anim.preview}
+            className="w-full"
+          />
+        ))}
+      </div>
+    </div>
   )
 }
 

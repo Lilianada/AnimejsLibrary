@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -48,29 +47,39 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   );
 }
 
+const AppContent = () => {
+  const location = useLocation(); // Get location here
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={
+            <PageTransition><Index /></PageTransition>
+          } />
+          <Route path="/examples" element={
+            <PageTransition><Examples /></PageTransition>
+          } />
+          <Route path="/docs" element={
+            <PageTransition><Docs /></PageTransition>
+          } />
+          <Route path="*" element={
+            <PageTransition><NotFound /></PageTransition>
+          } />
+        </Routes>
+      </main>
+      {/* Conditionally render Footer only on landing page */}
+      {location.pathname === '/' && <Footer />}
+    </div>
+  );
+}
+
 const App = () => (
   <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
     <TooltipProvider>
       <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={
-                <PageTransition><Index /></PageTransition>
-              } />
-              <Route path="/examples" element={
-                <PageTransition><Examples /></PageTransition>
-              } />
-              <Route path="/docs" element={
-                <PageTransition><Docs /></PageTransition>
-              } />
-              <Route path="*" element={
-                <PageTransition><NotFound /></PageTransition>
-              } />
-            </Routes>
-          </main>
-        </div>
+        <AppContent /> { /* Use a separate component to access useLocation */ }
       </BrowserRouter>
     </TooltipProvider>
   </ThemeProvider>

@@ -1,11 +1,10 @@
-
 import { useRef, useEffect } from 'react'
+import { CodeToggle } from './CodeToggle'
 import PropertyAnimations from './animations/PropertyAnimations'
 import TimelineAnimations from './animations/TimelineAnimations'
 import StaggeredAnimations from './animations/StaggeredAnimations'
 import PathAnimations from './animations/PathAnimations'
 import MorphingAnimations from './animations/MorphingAnimations'
-import CardAnimations from './animations/cards/CardAnimations'
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -61,9 +60,6 @@ const AnimationExamples = () => {
           <MorphingAnimations />
         </div>
 
-        <div className="animation-card lg:col-span-2">
-          <CardAnimations />
-        </div>
       </div>
     </div>
   )

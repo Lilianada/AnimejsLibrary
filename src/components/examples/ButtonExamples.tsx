@@ -1,199 +1,111 @@
+import { useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { CodeToggle } from "@/components/examples/CodeToggle"
+import { ArrowUp, ArrowDown, ChevronRight, Loader2 } from "lucide-react"
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { CornerDownLeft, Zap, RefreshCw, AlertTriangle, Code, Copy } from 'lucide-react';
-import CodeBlock from '@/components/examples/animations/CodeBlock';
-import { toast } from 'sonner';
-
-const buttonVariants = [
+// Define button types for structure
+const BUTTON_EXAMPLES = [
   {
-    name: 'Primary Button',
-    description: 'Used for primary actions',
-    component: (
-      <Button>
-        Primary Action
-      </Button>
-    ),
+    label: "Primary Button",
+    description: "Default button style.",
+    component: <Button>Primary</Button>,
+    code: `<Button>Primary</Button>`,
+  },
+  {
+    label: "Secondary Button",
+    description: "Secondary action style.",
+    component: <Button variant="secondary">Secondary</Button>,
+    code: `<Button variant="secondary">Secondary</Button>`,
+  },
+  {
+    label: "Destructive Button",
+    description: "For dangerous actions.",
+    component: <Button variant="destructive">Destructive</Button>,
+    code: `<Button variant="destructive">Destructive</Button>`,
+  },
+  {
+    label: "Outline Button",
+    description: "Less prominent button style.",
+    component: <Button variant="outline">Outline</Button>,
+    code: `<Button variant="outline">Outline</Button>`,
+  },
+  {
+    label: "Ghost Button",
+    description: "Minimal button style.",
+    component: <Button variant="ghost">Ghost</Button>,
+    code: `<Button variant="ghost">Ghost</Button>`,
+  },
+  {
+    label: "Link Button",
+    description: "Button styled as a link.",
+    component: <Button variant="link">Link</Button>,
+    code: `<Button variant="link">Link</Button>`,
+  },
+  {
+    label: "Icon Button",
+    description: "Button with only an icon.",
+    component: <Button variant="outline" size="icon"><ChevronRight className="h-4 w-4" /></Button>,
+    code: `<Button variant="outline" size="icon">
+  <ChevronRight className="h-4 w-4" />
+</Button>`,
+  },
+  {
+    label: "Button with Icon",
+    description: "Button with text and an icon.",
+    component: <Button><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading</Button>,
     code: `<Button>
-  Primary Action
-</Button>`
+  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+  Loading
+</Button>`,
   },
   {
-    name: 'Secondary Button',
-    description: 'Used for secondary actions',
-    component: (
-      <Button variant="secondary">
-        Secondary Action
-      </Button>
-    ),
-    code: `<Button variant="secondary">
-  Secondary Action
-</Button>`
+    label: "Disabled Button",
+    description: "Non-interactive button.",
+    component: <Button disabled>Disabled</Button>,
+    code: `<Button disabled>Disabled</Button>`,
   },
   {
-    name: 'Ghost Button',
-    description: 'Minimal visual style',
-    component: (
-      <Button variant="ghost">
-        Ghost Button
-      </Button>
-    ),
-    code: `<Button variant="ghost">
-  Ghost Button
-</Button>`
-  },
-  {
-    name: 'Outline Button',
-    description: 'Bordered button style',
-    component: (
-      <Button variant="outline">
-        Outline Button
-      </Button>
-    ),
-    code: `<Button variant="outline">
-  Outline Button
-</Button>`
-  },
-  {
-    name: 'Destructive Button',
-    description: 'For destructive actions',
-    component: (
-      <Button variant="destructive">
-        Delete Item
-      </Button>
-    ),
-    code: `<Button variant="destructive">
-  Delete Item
-</Button>`
-  },
-  {
-    name: 'Icon Button',
-    description: 'Button with an icon',
-    component: (
-      <Button>
-        <Zap className="mr-2 h-4 w-4" /> With Icon
-      </Button>
-    ),
-    code: `<Button>
-  <Zap className="mr-2 h-4 w-4" /> With Icon
-</Button>`
-  },
-  {
-    name: 'Loading Button',
-    description: 'Shows loading state',
-    component: (
-      <Button disabled>
-        <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading...
-      </Button>
-    ),
-    code: `<Button disabled>
-  <RefreshCw className="mr-2 h-4 w-4 animate-spin" /> Loading...
-</Button>`
-  },
-  {
-    name: 'Small Button',
-    description: 'Compact size button',
-    component: (
-      <Button size="sm">
-        Small Button
-      </Button>
-    ),
-    code: `<Button size="sm">
-  Small Button
-</Button>`
-  },
-  {
-    name: 'Large Button',
-    description: 'Larger size button',
-    component: (
-      <Button size="lg">
-        Large Button
-      </Button>
-    ),
-    code: `<Button size="lg">
-  Large Button
-</Button>`
+    label: "As Child Prop",
+    description: "Render as an anchor tag.",
+    component: <Button asChild><a href="#">Login</a></Button>,
+    code: `<Button asChild>
+  <a href="#">Login</a>
+</Button>`,
   },
 ];
 
 const ButtonExamples = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [showCode, setShowCode] = useState<number | null>(null);
-
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code);
-    toast.success("Code copied to clipboard!");
-  };
-
-  useEffect(() => {
-    const animateElements = () => {
-      const cards = containerRef.current?.querySelectorAll('.button-card')
-
-      cards?.forEach((card, index) => {
-        const element = card as HTMLElement
-        element.style.opacity = '0'
-        element.style.transform = 'translateY(20px)'
-
-        setTimeout(() => {
-          element.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out'
-          element.style.opacity = '1'
-          element.style.transform = 'translateY(0)'
-        }, index * 100)
-      })
-    }
-
-    animateElements()
-  }, []);
-
   return (
-    <div ref={containerRef} className="space-y-8">
+    <div className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-3">Button Components</h2>
+        <h2 className="text-2xl font-bold mb-3">Button Examples</h2>
         <p className="text-muted-foreground">
-          Our versatile button collection offers various styles, sizes, and states to enhance your UI.
+          Showcase of different button variants and styles using Shadcn UI.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {buttonVariants.map((button, index) => (
-          <div key={index} className="button-card space-y-4 p-6 bg-card rounded-xl border">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-bold mb-1">{button.name}</h3>
-                <p className="text-sm text-muted-foreground">{button.description}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {BUTTON_EXAMPLES.map((btn) => (
+          <CodeToggle
+            key={btn.label}
+            previewContent={
+              <div className="space-y-4 p-4">
+                 <div className="mb-2">
+                  <h3 className="text-lg font-semibold mb-1">{btn.label}</h3>
+                  <p className="text-sm text-muted-foreground">{btn.description}</p>
+                </div>
+                <div className="flex justify-center items-center min-h-[60px]">
+                  {btn.component}
+                </div>
               </div>
-              <div className="flex space-x-2">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowCode(showCode === index ? null : index)}
-                  className="h-8 w-8 rounded-full"
-                >
-                  <Code className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => copyCode(button.code)}
-                  className="h-8 w-8 rounded-full"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center py-6">
-              {showCode === index ? (
-                <CodeBlock code={button.code} />
-              ) : (
-                button.component
-              )}
-            </div>
-          </div>
+            }
+            codeContent={btn.code}
+            className="w-full"
+          />
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ButtonExamples;
+export default ButtonExamples

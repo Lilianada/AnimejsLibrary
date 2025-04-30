@@ -1,7 +1,8 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { CheckCircle, Circle } from "lucide-react";
 import clsx from "clsx";
+// import CardsExamples from "./CardsExamples"; // Removed import
+import CardAnimations from "./animations/cards/CardAnimations";
 
 const cardsData = [
   {
@@ -71,66 +72,11 @@ const CardsGallery = () => {
     <section className="w-full py-6 px-1">
       <div
         ref={containerRef}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+        className="grid gap-8 max-w-6xl mx-auto h-full min-h-[calc(100vh-64px)]"
       >
-        {cardsData.map((card, idx) => (
-          <div
-            key={card.title}
-            className={clsx(
-              "gallery-card bg-[#232234] border border-[#25232c] rounded-2xl shadow-xl group overflow-hidden relative flex flex-col transition-all duration-300 cursor-pointer min-h-[320px]",
-              "hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.025]",
-              selected === idx
-                ? "ring-4 ring-[#FDA858] ring-offset-2"
-                : "hover:ring-2 hover:ring-[#949cfb]/60"
-            )}
-            onClick={() => setSelected(selected === idx ? null : idx)}
-          >
-            {/* Card Top (image and selection) */}
-            <div className="relative h-40 overflow-hidden">
-              <img
-                className={clsx(
-                  "object-cover w-full h-full transition-transform duration-500",
-                  "group-hover:scale-110 group-hover:rotate-1"
-                )}
-                src={card.image}
-                alt={card.title}
-              />
-              <span
-                className={clsx(
-                  "absolute top-3 right-3 transition-all",
-                  selected === idx
-                    ? "scale-125 text-[#FDA858] drop-shadow-glow"
-                    : "opacity-80 text-gray-300 group-hover:scale-110"
-                )}
-              >
-                {selected === idx ? (
-                  <CheckCircle className="w-7 h-7" />
-                ) : (
-                  <Circle className="w-7 h-7" />
-                )}
-              </span>
-            </div>
-            {/* Card Content */}
-            <div className="flex-1 flex flex-col px-5 py-5">
-              <h3 className="font-bold text-lg text-white mb-1">{card.title}</h3>
-              <p className="text-sm text-muted-foreground">
-                {card.description}
-              </p>
-              <div
-                className={clsx(
-                  "transition-all",
-                  selected === idx
-                    ? "mt-5 max-h-28 opacity-100"
-                    : "mt-0 max-h-0 opacity-0"
-                )}
-              >
-                <p className="text-md mt-2 text-[#FDA858] font-bold">
-                  {card.extra}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
+        <div className="animation-card lg:col-span-2">
+          <CardAnimations />
+        </div>
       </div>
     </section>
   );

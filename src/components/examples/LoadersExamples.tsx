@@ -1,6 +1,98 @@
-import { useState } from 'react';
-import WaveLoader from './animations/loaders/WaveLoader';
+import { useState, useEffect, useRef } from 'react';
 import { CodeToggle } from './CodeToggle';
+import { animate, stagger } from 'animejs';
+
+// Define the working loader component here
+const WavyDotsLoader = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let animation: ReturnType<typeof animate> | null = null;
+    const targets = containerRef.current?.querySelectorAll('.wave-dot');
+
+    if (targets && targets.length > 0) {
+      animation = animate(
+        targets,
+        {
+          translateY: [
+            { value: -12, duration: 400, easing: 'easeInOutSine' },
+            { value: 0, duration: 400, easing: 'easeInOutSine' }
+          ],
+          delay: stagger(90),
+          loop: true,
+          direction: 'alternate'
+        }
+      );
+    }
+    return () => {
+      if (animation && typeof animation.pause === 'function') {
+        animation.pause();
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} className="flex gap-2 items-center h-8">
+      {[...Array(5)].map((_, i) => (
+        <span
+          key={i}
+          className="wave-dot inline-block w-3 h-3 rounded-full bg-primary"
+        ></span>
+      ))}
+    </div>
+  );
+};
+
+// Updated loader data
+const LOADER_DATA = [
+  {
+    label: "Wavy Dots Loader",
+    description: "Dots moving in a wave pattern using Anime.js.",
+    component: <WavyDotsLoader />,
+    code: `import { useEffect, useRef } from 'react';
+import { animate, stagger } from 'animejs';
+
+const WavyDotsLoader = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let animation: ReturnType<typeof animate> | null = null;
+    const targets = containerRef.current?.querySelectorAll('.wave-dot');
+
+    if (targets && targets.length > 0) {
+      animation = animate(
+        targets,
+        {
+          translateY: [
+            { value: -12, duration: 400, easing: 'easeInOutSine' },
+            { value: 0, duration: 400, easing: 'easeInOutSine' }
+          ],
+          delay: stagger(90),
+          loop: true,
+          direction: 'alternate'
+        }
+      );
+    }
+    return () => {
+      if (animation && typeof animation.pause === 'function') {
+        animation.pause();
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={containerRef} className="flex gap-2 items-center h-8">
+      {[...Array(5)].map((_, i) => (
+        <span
+          key={i}
+          className="wave-dot inline-block w-3 h-3 rounded-full bg-primary"
+        ></span>
+      ))}
+    </div>
+  );
+};`
+  }
+];
 
 const LoadersExamples = () => {
   return (
@@ -13,49 +105,24 @@ const LoadersExamples = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <CodeToggle
-          previewContent={
-            <div className="flex items-center justify-center p-8">
-              <WaveLoader />
-            </div>
-          }
-          codeContent={`
-import { useEffect, useRef } from 'react';
-import anime from 'animejs';
-
-const WaveLoader = () => {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      const animation = anime({
-        targets: '.wave-dot',
-        translateY: [
-          { value: -15, duration: 300, easing: 'easeOutCubic' },
-          { value: 0, duration: 300, easing: 'easeInCubic' }
-        ],
-        delay: anime.stagger(100),
-        loop: true,
-        direction: 'alternate'
-      });
-
-      return () => animation.pause();
-    }
-  }, []);
-
-  return (
-    <div ref={containerRef} className="flex items-center justify-center gap-2">
-      {[...Array(5)].map((_, i) => (
-        <div
-          key={i}
-          className="wave-dot w-3 h-3 bg-primary rounded-full"
-        />
-      ))}
-    </div>
-  );
-};
-          `}
-        />
+        {LOADER_DATA.map(loader => (
+          <CodeToggle
+            key={loader.label}
+            previewContent={
+              <div className="space-y-4 p-4">
+                <div className="mb-2">
+                  <h3 className="text-lg font-semibold mb-1">{loader.label}</h3>
+                  <p className="text-sm text-muted-foreground">{loader.description}</p>
+                </div>
+                <div className="flex items-center justify-center min-h-[60px] p-8">
+                  {loader.component}
+                </div>
+              </div>
+            }
+            codeContent={loader.code}
+            className="w-full h-full"
+          />
+        ))}
       </div>
     </div>
   );

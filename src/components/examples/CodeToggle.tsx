@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
@@ -60,8 +59,8 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
             isCodeView ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
-          <div className="relative">
-            <pre className="p-4 rounded-lg bg-muted overflow-x-auto whitespace-pre text-sm">
+          <div className="relative h-full">
+            <pre className="p-4 rounded-lg bg-muted overflow-x-auto overflow-y-auto whitespace-pre text-sm h-full">
               <code className="text-foreground font-mono">{codeContent}</code>
             </pre>
             <button

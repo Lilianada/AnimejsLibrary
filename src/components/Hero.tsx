@@ -1,22 +1,7 @@
-
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { toast } from "sonner";
 
 const Hero = () => {
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      toast.success("You've been added to the waitlist!");
-      setEmail("");
-    } else {
-      toast.error("Please enter a valid email address");
-    }
-  };
-
   return (
     <section className="relative bg-[#181818] overflow-hidden h-[calc(100vh-70px)] flex items-center">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -38,24 +23,27 @@ const Hero = () => {
         <p className="max-w-2xl text-lg md:text-xl text-muted-foreground text-center mb-8">
           Build modern interfaces faster with stunning, animated components.
         </p>
-        {/* Waitlist form */}
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md mb-4">
-          <Input
-            type="email"
-            placeholder="Enter your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="flex-1"
-            required
-          />
+        {/* Replaced Waitlist form with Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 items-center">
           <Button
-            type="submit"
+            asChild // Use asChild to render an anchor tag
+            variant="outline"
+            className="border-white/20 hover:bg-white/10 transition-colors"
+          >
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              {/* Add Github icon later if needed */}
+              Star on Github
+            </a>
+          </Button>
+          <Button
+            asChild // Use asChild to render an anchor tag
             className="bg-[#FDA858] text-[#191921] hover:bg-[#F9B143] transition-colors"
           >
-            Join Waitlist
+             <a href="/examples">
+                See Examples
+             </a>
           </Button>
-        </form>
-        <p className="text-sm text-muted-foreground">200+ people are already waiting...</p>
+        </div>
       </div>
     </section>
   );

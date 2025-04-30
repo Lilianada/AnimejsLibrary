@@ -13,7 +13,7 @@ interface MainContainerProps {
 
 const MainContainer = ({ category }: MainContainerProps) => {
   return (
-    <main className="flex-1 p-8 overflow-auto">
+    <main className="flex-1 p-8 overflow-auto mt-16">
       {category === 'buttons' && <ButtonExamples />}
       {category === 'animations' && <AnimationExamples />}
       {category === 'forms' && <FormsExamples />}

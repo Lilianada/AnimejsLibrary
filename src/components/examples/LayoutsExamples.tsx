@@ -1,9 +1,8 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const LayoutsExamples = () => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 min-h-[calc(100vh-64px)]">
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-3">Layout Examples</h2>
         <p className="text-muted-foreground">

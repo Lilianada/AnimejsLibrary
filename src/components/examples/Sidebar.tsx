@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -13,16 +12,17 @@ interface SidebarProps {
 const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   const isMobile = useIsMobile()
   const [mounted, setMounted] = useState(false)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
 
   // Define categories
   const categories = [
     { id: 'buttons', name: 'Buttons' },
-    { id: 'forms', name: 'Forms & Inputs' },
-    { id: 'animations', name: 'Animations' },
-    { id: 'modals', name: 'Modals & Dialogs' },
     { id: 'cards', name: 'Cards & Tiles' },
+    { id: 'forms', name: 'Forms & Inputs' },
     { id: 'loaders', name: 'Loaders & Spinners' },
+    { id: 'modals', name: 'Modals & Dialogs' },
+    { id: 'animations', name: 'Animations' },
     { id: 'layouts', name: 'Layouts' }
   ]
 
@@ -47,6 +47,12 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
     }
   }, [mounted])
 
+  // Function to handle category selection and close sheet
+  const handleCategorySelect = (categoryId: string) => {
+    onSelectCategory(categoryId)
+    setIsSheetOpen(false)
+  }
+
   const SidebarContent = () => (
     <div className="h-full flex flex-col gap-1 pt-4" ref={sidebarRef}>
       <div className="mb-4 px-4 sticky top-0 bg-background z-10 pb-2">
@@ -63,7 +69,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
                 ? 'text-[#FDA858] font-bold'
                 : 'hover:text-[#FDA858]'
             }`}
-            onClick={() => onSelectCategory(category.id)}
+            onClick={() => handleCategorySelect(category.id)}
           >
             {category.name}
           </Button>
@@ -75,8 +81,8 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   if (!mounted) return null;
 
   return isMobile ? (
-    <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center border-b bg-background">
-      <Sheet>
+    <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center justify-between row-reverse border-b bg-background mb-3">
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="mr-2">
             <Menu className="h-5 w-5" />
