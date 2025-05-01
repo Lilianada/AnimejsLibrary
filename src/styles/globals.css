@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    --background: 0 0% 9%;  /* #181818 */
+    --background: 0 0% 9%; /* #181818 */
     --foreground: 0 0% 98%;
     --card: 0 0% 12%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 98%;
-    --primary:0 100% 64.71%; /* neon pink for gradients */
+    --primary: 0 100% 64.71%; /* neon pink for gradients */
     --primary-foreground: 0 0% 9%;
     --secondary: 252 100% 86%;
     --secondary-foreground: 0 0% 9%;
@@ -32,12 +32,12 @@
 
   * {
     @apply border-border;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: "Space Grotesk", sans-serif;
   }
 
   body {
     @apply bg-background text-foreground font-space-grotesk antialiased;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: "Space Grotesk", sans-serif;
   }
 
   .glass-btn {
@@ -52,9 +52,15 @@
 
   .btn-ripple::after {
     @apply content-[''] block absolute inset-0 pointer-events-none opacity-0 scale-[10];
-    background: radial-gradient(circle, rgba(255,255,255,0.45) 10%, transparent 10.01%);
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.45) 10%,
+      transparent 10.01%
+    );
     transform-origin: center;
-    transition: transform 0.4s, opacity 0.5s;
+    transition:
+      transform 0.4s,
+      opacity 0.5s;
   }
   .btn-ripple:active::after {
     @apply scale-0 opacity-30;
@@ -78,78 +84,91 @@
   }
 
   .neon-glow {
-    text-shadow: 0 0 6px #ffd6fe, 0 0 12px #ef32ffaa, 0 0 32px #ef32ff88;
+    text-shadow:
+      0 0 6px #ffd6fe,
+      0 0 12px #ef32ffaa,
+      0 0 32px #ef32ff88;
   }
-  
+
   /* Loaders CSS */
   .spinner {
     width: 40px;
     height: 40px;
     border: 3px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    border-top-color: #FDA858;
+    border-top-color: #fda858;
     animation: spin 1s ease-in-out infinite;
   }
 
   @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
-  
+
   .dots-loader {
     display: flex;
     justify-content: center;
     gap: 8px;
   }
-  
+
   .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #FDA858;
+    background-color: #fda858;
     animation: bounce 0.6s infinite alternate;
   }
-  
-  .dot:nth-child(2) { animation-delay: 0.2s; }
-  .dot:nth-child(3) { animation-delay: 0.4s; }
-  
-  @keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(-10px); }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.2s;
   }
-  
+  .dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes bounce {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-10px);
+    }
+  }
+
   .progress-bar {
     height: 8px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     overflow: hidden;
   }
-  
+
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #FDA858, #9046ff);
+    background: linear-gradient(90deg, #fda858, #9046ff);
     transition: width 0.3s ease;
   }
-  
+
   .circular-progress {
     position: relative;
   }
-  
+
   .circular-progress-bg {
     fill: none;
     stroke: rgba(255, 255, 255, 0.1);
     stroke-width: 4;
   }
-  
+
   .circular-progress-fill {
     fill: none;
-    stroke: #FDA858;
+    stroke: #fda858;
     stroke-width: 4;
     stroke-dasharray: 251.2;
     stroke-linecap: round;
     transform-origin: center;
     transition: stroke-dashoffset 0.5s ease;
   }
-  
+
   .indeterminate-progress {
     height: 4px;
     width: 100%;
@@ -158,22 +177,26 @@
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
   }
-  
+
   .indeterminate-progress::after {
-    content: '';
+    content: "";
     position: absolute;
     height: 100%;
     width: 50%;
-    background-color: #FDA858;
+    background-color: #fda858;
     animation: indeterminate 1.5s infinite;
     border-radius: 2px;
   }
-  
+
   @keyframes indeterminate {
-    0% { left: -50%; }
-    100% { left: 100%; }
+    0% {
+      left: -50%;
+    }
+    100% {
+      left: 100%;
+    }
   }
-  
+
   /* Section backgrounds for unified look */
   .bg-section {
     background: #181818;
@@ -183,32 +206,35 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-/* --- Page transition (fade) --- */
+  /* --- Page transition (fade) --- */
 
-/* Start visible, but off-screen */
-.page-fade-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
+  /* Start visible, but off-screen */
+  .page-fade-enter {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 
-/* Active class sets the transition */
-.page-fade-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.4s, transform 0.4s;
-}
+  /* Active class sets the transition */
+  .page-fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 0.4s,
+      transform 0.4s;
+  }
 
-/* From state on exit (still visible) */
-.page-fade-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
+  /* From state on exit (still visible) */
+  .page-fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-/* Active class triggers the exit transition */
-.page-fade-exit-active {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s, transform 0.3s;
-}
-
+  /* Active class triggers the exit transition */
+  .page-fade-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
+  }
 }

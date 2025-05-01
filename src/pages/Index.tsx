@@ -1,7 +1,7 @@
-import Hero from '@/components/Hero';
-import Examples from '@/components/Examples';
-import Sponsors from '@/components/Sponsors';
-import Newsletter from '@/components/Newsletter';
+import Hero from "@/components/Hero";
+import Examples from "@/components/Examples";
+import Sponsors from "@/components/Sponsors";
+import Newsletter from "@/components/Newsletter";
 
 const Index = () => {
   return (

@@ -1,7 +1,6 @@
-
-import { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
-import './loader-animations.css';
+import { useEffect, useRef } from "react";
+import * as anime from "animejs";
+import "./loader-animations.css";
 
 const LoaderAnimations = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,13 +8,16 @@ const LoaderAnimations = () => {
   useEffect(() => {
     if (containerRef.current) {
       // Use the correct anime.js method
-      anime.animate(containerRef.current.querySelectorAll('.loader-animation'), {
-        opacity: [0, 1],
-        translateY: [20, 0],
-        delay: anime.stagger(100),
-        easing: 'easeOutQuad',
-        duration: 600
-      });
+      anime.animate(
+        containerRef.current.querySelectorAll(".loader-animation"),
+        {
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: anime.stagger(100),
+          easing: "easeOutQuad",
+          duration: 600,
+        },
+      );
     }
   }, []);
 

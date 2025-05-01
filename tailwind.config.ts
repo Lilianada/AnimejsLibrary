@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -39,7 +38,7 @@ export default {
         ring: "hsl(var(--ring))",
       },
       fontFamily: {
-        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        "space-grotesk": ["Space Grotesk", "sans-serif"],
       },
       fontSize: {
         sm: "0.875rem",

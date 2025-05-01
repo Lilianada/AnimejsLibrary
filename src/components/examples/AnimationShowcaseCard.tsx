@@ -1,5 +1,11 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface AnimationShowcaseCardProps {
   label: string;
@@ -12,7 +18,7 @@ const AnimationShowcaseCard: React.FC<AnimationShowcaseCardProps> = ({
   label,
   description,
   previewContent,
-  className
+  className,
 }) => {
   return (
     <Card className={`shadow-lg border-border overflow-visible ${className}`}>
@@ -29,4 +35,4 @@ const AnimationShowcaseCard: React.FC<AnimationShowcaseCardProps> = ({
   );
 };
 
-export default AnimationShowcaseCard; 
+export default AnimationShowcaseCard;

@@ -1,14 +1,13 @@
-
-import { useState } from 'react';
-import { Mail } from 'lucide-react';
+import { useState } from "react";
+import { Mail } from "lucide-react";
 
 const Newsletter = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle newsletter subscription
-    console.log('Newsletter subscription:', email);
+    console.log("Newsletter subscription:", email);
   };
 
   return (

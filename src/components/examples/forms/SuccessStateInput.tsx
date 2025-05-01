@@ -1,6 +1,5 @@
-
-import React from 'react';
-import './forms.css';
+import React from "react";
+import "./forms.css";
 
 interface SuccessStateInputProps {
   success: string;
@@ -9,7 +8,11 @@ interface SuccessStateInputProps {
 const SuccessStateInput: React.FC<SuccessStateInputProps> = ({ success }) => {
   return (
     <div className="success-state-container">
-      <input type="text" className="success-state-input" placeholder="Enter value" />
+      <input
+        type="text"
+        className="success-state-input"
+        placeholder="Enter value"
+      />
       <p className="success-message">{success}</p>
     </div>
   );

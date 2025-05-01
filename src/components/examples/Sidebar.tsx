@@ -1,73 +1,79 @@
-import { useEffect, useRef, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Menu } from 'lucide-react'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SidebarProps {
-  selectedCategory: string
-  onSelectCategory: (category: string) => void
+  selectedCategory: string;
+  onSelectCategory: (category: string) => void;
 }
 
 const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
-  const isMobile = useIsMobile()
-  const [mounted, setMounted] = useState(false)
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const sidebarRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile();
+  const [mounted, setMounted] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   // Define categories
   const categories = [
-    { id: 'buttons', name: 'Buttons' },
-    { id: 'cards', name: 'Cards & Tiles' },
-    { id: 'forms', name: 'Forms & Inputs' },
-    { id: 'loaders', name: 'Loaders & Spinners' },
-    { id: 'toasts', name: 'Toasts' },
-    { id: 'draggable', name: 'Draggable' },
-    { id: 'animations', name: 'General Animations' }
-  ]
+    { id: "buttons", name: "Buttons" },
+    { id: "cards", name: "Cards & Tiles" },
+    { id: "forms", name: "Forms & Inputs" },
+    { id: "loaders", name: "Loaders & Spinners" },
+    { id: "toasts", name: "Toasts" },
+    { id: "draggable", name: "Draggable" },
+    { id: "animations", name: "General Animations" },
+  ];
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (mounted && sidebarRef.current) {
-      const items = sidebarRef.current.querySelectorAll('.sidebar-item')
+      const items = sidebarRef.current.querySelectorAll(".sidebar-item");
       items.forEach((item, index) => {
-        const element = item as HTMLElement
-        element.style.opacity = '0'
-        element.style.transform = 'translateX(-10px)'
+        const element = item as HTMLElement;
+        element.style.opacity = "0";
+        element.style.transform = "translateX(-10px)";
 
-        setTimeout(() => {
-          element.style.transition = 'opacity 300ms, transform 300ms'
-          element.style.opacity = '1'
-          element.style.transform = 'translateX(0)'
-        }, 100 + index * 50)
-      })
+        setTimeout(
+          () => {
+            element.style.transition = "opacity 300ms, transform 300ms";
+            element.style.opacity = "1";
+            element.style.transform = "translateX(0)";
+          },
+          100 + index * 50,
+        );
+      });
     }
-  }, [mounted])
+  }, [mounted]);
 
   // Function to handle category selection and close sheet
   const handleCategorySelect = (categoryId: string) => {
-    onSelectCategory(categoryId)
-    setIsSheetOpen(false)
-  }
+    onSelectCategory(categoryId);
+    setIsSheetOpen(false);
+  };
 
   const SidebarContent = () => (
     <div className="h-full flex flex-col gap-1 pt-4" ref={sidebarRef}>
       <div className="mb-4 px-4 sticky top-0 bg-background z-10 pb-2">
         <h2 className="text-lg font-semibold">Component Categories</h2>
-        <p className="text-sm text-muted-foreground">Select a category to explore examples</p>
+        <p className="text-sm text-muted-foreground">
+          Select a category to explore examples
+        </p>
       </div>
       <div className="flex flex-col gap-1 overflow-y-auto">
-        {categories.map(category => (
+        {categories.map((category) => (
           <Button
             key={category.id}
             variant="ghost"
-            className={`sidebar-item justify-start px-4 transition-none ${selectedCategory === category.id
-                ? 'text-primary font-bold'
-                : 'hover:text-primary'
-              }`}
+            className={`sidebar-item justify-start px-4 transition-none ${
+              selectedCategory === category.id
+                ? "text-primary font-bold"
+                : "hover:text-primary"
+            }`}
             onClick={() => handleCategorySelect(category.id)}
           >
             {category.name}
@@ -75,7 +81,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
         ))}
       </div>
     </div>
-  )
+  );
 
   if (!mounted) return null;
 
@@ -91,10 +97,11 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
           <SidebarContent />
         </SheetContent>
       </Sheet>
-      
+
       <div>
         <h2 className="text-lg font-semibold">
-          {categories.find(c => c.id === selectedCategory)?.name || 'Examples'}
+          {categories.find((c) => c.id === selectedCategory)?.name ||
+            "Examples"}
         </h2>
       </div>
     </div>

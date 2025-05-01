@@ -1,4 +1,3 @@
-
 // COMBINED DOCS PAGE WITH FIXED CODEBLOCK ERRORS, PAGINATION, AND MOBILE SIDEBAR.
 
 import * as React from "react";
@@ -14,35 +13,41 @@ const docsSections = [
       <>
         <h2 className="text-xl font-bold mb-3">Introduction & Setup</h2>
         <p>
-          The React & Anime.js Animation Library provides a comprehensive suite of components and utilities for creating stunning, high-performance UI animations in your React projects. Combining the power and simplicity of Anime.js with a robust suite of ready-made components, it empowers you to build beautiful UIs faster and more easily.
+          The React & Anime.js Animation Library provides a comprehensive suite
+          of components and utilities for creating stunning, high-performance UI
+          animations in your React projects. Combining the power and simplicity
+          of Anime.js with a robust suite of ready-made components, it empowers
+          you to build beautiful UIs faster and more easily.
         </p>
         <h3 className="mt-6 text-lg font-semibold">Installation</h3>
-        <pre className="p-3 bg-muted/50 rounded text-sm"><code>
-npm install animejs react react-dom
-# or
-yarn add animejs react react-dom
-        </code></pre>
+        <pre className="p-3 bg-muted/50 rounded text-sm">
+          <code>
+            npm install animejs react react-dom # or yarn add animejs react
+            react-dom
+          </code>
+        </pre>
         <h3 className="mt-6 text-lg font-semibold">Basic Setup</h3>
         <p>
-          To get started, simply import <code>anime</code> from <code>animejs</code> and use it within your React components. For example:
+          To get started, simply import <code>anime</code> from{" "}
+          <code>animejs</code> and use it within your React components. For
+          example:
         </p>
-        <pre className="p-3 bg-muted/50 rounded text-sm"><code>
-import anime from &apos;animejs&apos;;
-
-useEffect(() =&gt; {"{"}
-  anime({"{"} 
-    targets: ref.current, 
-    opacity: [0, 1], 
-    duration: 1000 
-  {"}"});
-{"}"}, []);
-        </code></pre>
+        <pre className="p-3 bg-muted/50 rounded text-sm">
+          <code>
+            import anime from &apos;animejs&apos;; useEffect(() =&gt; {"{"}
+            anime({"{"}
+            targets: ref.current, opacity: [0, 1], duration: 1000
+            {"}"});
+            {"}"}, []);
+          </code>
+        </pre>
         <h3 className="mt-6 text-lg font-semibold">Browser Compatibility</h3>
         <p>
-          Anime.js supports all modern browsers. For older browsers, consider adding suitable polyfills.
+          Anime.js supports all modern browsers. For older browsers, consider
+          adding suitable polyfills.
         </p>
       </>
-    )
+    ),
   },
   {
     title: "2. Core Concepts",
@@ -51,13 +56,25 @@ useEffect(() =&gt; {"{"}
       <>
         <h2 className="text-xl font-bold mb-3">Core Concepts</h2>
         <ol className="list-disc space-y-2 pl-4">
-          <li><b>Anime.js Integration:</b> Hook Anime.js into React's lifecycle for seamless, performant animations.</li>
-          <li><b>Refs & Animation Targets:</b> Use React refs to target DOM elements with Anime.js.</li>
-          <li><b>Animation Triggers:</b> Trigger animations on mount, state change, or user events.</li>
-          <li><b>Performance Considerations:</b> Minimize re-renders and follow Anime.js best practices for performance.</li>
+          <li>
+            <b>Anime.js Integration:</b> Hook Anime.js into React's lifecycle
+            for seamless, performant animations.
+          </li>
+          <li>
+            <b>Refs & Animation Targets:</b> Use React refs to target DOM
+            elements with Anime.js.
+          </li>
+          <li>
+            <b>Animation Triggers:</b> Trigger animations on mount, state
+            change, or user events.
+          </li>
+          <li>
+            <b>Performance Considerations:</b> Minimize re-renders and follow
+            Anime.js best practices for performance.
+          </li>
         </ol>
       </>
-    )
+    ),
   },
   {
     title: "3. Component Documentation",
@@ -67,38 +84,50 @@ useEffect(() =&gt; {"{"}
         <h2 className="text-xl font-bold mb-3">Component Documentation</h2>
         <ul className="list-disc space-y-3 pl-6">
           <li>
-            <span className="font-semibold">Props API:</span> 
+            <span className="font-semibold">Props API:</span>
             <br />
-            <span>All animation components list their prop types, defaults, and descriptions in a clear table.</span>
+            <span>
+              All animation components list their prop types, defaults, and
+              descriptions in a clear table.
+            </span>
           </li>
           <li>
             <span className="font-semibold">Methods:</span>
             <br />
-            <span>Components with additional methods (like <code>play()</code>, <code>pause()</code>) document their APIs where relevant.</span>
+            <span>
+              Components with additional methods (like <code>play()</code>,{" "}
+              <code>pause()</code>) document their APIs where relevant.
+            </span>
           </li>
           <li>
             <span className="font-semibold">Usage Examples:</span>
-            <pre className="p-3 bg-muted/50 rounded text-xs"><code>
-{`<FloatingLabelInput 
+            <pre className="p-3 bg-muted/50 rounded text-xs">
+              <code>
+                {`<FloatingLabelInput 
   label="Email" 
   animation="slide"
   onFocus={() => /* animation logic */} 
 />`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
           <li>
             <span className="font-semibold">Customization Options:</span>
             <br />
-            <span>Animations & styles customizable via props or style overrides.</span>
+            <span>
+              Animations & styles customizable via props or style overrides.
+            </span>
           </li>
           <li>
             <span className="font-semibold">Accessibility Considerations:</span>
             <br />
-            <span>ARIA attributes and keyboard navigation provided out of the box.</span>
+            <span>
+              ARIA attributes and keyboard navigation provided out of the box.
+            </span>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "4. Animation Categories",
@@ -110,11 +139,16 @@ useEffect(() =&gt; {"{"}
           The library covers a broad set of animation categories:
         </p>
         <ul className="list-disc space-y-2 pl-5">
-          <li>Forms, Modals, Cards, Lists, Loaders, Sidebars, Tooltips, Toasts</li>
-          <li>Each category lists available components, usage patterns, and interactive examples.</li>
+          <li>
+            Forms, Modals, Cards, Lists, Loaders, Sidebars, Tooltips, Toasts
+          </li>
+          <li>
+            Each category lists available components, usage patterns, and
+            interactive examples.
+          </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "5. Advanced Usage",
@@ -123,13 +157,25 @@ useEffect(() =&gt; {"{"}
       <>
         <h2 className="text-xl font-bold mb-3">Advanced Usage</h2>
         <ol className="list-decimal pl-6 space-y-2">
-          <li><b>Creating Custom Animations:</b> Build your own with Anime.js and the library's hooks.</li>
-          <li><b>Animation Timelines:</b> Sequence multiple steps with Anime.js timelines.</li>
-          <li><b>Animation Choreography:</b> Coordinate animations using context or callbacks.</li>
-          <li><b>State Management Integration:</b> Examples for Redux, Zustand, Context.</li>
+          <li>
+            <b>Creating Custom Animations:</b> Build your own with Anime.js and
+            the library's hooks.
+          </li>
+          <li>
+            <b>Animation Timelines:</b> Sequence multiple steps with Anime.js
+            timelines.
+          </li>
+          <li>
+            <b>Animation Choreography:</b> Coordinate animations using context
+            or callbacks.
+          </li>
+          <li>
+            <b>State Management Integration:</b> Examples for Redux, Zustand,
+            Context.
+          </li>
         </ol>
       </>
-    )
+    ),
   },
   {
     title: "6. Animation Recipes",
@@ -143,7 +189,7 @@ useEffect(() =&gt; {"{"}
           <li>Troubleshooting tips for common edge cases.</li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "7. API Reference",
@@ -152,12 +198,15 @@ useEffect(() =&gt; {"{"}
       <>
         <h2 className="text-xl font-bold mb-3">API Reference</h2>
         <p>
-          <b>Configuration Options:</b> Full list of animation parameters (duration, easing, etc.)<br />
-          <b>Easing Functions:</b> Visual chart of supported easings.<br />
+          <b>Configuration Options:</b> Full list of animation parameters
+          (duration, easing, etc.)
+          <br />
+          <b>Easing Functions:</b> Visual chart of supported easings.
+          <br />
           <b>Animation Properties:</b> List of animatable CSS/SVG properties.
         </p>
       </>
-    )
+    ),
   },
   {
     title: "8. Migration Guide",
@@ -167,14 +216,16 @@ useEffect(() =&gt; {"{"}
         <h2 className="text-xl font-bold mb-3">Migration Guide</h2>
         <ol className="list-decimal space-y-2 pl-6">
           <li>
-            <b>Upgrading from Previous Versions:</b> Stepwise instructions for migrating your codebase.
+            <b>Upgrading from Previous Versions:</b> Stepwise instructions for
+            migrating your codebase.
           </li>
           <li>
-            <b>Breaking Changes:</b> See the list of breaking changes for each release.
+            <b>Breaking Changes:</b> See the list of breaking changes for each
+            release.
           </li>
         </ol>
       </>
-    )
+    ),
   },
   {
     title: "9. Lists & Grids",
@@ -185,9 +236,13 @@ useEffect(() =&gt; {"{"}
         <ul className="list-disc space-y-4 pl-6">
           <li>
             <span className="font-semibold">Item Entrance:</span>
-            <p className="mt-1">Staggered fade/slide in for list/grid items, creating a visually pleasing entrance effect.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Staggered list entrance
+            <p className="mt-1">
+              Staggered fade/slide in for list/grid items, creating a visually
+              pleasing entrance effect.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Staggered list entrance
 anime({
   targets: '.list-item',
   translateY: [20, 0],
@@ -195,13 +250,18 @@ anime({
   delay: anime.stagger(100),
   easing: 'easeOutQuad'
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
           <li>
             <span className="font-semibold">Reordering:</span>
-            <p className="mt-1">Smooth movement of items on drag-and-drop for intuitive user interactions.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Animate item movement during reordering
+            <p className="mt-1">
+              Smooth movement of items on drag-and-drop for intuitive user
+              interactions.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Animate item movement during reordering
 anime({
   targets: '.item-' + itemId,
   translateX: targetX,
@@ -209,13 +269,17 @@ anime({
   duration: 300,
   easing: 'easeOutQuint'
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
           <li>
             <span className="font-semibold">Removal:</span>
-            <p className="mt-1">Fade or slide out animations for smooth list item removal.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Animate item removal
+            <p className="mt-1">
+              Fade or slide out animations for smooth list item removal.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Animate item removal
 anime({
   targets: '.item-to-remove',
   translateX: -20,
@@ -226,11 +290,12 @@ anime({
     // Remove from DOM or state after animation completes
   }
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "10. Tooltips & Popovers",
@@ -241,9 +306,12 @@ anime({
         <ul className="list-disc space-y-4 pl-6">
           <li>
             <span className="font-semibold">Show/Hide Animations:</span>
-            <p className="mt-1">Elegant entrance and exit animations for tooltips and popovers.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Fade in tooltip
+            <p className="mt-1">
+              Elegant entrance and exit animations for tooltips and popovers.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Fade in tooltip
 anime({
   targets: '.tooltip',
   opacity: [0, 1],
@@ -260,11 +328,12 @@ anime({
   duration: 250,
   easing: 'easeOutQuint'
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "11. Alerts & Toasts",
@@ -275,9 +344,12 @@ anime({
         <ul className="list-disc space-y-4 pl-6">
           <li>
             <span className="font-semibold">Entrance & Exit:</span>
-            <p className="mt-1">Smooth animations for alert and toast notifications.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Slide in toast from top
+            <p className="mt-1">
+              Smooth animations for alert and toast notifications.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Slide in toast from top
 anime({
   targets: '.toast-notification',
   translateY: [-50, 0],
@@ -297,11 +369,12 @@ anime({
     dismissToast();
   }
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "12. Tabs & Accordions",
@@ -312,9 +385,12 @@ anime({
         <ul className="list-disc space-y-4 pl-6">
           <li>
             <span className="font-semibold">Tab Change:</span>
-            <p className="mt-1">Animated tab transitions and underline indicators.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Animate tab underline
+            <p className="mt-1">
+              Animated tab transitions and underline indicators.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Animate tab underline
 anime({
   targets: '.tab-underline',
   translateX: tabPosition,
@@ -331,13 +407,17 @@ anime({
   easing: 'easeOutQuad',
   duration: 250
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
           <li>
             <span className="font-semibold">Accordion Expand/Collapse:</span>
-            <p className="mt-1">Smooth height transitions and icon rotations.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Animate accordion height
+            <p className="mt-1">
+              Smooth height transitions and icon rotations.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Animate accordion height
 anime({
   targets: '.accordion-content',
   height: [0, expandedHeight],
@@ -353,11 +433,12 @@ anime({
   duration: 300,
   easing: 'easeOutQuad'
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "13. SVG & Icon Animations",
@@ -369,8 +450,9 @@ anime({
           <li>
             <span className="font-semibold">Path Animation:</span>
             <p className="mt-1">Drawing and animating SVG paths.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// SVG path drawing animation
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// SVG path drawing animation
 anime({
   targets: '.path-draw',
   strokeDashoffset: [anime.setDashoffset, 0],
@@ -380,13 +462,15 @@ anime({
   direction: 'alternate',
   loop: true
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
           <li>
             <span className="font-semibold">Morphing:</span>
             <p className="mt-1">Shape morphing for icons or illustrations.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Morph between SVG paths
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Morph between SVG paths
 anime({
   targets: '.morph-path',
   d: [
@@ -398,11 +482,12 @@ anime({
   duration: 1000,
   loop: true
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "14. Page Transitions",
@@ -413,9 +498,12 @@ anime({
         <ul className="list-disc space-y-4 pl-6">
           <li>
             <span className="font-semibold">Route Change Animations:</span>
-            <p className="mt-1">Smooth transitions between pages for a polished user experience.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Page exit animation
+            <p className="mt-1">
+              Smooth transitions between pages for a polished user experience.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Page exit animation
 function exitPage() {
   return anime({
     targets: '.page-content',
@@ -443,11 +531,12 @@ async function handleRouteChange(to) {
   history.push(to);
   enterPage();
 }`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "15. Theme Toggles",
@@ -459,8 +548,9 @@ async function handleRouteChange(to) {
           <li>
             <span className="font-semibold">Dark/Light Mode Transitions:</span>
             <p className="mt-1">Smooth transitions between theme modes.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Animate theme icon (sun to moon)
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Animate theme icon (sun to moon)
 anime({
   targets: '.theme-icon path',
   d: [
@@ -478,24 +568,30 @@ anime({
   duration: 500,
   easing: 'easeOutQuad'
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
+    ),
   },
   {
     title: "16. Miscellaneous Techniques",
     slug: "miscellaneous",
     content: (
       <>
-        <h2 className="text-xl font-bold mb-3">Miscellaneous Animation Techniques</h2>
+        <h2 className="text-xl font-bold mb-3">
+          Miscellaneous Animation Techniques
+        </h2>
         <ul className="list-disc space-y-4 pl-6">
           <li>
             <span className="font-semibold">Staggered Animations:</span>
-            <p className="mt-1">Creating sequential animations for multiple elements.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Staggered entrance
+            <p className="mt-1">
+              Creating sequential animations for multiple elements.
+            </p>
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Staggered entrance
 anime({
   targets: '.menu-item',
   translateY: [20, 0],
@@ -504,13 +600,15 @@ anime({
   easing: 'easeOutQuad',
   duration: 400
 });`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
           <li>
             <span className="font-semibold">Timeline Animations:</span>
             <p className="mt-1">Coordinating complex, multi-step animations.</p>
-            <pre className="p-3 bg-muted/50 rounded text-xs mt-2"><code>
-{`// Create animation timeline
+            <pre className="p-3 bg-muted/50 rounded text-xs mt-2">
+              <code>
+                {`// Create animation timeline
 const timeline = anime.timeline({
   easing: 'easeOutQuad',
   duration: 500
@@ -533,12 +631,13 @@ timeline
     scale: [0.8, 1],
     opacity: [0, 1]
   }, '-=150');`}
-            </code></pre>
+              </code>
+            </pre>
           </li>
         </ul>
       </>
-    )
-  }
+    ),
+  },
 ];
 
 // Mobile sidebar mode state
@@ -552,7 +651,8 @@ const Docs = () => {
   const { open, setOpen } = useMobileSidebar();
 
   const handlePrev = () => setPage((p) => Math.max(0, p - 1));
-  const handleNext = () => setPage((p) => Math.min(docsSections.length - 1, p + 1));
+  const handleNext = () =>
+    setPage((p) => Math.min(docsSections.length - 1, p + 1));
   const goto = (i: number) => {
     setPage(i);
     setOpen(false);
@@ -569,7 +669,7 @@ const Docs = () => {
             <li key={section.slug} className={`mb-2`}>
               <Button
                 variant={page === idx ? "default" : "ghost"}
-                className={`w-full justify-start text-sm ${page === idx ? 'font-bold' : ''}`}
+                className={`w-full justify-start text-sm ${page === idx ? "font-bold" : ""}`}
                 onClick={() => goto(idx)}
               >
                 {section.title}
@@ -594,7 +694,7 @@ const Docs = () => {
                   <li key={section.slug} className="mb-2">
                     <Button
                       variant={page === idx ? "default" : "ghost"}
-                      className={`w-full justify-start text-sm ${page === idx ? 'font-bold' : ''}`}
+                      className={`w-full justify-start text-sm ${page === idx ? "font-bold" : ""}`}
                       onClick={() => goto(idx)}
                     >
                       {section.title}
@@ -608,7 +708,9 @@ const Docs = () => {
       </div>
       {/* Section Content */}
       <main className="flex-1 px-5 md:px-14 py-12 max-w-3xl mx-auto">
-        <h1 className="text-3xl mb-8 font-bold text-center text-primary">Documentation for React & Anime.js Animation Library</h1>
+        <h1 className="text-3xl mb-8 font-bold text-center text-primary">
+          Documentation for React & Anime.js Animation Library
+        </h1>
         <div className="mb-10">{docsSections[page].content}</div>
         <div className="flex justify-between items-center mt-8">
           <Button

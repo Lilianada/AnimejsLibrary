@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import './forms.css';
+import React, { useState } from "react";
+import "./forms.css";
 
 interface FloatingLabelInputProps {
   label: string;
@@ -9,11 +8,11 @@ interface FloatingLabelInputProps {
   defaultValue?: string;
 }
 
-const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ 
-  label, 
-  type = "text", 
+const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
+  label,
+  type = "text",
   required = false,
-  defaultValue = ""
+  defaultValue = "",
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState(defaultValue);
@@ -31,9 +30,7 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
         className="floating-input"
         required={required}
       />
-      <label
-        className={`floating-label ${isActive ? 'active' : ''}`}
-      >
+      <label className={`floating-label ${isActive ? "active" : ""}`}>
         {label}
       </label>
     </div>

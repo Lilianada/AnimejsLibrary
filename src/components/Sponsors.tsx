@@ -1,14 +1,13 @@
-
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
-// Infinite scroll from left to right, with gradient fade on both sides. 
+// Infinite scroll from left to right, with gradient fade on both sides.
 const Sponsors = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -17,7 +16,10 @@ const Sponsors = () => {
       if (!scrollContainerRef.current) return;
 
       // Loop when over halfway scrolled (for smooth effect)
-      if (scrollContainerRef.current.scrollLeft >= scrollContainerRef.current.scrollWidth / 2) {
+      if (
+        scrollContainerRef.current.scrollLeft >=
+        scrollContainerRef.current.scrollWidth / 2
+      ) {
         scrollContainerRef.current.scrollLeft = 0;
       } else {
         scrollContainerRef.current.scrollLeft += 1;
@@ -29,20 +31,22 @@ const Sponsors = () => {
   }, []);
 
   // Generate sponsors (small size)
-  const sponsorItems = Array(10).fill(null).map((_, i) => (
-    <TooltipProvider key={i}>
-      <Tooltip>
-        <TooltipTrigger>
-          <div className="flex-shrink-0 w-10 h-10 mx-2 bg-[#222] rounded-lg flex items-center justify-center hover:shadow-md transition-shadow cursor-pointer">
-            <Star className="w-5 h-5 text-primary" />
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Become a sponsor</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  ));
+  const sponsorItems = Array(10)
+    .fill(null)
+    .map((_, i) => (
+      <TooltipProvider key={i}>
+        <Tooltip>
+          <TooltipTrigger>
+            <div className="flex-shrink-0 w-10 h-10 mx-2 bg-[#222] rounded-lg flex items-center justify-center hover:shadow-md transition-shadow cursor-pointer">
+              <Star className="w-5 h-5 text-primary" />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Become a sponsor</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ));
 
   return (
     <section className="py-16 bg-[#181818]">
@@ -56,11 +60,11 @@ const Sponsors = () => {
             ref={scrollContainerRef}
             className="flex overflow-x-auto scrollbar-hide py-2"
             style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              marginLeft: '48px',
-              marginRight: '48px',
-              width: 'calc(100% - 96px)'
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              marginLeft: "48px",
+              marginRight: "48px",
+              width: "calc(100% - 96px)",
             }}
           >
             <div className="flex">

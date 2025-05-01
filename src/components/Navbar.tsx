@@ -14,42 +14,44 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <a href="/" className="flex items-center" tabIndex={0}>
-            <img 
-              src="/logo.png" 
-              alt="Animelibrary.xyz Logo" 
+            <img
+              src="/logo.png"
+              alt="Animelibrary.xyz Logo"
               className="h-8 w-8 object-contain"
             />
           </a>
           <div className="hidden md:flex items-center space-x-8">
-            {links.map(link => (
+            {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 className={`
                   flex items-center space-x-1 text-sm px-3 py-1 rounded transition
-                  ${location.pathname.startsWith(link.href)
-                    ? "font-bold text-primary"
-                    : "text-foreground hover:text-primary hover:opacity-80"}
+                  ${
+                    location.pathname.startsWith(link.href)
+                      ? "font-bold text-primary"
+                      : "text-foreground hover:text-primary hover:opacity-80"
+                  }
                 `}
                 tabIndex={0}
                 style={{
                   background: "transparent",
-                  boxShadow: "none"
+                  boxShadow: "none",
                 }}
               >
                 <link.icon className="h-4 w-4" />
                 <span>{link.label}</span>
               </a>
             ))}
-           <Button
-            asChild // Use asChild to render an anchor tag
-            className="bg-primary text-bg hover:bg-primary/90 transition-colors"
-          >
-             <a href="/examples" className="flex items-center space-x-1">
+            <Button
+              asChild // Use asChild to render an anchor tag
+              className="bg-primary text-bg hover:bg-primary/90 transition-colors"
+            >
+              <a href="/examples" className="flex items-center space-x-1">
                 <span>Sponsor</span>
                 <HeartIcon className="h-4 w-4" />
-             </a>
-          </Button>
+              </a>
+            </Button>
           </div>
         </div>
       </div>

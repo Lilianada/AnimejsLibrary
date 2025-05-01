@@ -1,5 +1,11 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface ModalShowcaseWrapperProps {
   label: string;
@@ -12,7 +18,7 @@ const ModalShowcaseWrapper: React.FC<ModalShowcaseWrapperProps> = ({
   label,
   description,
   children,
-  className
+  className,
 }) => {
   return (
     <Card className={`shadow-lg border-border overflow-visible ${className}`}>
@@ -30,4 +36,4 @@ const ModalShowcaseWrapper: React.FC<ModalShowcaseWrapperProps> = ({
   );
 };
 
-export default ModalShowcaseWrapper; 
+export default ModalShowcaseWrapper;

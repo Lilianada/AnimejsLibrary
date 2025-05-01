@@ -1,15 +1,20 @@
-
-import React from 'react';
-import './forms.css';
+import React from "react";
+import "./forms.css";
 
 interface BorderAnimationInputProps {
   placeholder: string;
 }
 
-const BorderAnimationInput: React.FC<BorderAnimationInputProps> = ({ placeholder }) => {
+const BorderAnimationInput: React.FC<BorderAnimationInputProps> = ({
+  placeholder,
+}) => {
   return (
     <div className="border-animation-container">
-      <input type="text" className="border-animation-input" placeholder={placeholder} />
+      <input
+        type="text"
+        className="border-animation-input"
+        placeholder={placeholder}
+      />
     </div>
   );
 };

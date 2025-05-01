@@ -1,27 +1,28 @@
-import ButtonExamples from './ButtonExamples'
-import AnimationExamples from './AnimationExamples'
-import FormsExamples from './FormsExamples'
-import CardAndTileExamples from './CardAndTileExamples'
-import LoaderShowcase from './LoaderShowcase'
-import ToastsExamples from './ToastsExamples'
-import DraggableExamples from './DraggableExamples'
+import React from "react";
+import ButtonExamples from "./ButtonExamples";
+import CardAnimations from "./animations/cards/CardAnimations";
+import LoaderShowcase from "./LoaderShowcase";
+import ToastsExamples from "./ToastsExamples";
+import DraggableExamples from "./DraggableExamples";
+import AnimationExamples from "./AnimationExamples";
+import FormsExamples from "./FormsExamples";
 
 interface MainContainerProps {
-  category: string
+  category: string;
 }
 
 const MainContainer = ({ category }: MainContainerProps) => {
   return (
     <main className="flex-1 p-8 overflow-auto mt-16">
-      {category === 'buttons' && <ButtonExamples />}
-      {category === 'animations' && <AnimationExamples />}
-      {category === 'forms' && <FormsExamples />}
-      {category === 'cards' && <CardAndTileExamples />}
-      {category === 'loaders' && <LoaderShowcase />}
-      {category === 'toasts' && <ToastsExamples />}
-      {category === 'draggable' && <DraggableExamples />}
+      {category === "buttons" && <ButtonExamples />}
+      {category === "animations" && <AnimationExamples />}
+      {category === "forms" && <FormsExamples />}
+      {category === "cards" && <CardAnimations />}
+      {category === "loaders" && <LoaderShowcase />}
+      {category === "toasts" && <ToastsExamples />}
+      {category === "draggable" && <DraggableExamples />}
     </main>
-  )
-}
+  );
+};
 
-export default MainContainer
+export default MainContainer;
