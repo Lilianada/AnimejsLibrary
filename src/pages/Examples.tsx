@@ -18,7 +18,7 @@ const Examples = () => {
         </div>
       </div>
     </div>
-  )
+  )    
 }
 
 export default Examples

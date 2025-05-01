@@ -15,7 +15,7 @@ const SimpleCard = () => (
       <img
         src="/logo.png"
         alt="Placeholder"
-        className="mb-4 rounded-md w-full h-auto object-cover"
+        className="mb-4 rounded-md w-full h-24 object-contain"
       />
       <h3 className="text-lg font-semibold mb-2">Card Title</h3>
       <p className="text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ const SimpleCard = () => (
       <img 
         src="/placeholder.svg" 
         alt="Placeholder" 
-        className="mb-4 rounded-md w-full h-auto object-cover" 
+        className="mb-4 rounded-md w-full h-40 object-contain" 
       />
       <h3 className="text-lg font-semibold mb-2">Card Title</h3>
       <p className="text-sm text-muted-foreground">
@@ -186,7 +186,7 @@ const CardAndTileExamples = () => {
       </div>
 
       {/* Use a grid to display the examples */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
         {CARD_TILE_EXAMPLES.map((example) => (
           <CardTileDisplay
             key={example.label}

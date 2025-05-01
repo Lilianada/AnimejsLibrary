@@ -15,7 +15,7 @@ const SimpleDraggable = () => {
   // Load animejs dynamically
   useEffect(() => {
     import('animejs').then(module => {
-      setAnime(() => module.default);
+      setAnime(() => module);
     }).catch(err => console.error("Failed to load animejs:", err));
   }, []);
 
@@ -40,7 +40,7 @@ const SpringDraggable = () => {
   // Load animejs dynamically
   useEffect(() => {
     import('animejs').then(module => {
-      setAnime(() => module.default);
+      setAnime(() => module);
     }).catch(err => console.error("Failed to load animejs:", err));
   }, []);
 
@@ -72,7 +72,7 @@ const SnapDraggable = () => {
   // Load animejs dynamically
   useEffect(() => {
     import('animejs').then(module => {
-      setAnime(() => module.default);
+      setAnime(() => module);
     }).catch(err => console.error("Failed to load animejs:", err));
   }, []);
 
@@ -113,7 +113,7 @@ const SimpleDraggable = () => {
   const [anime, setAnime] = useState(null);
 
   useEffect(() => {
-    import('animejs').then(module => setAnime(() => module.default));
+    import('animejs').then(module => setAnime(() => module));
   }, []);
 
   useEffect(() => {
@@ -136,7 +136,7 @@ const SpringDraggable = () => {
   const [anime, setAnime] = useState(null);
 
   useEffect(() => {
-    import('animejs').then(module => setAnime(() => module.default));
+    import('animejs').then(module => setAnime(() => module));
   }, []);
 
   useEffect(() => {
@@ -166,7 +166,7 @@ const SnapDraggable = () => {
   const [anime, setAnime] = useState(null);
 
   useEffect(() => {
-    import('animejs').then(module => setAnime(() => module.default));
+    import('animejs').then(module => setAnime(() => module));
   }, []);
 
   useEffect(() => {

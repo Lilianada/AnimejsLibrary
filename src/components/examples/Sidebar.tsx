@@ -37,7 +37,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
         const element = item as HTMLElement
         element.style.opacity = '0'
         element.style.transform = 'translateX(-10px)'
-        
+
         setTimeout(() => {
           element.style.transition = 'opacity 300ms, transform 300ms'
           element.style.opacity = '1'
@@ -61,14 +61,13 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
       </div>
       <div className="flex flex-col gap-1 overflow-y-auto">
         {categories.map(category => (
-          <Button 
+          <Button
             key={category.id}
             variant="ghost"
-            className={`sidebar-item justify-start px-4 transition-none ${
-              selectedCategory === category.id
+            className={`sidebar-item justify-start px-4 transition-none ${selectedCategory === category.id
                 ? 'text-primary font-bold'
                 : 'hover:text-primary'
-            }`}
+              }`}
             onClick={() => handleCategorySelect(category.id)}
           >
             {category.name}
@@ -92,6 +91,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
           <SidebarContent />
         </SheetContent>
       </Sheet>
+      
       <div>
         <h2 className="text-lg font-semibold">
           {categories.find(c => c.id === selectedCategory)?.name || 'Examples'}
@@ -99,7 +99,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
       </div>
     </div>
   ) : (
-    <aside className="w-64 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col">
+    <aside className="w-60 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col">
       <div className="overflow-y-auto flex-1">
         <SidebarContent />
       </div>
