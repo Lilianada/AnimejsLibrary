@@ -6,12 +6,14 @@ interface CodeToggleProps {
   previewContent: React.ReactNode;
   codeContent: string;
   className?: string;
+  minHeightClass?: string;
 }
 
 export const CodeToggle: React.FC<CodeToggleProps> = ({ 
   previewContent, 
   codeContent, 
-  className 
+  className, 
+  minHeightClass = 'min-h-[450px]'
 }) => {
   const [isCodeView, setIsCodeView] = useState(false);
 
@@ -21,7 +23,7 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
   };
 
   return (
-    <div className={`relative rounded-lg border bg-card flex flex-col min-h-[300px] md:min-h-[450px] ${className}`}>
+    <div className={`relative rounded-lg border bg-card flex flex-col ${minHeightClass} ${className}`}>
       <div className="flex items-center border-b px-4 shrink-0">
         <button
           onClick={() => setIsCodeView(false)}

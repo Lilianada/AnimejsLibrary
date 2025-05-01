@@ -101,6 +101,7 @@ const ButtonExamples = () => {
             }
             codeContent={btn.code}
             className="w-full"
+            minHeightClass="min-h-[250px]"
           />
         ))}
       </div>

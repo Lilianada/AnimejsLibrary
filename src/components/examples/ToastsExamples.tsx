@@ -1,139 +1,158 @@
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { toast } from "sonner"; // Import sonner toast
+// import { useToast } from '../toast/ToastProvider'; // Remove custom hook import
+// Keep Button for triggering, but these won't be part of the package
+// If the Button itself needs to be packaged, it needs rework
+import { Button } from "@/components/ui/button"; 
 import { CodeToggle } from "./CodeToggle";
 import { Terminal, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
-// Toast Examples Data
-const TOAST_EXAMPLES = [
-  {
-    label: "Default Toast",
-    description: "A standard notification toast.",
-    trigger: <Button variant="outline" onClick={() => toast('Event has been created.')}>Show Default</Button>,
-    code: `toast('Event has been created.');`
-  },
-  {
-    label: "Success Toast (Styled)",
-    description: "Indicates success with green styling.",
-    trigger: <Button variant="outline" className="text-green-600 border-green-600/50 hover:bg-green-500/10 hover:text-green-700" 
-      onClick={() => toast.success('Operation successful!', {
-        icon: <CheckCircle className="h-4 w-4" />,
-        classNames: { 
-          toast: 'group toast group-[.toaster]:bg-green-100 group-[.toaster]:text-green-900 group-[.toaster]:border-green-300 dark:group-[.toaster]:bg-green-900/30 dark:group-[.toaster]:text-green-100 dark:group-[.toaster]:border-green-700',
-          description: 'group-[.toast]:text-green-800 dark:group-[.toast]:text-green-200',
-        }
-      })}
-      >Show Success</Button>,
-    code: `toast.success('Operation successful!', {\n  classNames: { \n    toast: 'bg-green-100 text-green-900 border-green-300 ...',
-    // ... other element classes
-  }\n});`
-  },
-  {
-    label: "Error Toast (Styled)",
-    description: "Indicates error with red styling.",
-    trigger: <Button variant="destructive" 
-      onClick={() => toast.error('Failed to save changes.', {
-         icon: <XCircle className="h-4 w-4" />,
-         classNames: { 
-           toast: 'group toast group-[.toaster]:bg-red-100 group-[.toaster]:text-red-900 group-[.toaster]:border-red-300 dark:group-[.toaster]:bg-red-900/30 dark:group-[.toaster]:text-red-100 dark:group-[.toaster]:border-red-700',
-           description: 'group-[.toast]:text-red-800 dark:group-[.toast]:text-red-200',
-         }
-      })}
-      >Show Error</Button>,
-    code: `toast.error('Failed to save changes.', {\n  classNames: { \n    toast: 'bg-red-100 text-red-900 border-red-300 ...',
-    // ...
-  }\n});`
-  },
-  {
-    label: "Warning Toast (Styled)",
-    description: "Indicates a warning with orange styling.",
-    trigger: <Button variant="outline" className="text-orange-600 border-orange-600/50 hover:bg-orange-500/10 hover:text-orange-700"
-      onClick={() => toast('Potential issue detected.', {
-          icon: <AlertTriangle className="h-4 w-4" />, 
-          classNames: { 
-            toast: 'group toast group-[.toaster]:bg-orange-100 group-[.toaster]:text-orange-900 group-[.toaster]:border-orange-300 dark:group-[.toaster]:bg-orange-900/30 dark:group-[.toaster]:text-orange-100 dark:group-[.toaster]:border-orange-700',
-            description: 'group-[.toast]:text-orange-800 dark:group-[.toast]:text-orange-200',
-          }
-      })}
-      >Show Warning</Button>,
-    code: `toast('Potential issue detected.', {\n  icon: <AlertTriangle />,
-  classNames: { \n    toast: 'bg-orange-100 text-orange-900 border-orange-300 ...',
-    // ...
-  }\n});`
-  },
-  {
-    label: "Top-Right Position Toast",
-    description: "Displays the toast in the top-right corner.",
-    trigger: <Button variant="outline" 
-      onClick={() => toast('Notification', { 
-          description: 'This appeared in the top-right.', 
-          position: 'top-right' 
-        })}
-      >Show Top-Right</Button>,
-    code: `toast('Notification', { \n  description: 'This appeared in the top-right.', 
-  position: 'top-right' 
-});`
-  },
-  {
-    label: "Toast with Action",
-    description: "Includes an action button within the toast.",
-    trigger: (
-      <Button variant="outline" onClick={() =>
+// --- Main Component using the custom hook ---
+const ToastsExamples = () => {
+  // const { addToast } = useToast(); // Use the custom hook
+
+  // Define examples *inside* the component to access addToast
+  const TOAST_EXAMPLES = [
+    {
+      label: "Default Toast",
+      description: "A standard notification toast.",
+      trigger: <Button variant="outline" onClick={() => toast('Event has been created.')}>Show Default</Button>,
+      code: `import { toast } from "sonner";
+
+toast('Event has been created.');`
+    },
+    {
+      label: "Success Toast",
+      description: "Indicates success.",
+      trigger: <Button variant="outline" className="text-green-600 border-green-600/50 hover:bg-green-500/10 hover:text-green-700"
+        onClick={() => toast.success('Operation successful!')}>
+        Show Success
+      </Button>,
+      code: `import { toast } from "sonner";
+
+toast.success('Operation successful!');`
+    },
+    {
+      label: "Error Toast",
+      description: "Indicates an error.",
+      trigger: <Button variant="destructive"
+        onClick={() => toast.error('Failed to save changes.')}>
+        Show Error
+      </Button>,
+      code: `import { toast } from "sonner";
+
+toast.error('Failed to save changes.');`
+    },
+    {
+      label: "Warning Toast",
+      description: "Indicates a warning.",
+      trigger: <Button variant="outline" className="text-yellow-600 border-yellow-600/50 hover:bg-yellow-500/10 hover:text-yellow-700"
+        onClick={() => toast.warning('Potential issue detected.')}>
+        Show Warning
+      </Button>,
+      code: `import { toast } from "sonner";
+
+toast.warning('Potential issue detected.');`
+    },
+    {
+      label: "Toast with Action",
+      description: "Includes an action button within the toast.",
+      trigger: (
+        <Button variant="outline" onClick={() =>
           toast('File uploaded', {
-            action: { label: 'Undo', onClick: () => console.log('Undo') },
-          })
-        }
-      >
-        Show Action Toast
-      </Button>
-    ),
-    code: `toast('File uploaded', {\n  action: { \n    label: 'Undo', \n    onClick: () => console.log('Undo') \n  },\n});`
+            action: { label: 'Undo', onClick: () => console.log('Undo Action') },
+          })}>
+          Show Action Toast
+        </Button>
+      ),
+      code: `import { toast } from "sonner";
+
+toast('File uploaded', {
+  action: {
+    label: 'Undo',
+    onClick: () => console.log('Undo Action')
   },
-  {
-    label: "Promise Toast",
-    description: "Handles loading, success, and error states of a promise.",
-    trigger: (
-      <Button variant="outline" onClick={() => {
-          const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+});`
+    },
+    {
+      label: "Promise Toast",
+      description: "Handles loading, success, and error states of a promise.",
+      trigger: (
+        <Button variant="outline" onClick={() => {
+          const promise = () => new Promise<string>((resolve, reject) => 
+            setTimeout(() => { 
+              // Randomly resolve or reject for demo
+              Math.random() > 0.5 
+                  ? resolve('Data Loaded!') 
+                  : reject('Network Error!');
+            }, 2000)
+          );
           toast.promise(promise, {
             loading: 'Loading...',
-            success: 'Data fetched successfully!',
-            error: 'Error fetching data',
+            success: (data) => `Success: ${data}`,
+            error: (err) => `Error: ${err}`,
           });
-        }}
-      >
-        Show Promise Toast
-      </Button>
-    ),
-    code: `const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));\n\ntoast.promise(promise, {\n  loading: 'Loading...',\n  success: 'Data fetched successfully!',\n  error: 'Error fetching data',\n});`
-  },
-  {
-    label: "Custom Style Toast",
-    description: "Applies custom styling using classNames.",
-    trigger: (
-      <Button variant="outline" onClick={() => 
-        toast('Terminal Command Executed', { 
-          icon: <Terminal className="h-4 w-4"/>, 
-          description: 'npm run build completed.',
-          classNames: { 
-            toast: 'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg',
-            description: 'group-[.toast]:text-muted-foreground',
-            actionButton: 'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
-            cancelButton: 'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
-          }
-        })
-      }>Show Custom</Button>
-    ),
-    code: `toast('Terminal Command Executed', { \n  icon: <Terminal className="h-4 w-4"/>, \n  description: 'npm run build completed.',\n  classNames: { \n    toast: 'group toast ...',\n    description: 'group-[.toast]:text-muted-foreground',\n    // ... etc.\n  }\n})`
-  }
-];
+        }}>
+          Show Promise Toast
+        </Button>
+      ),
+      code: `import { toast } from "sonner";
 
-const ToastsExamples = () => {
+const promise = () => new Promise<string>((resolve, reject) => 
+  setTimeout(() => { 
+    // Simulate success/failure
+    Math.random() > 0.5 ? resolve('Data Loaded!') : reject('Network Error!');
+  }, 2000)
+);
+
+toast.promise(promise, {
+  loading: 'Loading...',
+  success: (data) => \`Success: \${data}\`,
+  error: (err) => \`Error: \${err}\`,
+});`
+    },
+    // Example for custom styling via classNames (less relevant for copy-paste but good demo)
+    {
+      label: "Custom Style Toast",
+      description: "Applies custom styling using classNames.",
+      trigger: (
+        <Button variant="outline" onClick={() => 
+          toast('Terminal Command Executed', { 
+            icon: <Terminal className="h-4 w-4"/>, 
+            description: 'npm run build completed.',
+            classNames: { // Example: Tailwind classes for custom look
+              toast: 'group toast group-[.toaster]:bg-gray-900 group-[.toaster]:text-gray-100 group-[.toaster]:border-gray-700 group-[.toaster]:shadow-lg',
+              description: 'group-[.toast]:text-gray-400',
+              actionButton: 'group-[.toast]:bg-gray-700 group-[.toast]:text-gray-100',
+              cancelButton: 'group-[.toast]:bg-gray-800 group-[.toast]:text-gray-300',
+            }
+          })}>Show Custom Style</Button>
+      ),
+      code: `import { toast } from "sonner";
+import { Terminal } from 'lucide-react';
+
+toast('Terminal Command Executed', { 
+  icon: <Terminal className="h-4 w-4"/>, 
+  description: 'npm run build completed.',
+  classNames: { 
+    toast: 'group toast bg-gray-900 text-gray-100 border-gray-700 shadow-lg',
+    description: 'text-gray-400',
+    actionButton: 'bg-gray-700 text-gray-100',
+    cancelButton: 'bg-gray-800 text-gray-300',
+    // Note: Sonner uses group-[.toast] internally, 
+    // so direct classes might be simpler for user copy-paste.
+  }
+})`
+    },
+  ];
+
   return (
     <div className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-3">Toast Notifications</h2>
+        <h2 className="text-2xl font-bold mb-3">Toast Notifications (Sonner)</h2>
         <p className="text-muted-foreground">
           Examples using the Sonner library for toast notifications.
+          Requires {'<Toaster />'} from sonner in your app layout.
         </p>
       </div>
 
@@ -154,6 +173,7 @@ const ToastsExamples = () => {
             }
             codeContent={example.code}
             className="w-full h-full"
+            minHeightClass="min-h-[250px]"
           />
         ))}
       </div>

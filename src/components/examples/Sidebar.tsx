@@ -82,7 +82,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   return isMobile ? (
     <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center justify-between row-reverse border-b bg-background mb-3">
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetTrigger>
+        <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="mr-2">
             <Menu className="h-5 w-5" />
           </Button>

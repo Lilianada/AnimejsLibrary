@@ -40,50 +40,6 @@ const SpinningGradientLoader = () => (
   </div>
 );
 
-const WavyDotsLoader = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let animation: anime.AnimeInstance | null = null;
-
-    // Dynamically import Anime.js and initialize the animation
-    import('animejs').then(({ default: anime }) => {
-      const targets = containerRef.current?.querySelectorAll('.wave-dot');
-
-      if (targets && targets.length > 0) {
-        animation = anime({
-          targets,
-          translateY: [
-            { value: -12, duration: 400, easing: 'easeInOutSine' },
-            { value: 0, duration: 400, easing: 'easeInOutSine' },
-          ],
-          delay: anime.stagger(90), // Stagger effect
-          loop: true,
-          direction: 'alternate',
-        });
-      }
-    }).catch(err => console.error('Failed to load animejs:', err));
-
-    // Cleanup animation on component unmount
-    return () => {
-      if (animation) {
-        animation.pause();
-      }
-    };
-  }, []);
-
-  return (
-    <div ref={containerRef} className="flex gap-2 items-center h-8">
-      {[...Array(5)].map((_, i) => (
-        <span
-          key={i}
-          className="wave-dot inline-block w-3 h-3 rounded-full bg-primary"
-        ></span>
-      ))}
-    </div>
-  );
-};
-
 const CircularProgressLoader = ({ progress }: { progress: number }) => (
   <div className="relative w-14 h-14">
     <svg width={56} height={56}>
@@ -159,10 +115,60 @@ const RotatingSquaresLoader = () => (
   </div>
 );
 
+const BouncingLoader = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    let animeModule: any = null;
+
+    import('animejs')
+      .then(module => {
+        const animeInstance = module as any;
+        animeModule = animeInstance;
+        
+        if (animeInstance && typeof animeInstance === 'function' && ref.current?.children) {
+          console.log("Initializing BouncingLoader animation");
+          animeInstance({
+            targets: ref.current.children,
+            translateY: [0, -10, 0],
+            loop: true,
+            duration: 800,
+            delay: animeInstance.stagger(150)
+          });
+        } else {
+          console.error("Failed to get animejs function or find targets for BouncingLoader:", { animeInstance, current: ref.current?.children });
+        }
+      })
+      .catch(err => console.error("Failed to load animejs for BouncingLoader:", err));
+
+    // Cleanup function
+    return () => {
+      if (animeModule && typeof animeModule.remove === 'function' && ref.current?.children) {
+        try {
+          const currentTargets = ref.current?.children;
+          if (currentTargets && currentTargets.length > 0) {
+             animeModule.remove(currentTargets);
+          }
+        } catch (error) {
+          console.warn("Anime.js BouncingLoader cleanup error:", error);
+        }
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={ref} className="flex space-x-1">
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+    </div>
+  );
+};
+
 const LOADER_EXAMPLES = [
   {
     label: "Spinning Gradient",
-    description: "SVG spinner with gradient and animation.",
+    description: "SVG spinner with gradient.",
     component: <SpinningGradientLoader />,
     code: `<svg className="animate-spin" width={48} height={48} viewBox="0 0 48 48" fill="none">
   <circle cx="24" cy="24" r="20" stroke="#FDA858" strokeWidth={5} opacity={0.25} />
@@ -176,105 +182,26 @@ const LOADER_EXAMPLES = [
 </svg>`
   },
   {
-    label: "Wavy Dots",
-    description: "Dots moving in a sine wave pattern using Anime.js.",
-    component: <WavyDotsLoader />,
-    code: `// Requires useEffect, useRef, useState, and dynamic import
-import { useEffect, useRef, useState } from 'react';
-
-const WavyDotsLoader = () => {
-  const containerRef = useRef(null);
-  const [anime, setAnime] = useState(null);
-
-  useEffect(() => {
-    import('animejs').then(module => setAnime(() => module));
-  }, []);
-
-  useEffect(() => {
-    if (!anime || !containerRef.current || !anime.animate || !anime.stagger) return;
-
-    let animation = null;
-    const targets = containerRef.current?.querySelectorAll('.wave-dot');
-
-    if (targets && targets.length > 0) {
-      animation = anime.animate(
-        targets,
-        {
-          translateY: [
-            { value: -12, duration: 400, easing: 'easeInOutSine' },
-            { value: 0, duration: 400, easing: 'easeInOutSine' }
-          ],
-          delay: anime.stagger(90),
-          loop: true,
-          direction: 'alternate'
-        }
-      );
-    }
-    return () => {
-      if (animation && typeof animation.pause === 'function') {
-        animation.pause();
-      }
-    };
-  }, [anime]);
-
-  return (
-    <div ref={containerRef} className="flex gap-2 items-center h-8">
-      {[...Array(5)].map((_, i) => (
-        <span
-          key={i}
-          className="wave-dot inline-block w-3 h-3 rounded-full bg-primary"
-        ></span>
-      ))}
-    </div>
-  );
-};`
-  },
-  {
     label: "Circular Progress",
-    description: "SVG circle simulating progress update.",
-    componentGenerator: (progress) => <CircularProgressLoader progress={progress} />,
-    code: `// Requires 'progress' state (0-100)
-<div className="relative w-14 h-14">
-  <svg width={56} height={56}>
-    <circle cx="28" cy="28" r="24" fill="none" stroke="#252525" strokeWidth="5" />
-    <circle
-      cx="28" cy="28" r="24" fill="none" stroke="#FDA858" strokeWidth="5"
-      strokeDasharray="151"
-      strokeDashoffset={151 - (151 * progress) / 100}
-      style={{ transition: "stroke-dashoffset 0.33s cubic-bezier(.4,2.6,0,1)" }}
-    />
-  </svg>
-  <div className="absolute inset-0 flex items-center justify-center text-sm text-primary font-bold mix-blend-lighten">
-    {progress}%
-  </div>
-</div>`
+    description: "Shows percentage progress.",
+    componentGenerator: (progress: number) => <CircularProgressLoader progress={progress} />,
+    code: `// ... CircularProgressLoader code string ...`
   },
   {
     label: "Pulsing Bar",
-    description: "Basic pulse animation on an element.",
+    description: "Simple pulsing indicator.",
     component: <PulsingBarLoader />,
     code: `<div className="w-10 h-10 bg-primary/80 rounded animate-pulse"></div>`
   },
   {
     label: "Animated Progress Bar",
-    description: "Linear progress bar with animation.",
-    componentGenerator: (progress) => <AnimatedProgressBar progress={progress} />,
-    code: `// Requires 'progress' state (0-100)
-<div className="w-full">
-  <div className="h-3 rounded-lg bg-muted overflow-hidden">
-    <div
-      className="h-3 rounded-l-lg transition-all duration-200"
-      style={{
-        width: \`\${progress}%\`,
-        background: "linear-gradient(90deg,#FDA858,#A07CF0)"
-      }}
-    ></div>
-  </div>
-</div>`
+    description: "Linear progress indicator.",
+    componentGenerator: (progress: number) => <AnimatedProgressBar progress={progress} />,
+    code: `// ... AnimatedProgressBar code string ...`
   },
   {
     label: "Rotating Squares",
-    description: "Four squares rotating in a loop.",
+    description: "Squares rotating around center.",
     component: <RotatingSquaresLoader />,
     code: `<div className="relative w-12 h-12">
   {[...Array(4)].map((_, i) => (
@@ -297,14 +224,59 @@ const WavyDotsLoader = () => {
 }
 .animate-rotate-square:nth-child(1) { top: 0; left: 0; }
 /* ... positioning for other squares ... */`
+  },
+  {
+    label: "Bouncing Loader",
+    description: "Dots bouncing vertically.",
+    component: <BouncingLoader />,
+    code: `import { useEffect, useRef } from 'react';
+
+const BouncingLoader = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    let animeModule: any = null;
+    import('animejs').then(module => {
+      const animeInstance = module as any;
+      animeModule = animeInstance;
+      if (animeInstance && typeof animeInstance === 'function' && ref.current?.children) {
+        console.log("Initializing BouncingLoader animation");
+        animeInstance({
+          targets: ref.current.children,
+          translateY: [0, -10, 0],
+          loop: true,
+          duration: 800,
+          delay: animeInstance.stagger(150)
+        });
+      }
+    }).catch(err => console.error("Failed load animejs", err));
+
+    return () => {
+      if (animeModule && typeof animeModule.remove === 'function' && ref.current?.children) {
+        const currentTargets = ref.current?.children;
+        if (currentTargets && currentTargets.length > 0) {
+           animeModule.remove(currentTargets);
+        }
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={ref} className="flex space-x-1">
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+      <div className="w-3 h-3 bg-primary rounded-full"></div>
+      <div className="w-3 h-3 bg-primary rounded-full"></div> 
+    </div>
+  );
+};`
   }
 ];
 
-
+// Restore the main LoaderShowcase component structure
 export default function LoaderShowcase() {
   const [progress, setProgress] = useState(0);
 
-  // Animate progress
+  // Animate progress for relevant loaders
   useEffect(() => {
     let frame: number;
     let running = true;
@@ -322,30 +294,26 @@ export default function LoaderShowcase() {
   }, []);
 
   return (
-    <section className="space-y-8">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-3">Loader Showcase</h2>
-        <p className="text-muted-foreground">
-          Examples of different loading indicators and animations.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        {LOADER_EXAMPLES.map((loader) => (
+    <section id="loaders" className="mb-16 scroll-mt-20 space-y-8">
+       <div className="mb-6">
+         <h2 className="text-2xl font-bold mb-3">Loaders & Spinners</h2>
+         <p className="text-muted-foreground">
+           Examples of loading indicators, including progress-based ones.
+         </p>
+       </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        {LOADER_EXAMPLES.map((loader, index) => (
           <CodeToggle
-            key={loader.label}
+            key={loader.label || index} // Use label or index as key
             previewContent={
-              <div className="space-y-4 p-4">
-                <div className="mb-2">
-                  <h3 className="text-lg font-semibold mb-1">{loader.label}</h3>
-                  <p className="text-sm text-muted-foreground">{loader.description}</p>
-                </div>
-                <div className="flex justify-center items-center min-h-[80px]">
-                  {loader.componentGenerator ? loader.componentGenerator(progress) : loader.component}
-                </div>
-              </div>
+                // Handle components needing progress prop
+                <div className="flex justify-center items-center p-4 min-h-[80px]">
+                 {loader.componentGenerator ? loader.componentGenerator(progress) : loader.component}
+               </div>
             }
             codeContent={loader.code}
-            className="w-full h-full"
+            minHeightClass="min-h-[300px]" // Apply the correct min height
+            className="w-full h-full flex flex-col" // Ensure flex layout
           />
         ))}
       </div>

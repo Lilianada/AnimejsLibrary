@@ -1,4 +1,3 @@
-
 import React from "react";
 import PlaceholderAnimationInput from "./forms/PlaceholderAnimationInput";
 import BorderAnimationInput from "./forms/BorderAnimationInput";
@@ -74,6 +73,7 @@ const FormsExamples = () => {
             }
             codeContent={input.code}
             className="w-full"
+            minHeightClass="min-h-[350px]"
           />
         ))}
       </div>

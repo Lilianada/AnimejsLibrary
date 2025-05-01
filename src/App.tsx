@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useLocation, Outlet } from "react-router-dom"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/Navbar"
@@ -8,83 +8,65 @@ import Examples from "./pages/Examples"
 import Docs from "./pages/Docs"
 import NotFound from "./pages/NotFound"
 import * as React from "react"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "sonner"
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const [displayChildren, setDisplayChildren] = React.useState(children);
-  const [transitionStage, setTransitionStage] = React.useState("page-fade-enter");
+  const [transitionClass, setTransitionClass] = React.useState("opacity-0");
 
   React.useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    const timer = setTimeout(() => {
+      setTransitionClass("opacity-100");
+    }, 50);
 
-    // Initialize transition on mount
-    setTransitionStage("page-fade-enter");
-
-    // Trigger exit after a short delay to allow enter to complete
-    timeoutId = setTimeout(() => {
-      setTransitionStage("page-fade-exit");
-    }, 300); // Wait for enter transition to complete
-
-    const resetTransition = () => {
-      setDisplayChildren(children);
-      setTransitionStage("page-fade-enter");
-      timeoutId = setTimeout(() => {
-        setTransitionStage("page-fade-exit");
-      }, 300); // Wait for enter transition to complete
-    };
-
-    return () => clearTimeout(timeoutId);
-
+    return () => clearTimeout(timer);
   }, [children]);
 
-  // Determine if this is the Docs page
   const isDocsPage = location.pathname === "/docs";
 
   return (
-    <div className={`page-fade ${transitionStage} ${isDocsPage ? "pt-16" : ""}`}>
-      {displayChildren}
+    <div className={`transition-opacity duration-300 ease-in-out ${transitionClass} ${isDocsPage ? "pt-16" : ""}`}>
+      {children}
     </div>
   );
 }
 
-const AppContent = () => {
-  const location = useLocation(); // Get location here
+const AppLayout = () => {
+  const location = useLocation(); // Can use useLocation here as it's inside BrowserRouter
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1">
-        <Routes>
-          <Route path="/" element={
-            <PageTransition><Index /></PageTransition>
-          } />
-          <Route path="/examples" element={
-            <PageTransition><Examples /></PageTransition>
-          } />
-          <Route path="/docs" element={
-            <PageTransition><Docs /></PageTransition>
-          } />
-          <Route path="*" element={
-            <PageTransition><NotFound /></PageTransition>
-          } />
-        </Routes>
+      <main className="flex-1 pt-16"> {/* Add padding top for fixed Navbar */}
+        {/* Outlet renders the matched route component */}
+        <PageTransition>
+           <Outlet /> 
+        </PageTransition>
       </main>
-      {/* Conditionally render Footer only on landing page */}
+      {/* Conditionally render Footer */}
       {location.pathname === '/' && <Footer />}
-      <Toaster />
     </div>
   );
 }
 
 const App = () => (
-  <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
-    <TooltipProvider>
-      <BrowserRouter>
-        <AppContent /> { /* Use a separate component to access useLocation */ }
-      </BrowserRouter>
-    </TooltipProvider>
-  </ThemeProvider>
+  <BrowserRouter> { /* Router context starts here */ }
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <TooltipProvider>
+        {/* Routes define the page structure */}
+        <Routes>
+          <Route path="/" element={<AppLayout />}> { /* Layout route */}
+            {/* Nested routes render inside AppLayout's Outlet */}
+            <Route index element={<Index />} />
+            <Route path="examples" element={<Examples />} />
+            <Route path="docs" element={<Docs />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+        <Toaster position="top-right" richColors closeButton />
+      </TooltipProvider>
+    </ThemeProvider>
+  </BrowserRouter>
 )
 
 export default App

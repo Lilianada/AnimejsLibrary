@@ -1,5 +1,5 @@
 import React from 'react';
-import CardTileDisplay from './CardTileDisplay'; // Import the new display component
+import { CardTileDisplay } from './CardTileDisplay'; // Import the new display component
 
 // Import UI components used in examples
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
@@ -13,9 +13,9 @@ const SimpleCard = () => (
   <Card className="w-[300px] shadow-md">
     <CardContent className="p-6">
       <img
-        src="/logo.png"
+        src="/placeholder.svg"
         alt="Placeholder"
-        className="mb-4 rounded-md w-full h-24 object-contain"
+        className="mb-4 rounded-md w-full h-auto object-cover"
       />
       <h3 className="text-lg font-semibold mb-2">Card Title</h3>
       <p className="text-sm text-muted-foreground">
@@ -78,18 +78,18 @@ const StatTile = () => (
 // --- Combined Data Array ---
 const CARD_TILE_EXAMPLES = [
   {
-    label: 'Simple Card',
+    title: 'Simple Card',
     description: 'A basic card with content and an image.',
-    component: <SimpleCard />,
-    code: `import { Card, CardContent } from '@/components/ui/card';
+    previewContent: <SimpleCard />,
+    codeContent: `import { Card, CardContent } from '@/components/ui/card';
 
 const SimpleCard = () => (
   <Card className="w-[300px] shadow-md">
     <CardContent className="p-6">
       <img 
-        src="/placeholder.svg" 
+        src="/placeholder.svg"
         alt="Placeholder" 
-        className="mb-4 rounded-md w-full h-40 object-contain" 
+        className="mb-4 rounded-md w-full h-auto object-cover" 
       />
       <h3 className="text-lg font-semibold mb-2">Card Title</h3>
       <p className="text-sm text-muted-foreground">
@@ -100,10 +100,10 @@ const SimpleCard = () => (
 );`
   },
   {
-    label: 'Interactive Card',
+    title: 'Interactive Card',
     description: 'Card featuring header, footer, badge, and action buttons.',
-    component: <InteractiveCard />,
-    code: `import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+    previewContent: <InteractiveCard />,
+    codeContent: `import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -129,10 +129,10 @@ const InteractiveCard = () => (
 );`
   },
   {
-    label: 'Feature Tile',
+    title: 'Feature Tile',
     description: 'A tile highlighting a specific feature with an icon.',
-    component: <FeatureTile />,
-    code: `import { Card, CardContent } from '@/components/ui/card';
+    previewContent: <FeatureTile />,
+    codeContent: `import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Zap } from 'lucide-react'; // Example Icon
 
@@ -152,10 +152,10 @@ const FeatureTile = () => (
 );`
   },
   {
-    label: 'Stat Tile',
+    title: 'Stat Tile',
     description: 'A tile displaying a key statistic or metric.',
-    component: <StatTile />,
-    code: `import { Card, CardContent } from '@/components/ui/card';
+    previewContent: <StatTile />,
+    codeContent: `import { Card, CardContent } from '@/components/ui/card';
 import { TrendingUp } from 'lucide-react'; // Example Icon
 
 const StatTile = () => (
@@ -189,12 +189,12 @@ const CardAndTileExamples = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
         {CARD_TILE_EXAMPLES.map((example) => (
           <CardTileDisplay
-            key={example.label}
-            label={example.label}
+            key={example.title}
+            title={example.title}
             description={example.description}
-            component={example.component}
-            code={example.code}
-            // Add className here if specific styling per item is needed
+            previewContent={example.previewContent}
+            codeContent={example.codeContent}
+            minHeightClass="min-h-[400px]"
           />
         ))}
       </div>
