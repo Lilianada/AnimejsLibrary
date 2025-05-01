@@ -115,55 +115,27 @@ const RotatingSquaresLoader = () => (
   </div>
 );
 
-const BouncingLoader = () => {
-  const ref = useRef(null);
-  useEffect(() => {
-    let animeModule: any = null;
-
-    import('animejs')
-      .then(module => {
-        const animeInstance = module as any;
-        animeModule = animeInstance;
-        
-        if (animeInstance && typeof animeInstance === 'function' && ref.current?.children) {
-          console.log("Initializing BouncingLoader animation");
-          animeInstance({
-            targets: ref.current.children,
-            translateY: [0, -10, 0],
-            loop: true,
-            duration: 800,
-            delay: animeInstance.stagger(150)
-          });
-        } else {
-          console.error("Failed to get animejs function or find targets for BouncingLoader:", { animeInstance, current: ref.current?.children });
-        }
-      })
-      .catch(err => console.error("Failed to load animejs for BouncingLoader:", err));
-
-    // Cleanup function
-    return () => {
-      if (animeModule && typeof animeModule.remove === 'function' && ref.current?.children) {
-        try {
-          const currentTargets = ref.current?.children;
-          if (currentTargets && currentTargets.length > 0) {
-             animeModule.remove(currentTargets);
-          }
-        } catch (error) {
-          console.warn("Anime.js BouncingLoader cleanup error:", error);
-        }
+// New Pulsating Circles Loader
+const PulsatingCirclesLoader = () => (
+  <div className="flex space-x-2 relative w-20 h-10 items-center justify-center">
+    {[...Array(4)].map((_, i) => (
+      <div
+        key={i}
+        className="w-3 h-3 bg-primary rounded-full animate-pulsate"
+        style={{ animationDelay: `${i * 180}ms` }} // Stagger the animation
+      ></div>
+    ))}
+    <style>{`
+      @keyframes pulsate {
+        0%, 100% { transform: scale(0.8); opacity: 0.6; }
+        50% { transform: scale(1.1); opacity: 1; }
       }
-    };
-  }, []);
-
-  return (
-    <div ref={ref} className="flex space-x-1">
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-    </div>
-  );
-};
+      .animate-pulsate {
+        animation: pulsate 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+    `}</style>
+  </div>
+);
 
 const LOADER_EXAMPLES = [
   {
@@ -226,49 +198,10 @@ const LOADER_EXAMPLES = [
 /* ... positioning for other squares ... */`
   },
   {
-    label: "Bouncing Loader",
-    description: "Dots bouncing vertically.",
-    component: <BouncingLoader />,
-    code: `import { useEffect, useRef } from 'react';
-
-const BouncingLoader = () => {
-  const ref = useRef(null);
-  useEffect(() => {
-    let animeModule: any = null;
-    import('animejs').then(module => {
-      const animeInstance = module as any;
-      animeModule = animeInstance;
-      if (animeInstance && typeof animeInstance === 'function' && ref.current?.children) {
-        console.log("Initializing BouncingLoader animation");
-        animeInstance({
-          targets: ref.current.children,
-          translateY: [0, -10, 0],
-          loop: true,
-          duration: 800,
-          delay: animeInstance.stagger(150)
-        });
-      }
-    }).catch(err => console.error("Failed load animejs", err));
-
-    return () => {
-      if (animeModule && typeof animeModule.remove === 'function' && ref.current?.children) {
-        const currentTargets = ref.current?.children;
-        if (currentTargets && currentTargets.length > 0) {
-           animeModule.remove(currentTargets);
-        }
-      }
-    };
-  }, []);
-
-  return (
-    <div ref={ref} className="flex space-x-1">
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-      <div className="w-3 h-3 bg-primary rounded-full"></div>
-      <div className="w-3 h-3 bg-primary rounded-full"></div> 
-    </div>
-  );
-};`
+    label: "Pulsating Circles",
+    description: "Circles pulsing with staggered delay.",
+    component: <PulsatingCirclesLoader />,
+    code: `const PulsatingCirclesLoader = () => (\n  <div className=\"flex space-x-2 relative w-20 h-10 items-center justify-center\">\n    {[...Array(4)].map((_, i) => (\n      <div\n        key={i}\n        className=\"w-3 h-3 bg-primary rounded-full animate-pulsate\"\n        style={{ animationDelay: \`\${i * 180}ms\` }}\n      ></div>\n    ))}\n    {/* Requires CSS Keyframes for 'animate-pulsate' */}\n    <style>{\`\n      @keyframes pulsate {\n        0%, 100% { transform: scale(0.8); opacity: 0.6; }\n        50% { transform: scale(1.1); opacity: 1; }\n      }\n      .animate-pulsate {\n        animation: pulsate 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;\n      }\n    \`}</style>\n  </div>\n);`
   }
 ];
 
@@ -281,7 +214,7 @@ export default function LoaderShowcase() {
     let frame: number;
     let running = true;
     const animate = () => {
-      setProgress((old) => (old >= 100 ? 0 : old + 1));
+      setProgress((old) => (old >= 100 ? 0 : old + 5));
       if (running) {
         frame = requestAnimationFrame(animate);
       }
