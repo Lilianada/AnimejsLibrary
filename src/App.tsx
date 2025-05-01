@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Routes,
@@ -15,6 +16,15 @@ import Docs from "./pages/Docs";
 import NotFound from "./pages/NotFound";
 import * as React from "react";
 import { Toaster } from "sonner";
+
+// Import individual example pages
+import ButtonExamples from "./components/examples/ButtonExamples";
+import CardAnimations from "./components/examples/animations/cards/CardAnimations";
+import LoaderShowcase from "./components/examples/LoaderShowcase";
+import ToastsExamples from "./components/examples/ToastsExamples";
+import DraggableExamples from "./components/examples/DraggableExamples";
+import AnimationExamples from "./components/examples/AnimationExamples";
+import FormsExamples from "./components/examples/FormsExamples";
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -40,20 +50,16 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 }
 
 const AppLayout = () => {
-  const location = useLocation(); // Can use useLocation here as it's inside BrowserRouter
+  const location = useLocation();
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1 pt-16">
-        {" "}
-        {/* Add padding top for fixed Navbar */}
-        {/* Outlet renders the matched route component */}
         <PageTransition>
           <Outlet />
         </PageTransition>
       </main>
-      {/* Conditionally render Footer */}
       {location.pathname === "/" && <Footer />}
     </div>
   );
@@ -61,18 +67,19 @@ const AppLayout = () => {
 
 const App = () => (
   <BrowserRouter>
-    {" "}
-    {/* Router context starts here */}
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <TooltipProvider>
-        {/* Routes define the page structure */}
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            {" "}
-            {/* Layout route */}
-            {/* Nested routes render inside AppLayout's Outlet */}
             <Route index element={<Index />} />
             <Route path="examples" element={<Examples />} />
+            <Route path="examples/buttons" element={<ButtonExamples />} />
+            <Route path="examples/cards" element={<CardAnimations />} />
+            <Route path="examples/forms" element={<FormsExamples />} />
+            <Route path="examples/loaders" element={<LoaderShowcase />} />
+            <Route path="examples/toasts" element={<ToastsExamples />} />
+            <Route path="examples/draggable" element={<DraggableExamples />} />
+            <Route path="examples/animations" element={<AnimationExamples />} />
             <Route path="docs" element={<Docs />} />
             <Route path="*" element={<NotFound />} />
           </Route>

@@ -1,3 +1,4 @@
+
 import React from "react";
 import ButtonExamples from "./ButtonExamples";
 import CardAnimations from "./animations/cards/CardAnimations";
@@ -13,7 +14,7 @@ interface MainContainerProps {
 
 const MainContainer = ({ category }: MainContainerProps) => {
   return (
-    <main className="flex-1 p-8 overflow-auto mt-16">
+    <main className="flex-1 p-4 md:p-8 overflow-auto mt-16 lg:mt-0">
       {category === "buttons" && <ButtonExamples />}
       {category === "animations" && <AnimationExamples />}
       {category === "forms" && <FormsExamples />}

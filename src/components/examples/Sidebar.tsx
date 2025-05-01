@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -106,7 +107,7 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
       </div>
     </div>
   ) : (
-    <aside className="w-60 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col">
+    <aside className="w-60 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col hidden lg:flex">
       <div className="overflow-y-auto flex-1">
         <SidebarContent />
       </div>

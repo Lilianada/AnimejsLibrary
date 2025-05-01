@@ -1,3 +1,4 @@
+
 // COMBINED DOCS PAGE WITH FIXED CODEBLOCK ERRORS, PAGINATION, AND MOBILE SIDEBAR.
 
 import * as React from "react";
@@ -660,9 +661,8 @@ const Docs = () => {
 
   return (
     <div className="flex min-h-[70vh] relative bg-[#181818]">
-      {/* Sidebar */}
-      {/* Desktop: static sidebar; Mobile: Sheet drawer */}
-      <div className="hidden md:block min-w-[220px] border-r border-[#252525] pt-10 px-4 bg-[#181818] text-foreground/80">
+      {/* Desktop: static sidebar */}
+      <div className="hidden lg:block min-w-[220px] max-w-[220px] border-r border-[#252525] pt-10 px-4 bg-[#181818] text-foreground/80 h-[calc(100vh-4rem)] overflow-y-auto sticky top-16">
         <h3 className="text-lg font-bold mb-5">Documentation</h3>
         <ul>
           {docsSections.map((section, idx) => (
@@ -678,8 +678,9 @@ const Docs = () => {
           ))}
         </ul>
       </div>
+      
       {/* Mobile sidebar */}
-      <div className="md:hidden absolute left-2 top-4 z-50">
+      <div className="lg:hidden absolute left-2 top-4 z-50">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
@@ -689,7 +690,7 @@ const Docs = () => {
           <SheetContent side="left" className="max-w-xs w-full bg-[#181818]">
             <div className="pt-8 px-2">
               <h3 className="text-base font-bold mb-4">Documentation</h3>
-              <ul>
+              <ul className="overflow-y-auto max-h-[80vh]">
                 {docsSections.map((section, idx) => (
                   <li key={section.slug} className="mb-2">
                     <Button
@@ -706,12 +707,17 @@ const Docs = () => {
           </SheetContent>
         </Sheet>
       </div>
+      
       {/* Section Content */}
-      <main className="flex-1 px-5 md:px-14 py-12 max-w-3xl mx-auto">
-        <h1 className="text-3xl mb-8 font-bold text-center text-primary">
+      <main className="flex-1 px-5 md:px-14 py-12 max-w-3xl mx-auto overflow-x-hidden">
+        <h1 className="text-2xl md:text-3xl mb-8 font-bold text-center text-primary">
           Documentation for React & Anime.js Animation Library
         </h1>
-        <div className="mb-10">{docsSections[page].content}</div>
+        <div className="mb-10 overflow-x-auto">
+          <div className="prose prose-invert max-w-none">
+            {docsSections[page].content}
+          </div>
+        </div>
         <div className="flex justify-between items-center mt-8">
           <Button
             variant="ghost"
@@ -721,7 +727,7 @@ const Docs = () => {
           >
             <ChevronLeft className="w-4 h-4" /> Prev
           </Button>
-          <span className="text-sm opacity-60">{docsSections[page].title}</span>
+          <span className="text-sm opacity-60 hidden md:inline">{docsSections[page].title}</span>
           <Button
             variant="ghost"
             onClick={handleNext}

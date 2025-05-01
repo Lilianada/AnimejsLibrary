@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
@@ -9,6 +10,7 @@ interface CodeToggleProps {
   codeContent: string;
   className?: string;
   minHeightClass?: string;
+  language?: string;
 }
 
 export const CodeToggle: React.FC<CodeToggleProps> = ({
@@ -16,6 +18,7 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
   codeContent,
   className,
   minHeightClass = "min-h-[450px]",
+  language = "tsx",
 }) => {
   const [isCodeView, setIsCodeView] = useState(false);
 
@@ -67,7 +70,7 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
         >
           <div className="relative h-full">
             <SyntaxHighlighter
-              language="tsx"
+              language={language}
               style={atomDark}
               customStyle={{
                 margin: 0,
@@ -75,8 +78,10 @@ export const CodeToggle: React.FC<CodeToggleProps> = ({
                 borderRadius: "0.375rem",
                 padding: "1rem",
                 fontSize: "0.875rem",
+                overflowX: "auto",
               }}
               showLineNumbers
+              wrapLongLines={false}
             >
               {codeContent.trim()}
             </SyntaxHighlighter>
