@@ -1,5 +1,4 @@
-
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 import { CodeToggle } from "../CodeToggle";
@@ -380,7 +379,7 @@ const ToastWithActions = () => {
       </div>
     </div>
   );
-};`;
+};
 
 const StackToastsCode = `import React, { useState, useRef, useEffect } from "react";
 import * as anime from "animejs";
@@ -498,7 +497,7 @@ const StackedToasts = () => {
       </div>
     </div>
   );
-};`;
+};
 
 const AnimeToastDemoComponent = () => {
   const { addToast, ToastWrapper } = useAnimeToast();
