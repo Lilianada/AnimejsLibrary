@@ -116,6 +116,7 @@ const AnimeToastContainer = ({ children }: { children: React.ReactNode }) => {
 
 const useAnimeToast = () => {
   const [toasts, setToasts] = useState<Array<ToastProps & { id: string }>>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   const addToast = (toast: ToastProps) => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -133,21 +134,44 @@ const useAnimeToast = () => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   };
   
+  // Handle stacking effect when toasts count changes
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const toastElements = containerRef.current.querySelectorAll('.anime-toast-item');
+    if (toastElements.length <= 1) return;
+    
+    // Animate stacked toasts
+    for (let i = 0; i < toastElements.length - 1; i++) {
+      const translateY = -6 * (toastElements.length - 1 - i);
+      const scale = 1 - 0.05 * (toastElements.length - 1 - i);
+      
+      anime.animate(toastElements[i], {
+        translateY: translateY,
+        scale: scale,
+        opacity: 0.9 - (0.1 * (toastElements.length - 1 - i)),
+        duration: 300,
+        easing: 'easeOutQuad'
+      });
+    }
+  }, [toasts]);
+  
   const ToastWrapper = ({ children }: { children: React.ReactNode }) => {
     return (
       <>
         {children}
-        <AnimeToastContainer>
+        <div ref={containerRef} className="fixed top-4 right-4 z-50 flex flex-col-reverse gap-2 items-end">
           {toasts.map(toast => (
-            <AnimeToast
-              key={toast.id}
-              message={toast.message}
-              type={toast.type}
-              duration={toast.duration}
-              onClose={() => removeToast(toast.id)}
-            />
+            <div className="anime-toast-item" key={toast.id} style={{transformOrigin: 'top right'}}>
+              <AnimeToast
+                message={toast.message}
+                type={toast.type}
+                duration={toast.duration}
+                onClose={() => removeToast(toast.id)}
+              />
+            </div>
           ))}
-        </AnimeToastContainer>
+        </div>
       </>
     );
   };
@@ -156,8 +180,7 @@ const useAnimeToast = () => {
 };
 
 // Fixed template string escaping for code examples
-const useToastCode = 
-`import React, { useRef, useState } from "react";
+const useToastCode = `import React, { useRef, useState, useEffect } from "react";
 import * as anime from "animejs";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
 
@@ -186,7 +209,7 @@ const AnimeToast = ({ message, type = "info", duration = 3000, onClose }: ToastP
     info: <Info className="h-5 w-5 text-white" />
   };
   
-  React.useEffect(() => {
+  useEffect(() => {
     if (!toastRef.current || !progressRef.current) return;
     
     // Animate toast entrance
@@ -262,16 +285,10 @@ const AnimeToast = ({ message, type = "info", duration = 3000, onClose }: ToastP
   );
 };
 
-const AnimeToastContainer = ({ children }) => {
-  return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 items-end">
-      {children}
-    </div>
-  );
-};
-
+// Updated container to handle stacking effect like sonner
 const useAnimeToast = () => {
   const [toasts, setToasts] = useState([]);
+  const containerRef = useRef(null);
   
   const addToast = (toast) => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -289,21 +306,44 @@ const useAnimeToast = () => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   };
   
+  // Handle stacking effect when toasts count changes
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const toastElements = containerRef.current.querySelectorAll('.anime-toast-item');
+    if (toastElements.length <= 1) return;
+    
+    // Animate stacked toasts
+    for (let i = 0; i < toastElements.length - 1; i++) {
+      const translateY = -6 * (toastElements.length - 1 - i);
+      const scale = 1 - 0.05 * (toastElements.length - 1 - i);
+      
+      anime.animate(toastElements[i], {
+        translateY: translateY,
+        scale: scale,
+        opacity: 0.9 - (0.1 * (toastElements.length - 1 - i)),
+        duration: 300,
+        easing: 'easeOutQuad'
+      });
+    }
+  }, [toasts]);
+  
   const ToastWrapper = ({ children }) => {
     return (
       <>
         {children}
-        <AnimeToastContainer>
+        <div ref={containerRef} className="fixed top-4 right-4 z-50 flex flex-col-reverse gap-2 items-end">
           {toasts.map(toast => (
-            <AnimeToast
-              key={toast.id}
-              message={toast.message}
-              type={toast.type}
-              duration={toast.duration}
-              onClose={() => removeToast(toast.id)}
-            />
+            <div className="anime-toast-item" key={toast.id} style={{transformOrigin: 'top right'}}>
+              <AnimeToast
+                message={toast.message}
+                type={toast.type}
+                duration={toast.duration}
+                onClose={() => removeToast(toast.id)}
+              />
+            </div>
           ))}
-        </AnimeToastContainer>
+        </div>
       </>
     );
   };
@@ -311,15 +351,14 @@ const useAnimeToast = () => {
   return { addToast, removeToast, ToastWrapper };
 };`;
 
-const ToastWithActionsCode = 
-`import React, { useRef } from "react";
+const ToastWithActionsCode = `import React, { useRef, useEffect } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 
 const ToastWithActions = () => {
   const toastRef = useRef(null);
   
-  React.useEffect(() => {
+  useEffect(() => {
     if (!toastRef.current) return;
     
     anime.animate(toastRef.current, {
@@ -385,8 +424,7 @@ const ToastWithActions = () => {
   );
 };`;
 
-const StackToastsCode = 
-`import React, { useState, useRef, useEffect } from "react";
+const StackToastsCode = `import React, { useState, useRef, useEffect } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
@@ -507,6 +545,13 @@ const StackedToasts = () => {
 const AnimeToastDemoComponent = () => {
   const { addToast, ToastWrapper } = useAnimeToast();
   
+  // Function to show multiple toasts at once for demonstration
+  const showMultipleToasts = () => {
+    addToast({ message: "First toast message" });
+    setTimeout(() => addToast({ message: "Second toast message", type: "success" }), 200);
+    setTimeout(() => addToast({ message: "Third toast message", type: "warning" }), 400);
+  };
+  
   return (
     <ToastWrapper>
       <div className="space-y-4">
@@ -523,16 +568,22 @@ const AnimeToastDemoComponent = () => {
           <Button onClick={() => addToast({ message: "Error: Failed to save changes", type: "error" })}>
             Show Error Toast
           </Button>
+          <Button onClick={showMultipleToasts} variant="default" className="bg-purple-600 hover:bg-purple-700 text-white">
+            Show Multiple Toasts
+          </Button>
         </div>
       </div>
     </ToastWrapper>
   );
 };
 
+// Fixed ToastWithActions component that was disappearing on hover
 const ToastWithActions = () => {
   const toastRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
   
-  React.useEffect(() => {
+  // Only run the effect once on mount
+  useEffect(() => {
     if (!toastRef.current) return;
     
     anime.animate(toastRef.current, {
@@ -542,16 +593,18 @@ const ToastWithActions = () => {
       easing: "easeOutExpo"
     });
     
+    // Set a longer timeout and store the ID
     const timer = setTimeout(() => {
       dismissToast();
-    }, 5000);
+    }, 8000);
     
     return () => clearTimeout(timer);
   }, []);
   
   const dismissToast = () => {
-    if (!toastRef.current) return;
+    if (!toastRef.current || !visible) return;
     
+    setVisible(false);
     anime.animate(toastRef.current, {
       opacity: 0,
       translateY: 10,
@@ -565,10 +618,33 @@ const ToastWithActions = () => {
     });
   };
   
+  // Show a new toast if the previous one was dismissed
+  const resetToast = () => {
+    setVisible(true);
+    if (toastRef.current) {
+      toastRef.current.style.display = "block";
+      anime.animate(toastRef.current, {
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 400,
+        easing: "easeOutExpo"
+      });
+    }
+  };
+  
+  if (!visible) {
+    return (
+      <div className="flex justify-center">
+        <Button onClick={resetToast}>Show Toast Again</Button>
+      </div>
+    );
+  }
+  
   return (
     <div 
       ref={toastRef}
-      className="bg-background border border-border rounded-md shadow-lg p-4 w-full max-w-xs opacity-0"
+      className="bg-background border border-border rounded-md shadow-lg p-4 w-full max-w-xs"
+      style={{ pointerEvents: "auto" }} // Ensure hover works correctly
     >
       <div className="flex flex-col space-y-2">
         <h4 className="font-medium">New update available</h4>

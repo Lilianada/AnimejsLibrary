@@ -8,12 +8,18 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
-    anime.animate(textRef.current, {
+    const animation = anime({
+      targets: textRef.current,
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
       duration: 4000,
-      loop: true
+      loop: true,
+      autoplay: true
     });
+    
+    return () => {
+      animation.pause();
+    };
   }, []);
 
   return (
@@ -43,12 +49,18 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
-    anime.animate(textRef.current, {
+    const animation = anime({
+      targets: textRef.current,
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
       duration: 4000,
-      loop: true
+      loop: true,
+      autoplay: true
     });
+    
+    return () => {
+      animation.pause();
+    };
   }, []);
 
   return (
