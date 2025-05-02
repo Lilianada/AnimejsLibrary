@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import * as anime from "animejs";
 
@@ -10,7 +9,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.animate(textRef.current, {
+      anime.default.animate(textRef.current, {
         duration: 10,
         translateX: 0,
         translateY: 0,
@@ -18,7 +17,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.animate(textRef.current, {
+          anime.default.animate(textRef.current, {
             translateX: [
               { value: 3, duration: 100, delay: 500 },
               { value: -5, duration: 100, delay: 0 },
@@ -44,7 +43,14 @@ const GlitchTextEffect = () => {
     glitchAnimation();
     
     return () => {
-      anime.remove(textRef.current);
+      if (textRef.current) {
+        const element = textRef.current;
+        anime.default.running.forEach(animation => {
+          if (animation.animatables.some(animatable => animatable.target === element)) {
+            animation.pause();
+          }
+        });
+      }
     };
   }, []);
 
@@ -98,7 +104,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.animate(textRef.current, {
+      anime.default.animate(textRef.current, {
         duration: 10,
         translateX: 0,
         translateY: 0,
@@ -106,7 +112,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.animate(textRef.current, {
+          anime.default.animate(textRef.current, {
             translateX: [
               { value: 3, duration: 100, delay: 500 },
               { value: -5, duration: 100, delay: 0 },
@@ -132,7 +138,14 @@ const GlitchTextEffect = () => {
     glitchAnimation();
     
     return () => {
-      anime.remove(textRef.current);
+      if (textRef.current) {
+        const element = textRef.current;
+        anime.default.running.forEach(animation => {
+          if (animation.animatables.some(animatable => animatable.target === element)) {
+            animation.pause();
+          }
+        });
+      }
     };
   }, []);
 

@@ -17,7 +17,7 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
           if (entry.isIntersecting && containerRef.current) {
             observer.unobserve(entry.target);
             
-            anime.animate(containerRef.current, {
+            anime.default.animate(containerRef.current, {
               opacity: [0, 1],
               translateY: [20, 0],
               easing: 'easeOutCubic',
@@ -68,7 +68,7 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
           if (entry.isIntersecting && containerRef.current) {
             observer.unobserve(entry.target);
             
-            anime.animate(containerRef.current, {
+            anime.default.animate(containerRef.current, {
               opacity: [0, 1],
               translateY: [20, 0],
               easing: 'easeOutCubic',

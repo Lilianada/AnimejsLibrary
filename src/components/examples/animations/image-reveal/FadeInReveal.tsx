@@ -20,7 +20,7 @@ const FadeInReveal = ({ imageSrc, altText = '', className = '' }: FadeInRevealPr
             observer.unobserve(entry.target);
             
             // Create fade and scale animation
-            anime.animate(imageRef.current, {
+            anime.default.animate(imageRef.current, {
               opacity: [0, 1],
               scale: [0.9, 1],
               easing: 'easeOutCubic',
@@ -72,7 +72,7 @@ const FadeInReveal = ({ imageSrc, altText = '', className = '' }) => {
             observer.unobserve(entry.target);
             
             // Create fade and scale animation
-            anime.animate(imageRef.current, {
+            anime.default.animate(imageRef.current, {
               opacity: [0, 1],
               scale: [0.9, 1],
               easing: 'easeOutCubic',

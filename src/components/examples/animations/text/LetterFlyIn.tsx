@@ -21,14 +21,16 @@ const LetterFlyIn = ({
     const letters = containerRef.current.querySelectorAll('.letter');
     
     // Set initial properties
-    anime.set(letters, {
-      opacity: 0,
-      translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
-      translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
+    letters.forEach(letter => {
+      anime.default.set(letter, {
+        opacity: 0,
+        translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
+        translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
+      });
     });
     
     // Animate letters
-    anime.animate(letters, {
+    anime.default.animate(letters, {
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -37,7 +39,7 @@ const LetterFlyIn = ({
       ],
       duration: 600,
       easing: 'easeOutQuad',
-      delay: anime.stagger(80, { start: delay }),
+      delay: anime.default.stagger(80, { start: delay }),
     });
     
   }, [text, delay, direction]);
@@ -81,14 +83,16 @@ const LetterFlyIn = ({
     const letters = containerRef.current.querySelectorAll('.letter');
     
     // Set initial properties
-    anime.set(letters, {
-      opacity: 0,
-      translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
-      translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
+    letters.forEach(letter => {
+      anime.default.set(letter, {
+        opacity: 0,
+        translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
+        translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
+      });
     });
     
     // Animate letters
-    anime.animate(letters, {
+    anime.default.animate(letters, {
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -97,7 +101,7 @@ const LetterFlyIn = ({
       ],
       duration: 600,
       easing: 'easeOutQuad',
-      delay: anime.stagger(80, { start: delay }),
+      delay: anime.default.stagger(80, { start: delay }),
     });
     
   }, [text, delay, direction]);

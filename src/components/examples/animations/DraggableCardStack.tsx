@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { ArrowsPointingIn, ArrowsPointingOut } from "lucide-react";
+import { MoveIn, MoveOut } from "lucide-react"; // Updated icon imports
 import { Card, CardContent } from "@/components/ui/card";
 import * as anime from "animejs";
 
@@ -56,15 +56,17 @@ const DraggableCardStack = () => {
     
     if (!expanded) {
       // Expand cards
-      anime.remove(cards);
+      cards.forEach(card => {
+        anime.default.remove(card);
+      });
       
-      anime.animate(cards, {
+      anime.default.animate(cards, {
         translateX: (el, i) => [(i - 1) * 10, (i - 1) * 150],
         translateY: (el, i) => [-(i * 10), 0],
         rotate: (el, i) => [-(i * 2), 0],
         scale: [0.9, 1],
         opacity: [0.8, 1],
-        delay: anime.stagger(100),
+        delay: anime.default.stagger(100),
         easing: "easeOutElastic(1, .6)",
         duration: 800,
         complete: () => {
@@ -74,15 +76,17 @@ const DraggableCardStack = () => {
       });
     } else {
       // Collapse cards
-      anime.remove(cards);
+      cards.forEach(card => {
+        anime.default.remove(card);
+      });
       
-      anime.animate(cards, {
+      anime.default.animate(cards, {
         translateX: (el, i) => [(i - 1) * 150, (i - 1) * 10],
         translateY: (el, i) => [0, -(i * 10)],
         rotate: (el, i) => [0, -(i * 2)],
         scale: [1, 0.9],
         opacity: (el, i) => i === 0 ? 1 : 0.8,
-        delay: anime.stagger(100, { direction: 'reverse' }),
+        delay: anime.default.stagger(100, { from: 'last' }),
         easing: "easeInOutQuad",
         duration: 600,
         complete: () => {
@@ -118,7 +122,7 @@ const DraggableCardStack = () => {
       });
       
       // Apply position to the card
-      anime.set(cardElement, {
+      anime.default.set(cardElement, {
         translateX: originalPos.x + dx,
         translateY: originalPos.y + dy,
       });
@@ -129,7 +133,7 @@ const DraggableCardStack = () => {
       document.removeEventListener("mouseup", onMouseUp);
       
       // Animate card back to its original position with a spring effect
-      anime.animate(cardElement, {
+      anime.default.animate(cardElement, {
         translateX: [(originalPos.x + positions[index].x) / 2, (index - 1) * 150],
         translateY: [(originalPos.y + positions[index].y) / 2, 0],
         duration: 800,
@@ -210,9 +214,9 @@ const DraggableCardStack = () => {
               title={expanded ? "Collapse cards" : "Expand cards"}
             >
               {expanded ? (
-                <ArrowsPointingIn className="w-4 h-4" />
+                <MoveIn className="w-4 h-4" />
               ) : (
-                <ArrowsPointingOut className="w-4 h-4" />
+                <MoveOut className="w-4 h-4" />
               )}
             </button>
           </div>

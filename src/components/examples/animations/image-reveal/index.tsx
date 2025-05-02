@@ -16,8 +16,8 @@ const ImageRevealAnimations = () => {
               <h4 className="text-lg font-medium">Clip Path Reveal</h4>
               <div className="border rounded-lg p-6 min-h-[300px] flex items-center justify-center">
                 <ClipPathReveal
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
-                  alt="Abstract art"
+                  imageSrc="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
+                  altText="Abstract art"
                 />
               </div>
             </div>
@@ -31,8 +31,8 @@ const ImageRevealAnimations = () => {
               <h4 className="text-lg font-medium">Fade In Reveal</h4>
               <div className="border rounded-lg p-6 min-h-[300px] flex items-center justify-center">
                 <FadeInReveal
-                  src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Gradient bubbles"
+                  imageSrc="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  altText="Gradient bubbles"
                 />
               </div>
             </div>
@@ -46,8 +46,8 @@ const ImageRevealAnimations = () => {
               <h4 className="text-lg font-medium">Slide In Reveal</h4>
               <div className="border rounded-lg p-6 min-h-[300px] flex items-center justify-center">
                 <SlideInReveal
-                  src="https://images.unsplash.com/photo-1508614999368-9260051292e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Abstract lines"
+                  imageSrc="https://images.unsplash.com/photo-1508614999368-9260051292e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  altText="Abstract lines"
                 />
               </div>
             </div>
@@ -61,8 +61,8 @@ const ImageRevealAnimations = () => {
               <h4 className="text-lg font-medium">Split Curtain Reveal</h4>
               <div className="border rounded-lg p-6 min-h-[300px] flex items-center justify-center">
                 <SplitCurtainReveal
-                  src="https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Abstract colors"
+                  imageSrc="https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  altText="Abstract colors"
                 />
               </div>
             </div>
