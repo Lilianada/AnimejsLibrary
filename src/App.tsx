@@ -27,7 +27,6 @@ import AnimationExamples from "./components/examples/AnimationExamples";
 import FormsExamples from "./components/examples/FormsExamples";
 
 function PageTransition({ children }: { children: React.ReactNode }) {
-  const location = useLocation();
   const [transitionClass, setTransitionClass] = React.useState("opacity-0");
 
   React.useEffect(() => {
@@ -38,12 +37,8 @@ function PageTransition({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer);
   }, [children]);
 
-  const isDocsPage = location.pathname === "/docs";
-
   return (
-    <div
-      className={`transition-opacity duration-300 ease-in-out ${transitionClass} ${isDocsPage ? "pt-16" : ""}`}
-    >
+    <div className={`transition-opacity duration-300 ease-in-out ${transitionClass}`}>
       {children}
     </div>
   );
@@ -51,11 +46,13 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 
 const AppLayout = () => {
   const location = useLocation();
+  const isExamplePage = location.pathname.includes("/examples");
+  const isDocsPage = location.pathname === "/docs";
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-1 pt-16">
+      <main className={`flex-1 ${isDocsPage || isExamplePage ? "pt-16" : ""}`}>
         <PageTransition>
           <Outlet />
         </PageTransition>

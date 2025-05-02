@@ -87,10 +87,14 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
   if (!mounted) return null;
 
   return isMobile ? (
-    <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center justify-between row-reverse border-b bg-background mb-3">
+    <div className="fixed top-16 left-0 z-30 w-full p-4 flex items-center justify-between bg-background mb-3 border-b">
+      <h2 className="text-lg font-semibold">
+        {categories.find((c) => c.id === selectedCategory)?.name || "Examples"}
+      </h2>
+      
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="mr-2">
+          <Button variant="outline" size="icon" className="ml-2">
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
@@ -98,17 +102,10 @@ const Sidebar = ({ selectedCategory, onSelectCategory }: SidebarProps) => {
           <SidebarContent />
         </SheetContent>
       </Sheet>
-
-      <div>
-        <h2 className="text-lg font-semibold">
-          {categories.find((c) => c.id === selectedCategory)?.name ||
-            "Examples"}
-        </h2>
-      </div>
     </div>
   ) : (
-    <aside className="w-60 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex flex-col hidden lg:flex">
-      <div className="overflow-y-auto flex-1">
+    <aside className="w-64 border-r h-[calc(100vh-4rem)] sticky top-16 overflow-hidden flex-shrink-0 hidden md:block lg:block">
+      <div className="overflow-y-auto h-full">
         <SidebarContent />
       </div>
     </aside>

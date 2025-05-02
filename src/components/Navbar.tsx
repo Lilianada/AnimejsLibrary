@@ -1,11 +1,11 @@
 
 import { Book, Grid2X2, HeartIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  // Use location for active state
-  const location = window.location.pathname; // Works since SSR not needed
+  const location = useLocation().pathname; // Use useLocation hook for more reliable path tracking
+  
   const links = [
     { href: "/docs", label: "Docs", icon: Book },
     { href: "/examples", label: "Examples", icon: Grid2X2 },
@@ -21,8 +21,9 @@ const Navbar = () => {
               alt="Animelibrary.xyz Logo"
               className="h-8 w-8 object-contain"
             />
+            <span className="ml-2 text-lg font-semibold hidden sm:inline-block">AnimUI</span>
           </Link>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -52,6 +53,17 @@ const Navbar = () => {
               <Link to="/examples" className="flex items-center space-x-1">
                 <span>Sponsor</span>
                 <HeartIcon className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="md:hidden">
+            <Button
+              asChild
+              variant="ghost"
+              className="p-2"
+            >
+              <Link to="/examples">
+                <Grid2X2 className="h-5 w-5" />
               </Link>
             </Button>
           </div>
