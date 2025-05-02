@@ -42,7 +42,7 @@ const AnimeToastExamples = () => {
                 Toast notification with interactive action buttons.
               </p>
               <div className="py-8 flex justify-center">
-                <ToastWithActions />
+                <ToastWithActions message="Would you like to enable notifications?" />
               </div>
             </div>
           }
