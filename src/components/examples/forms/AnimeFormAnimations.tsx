@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ const AnimatedInput = ({ label, type = "text" }: { label: string; type?: string 
       anime.animate(labelElement, {
         translateY: -20,
         scale: 0.85,
-        color: "hsl(var(--primary))",
+        color: "#ff4bbd",
         duration: 300,
         easing: "easeOutQuad"
       });
@@ -35,7 +34,7 @@ const AnimatedInput = ({ label, type = "text" }: { label: string; type?: string 
       anime.animate(labelElement, {
         translateY: 0,
         scale: 1,
-        color: "hsl(var(--muted-foreground))",
+        color: "#9ca3af",
         duration: 300,
         easing: "easeOutQuad"
       });
@@ -96,7 +95,7 @@ const ValidationInput = () => {
       
       if (isValidEmail) {
         anime.animate(inputBorder, {
-          borderColor: ['hsl(var(--border))', 'hsl(142, 76%, 36%)'],
+          borderColor: ['#e5e7eb', '#15803d'],
           duration: 400,
           easing: 'easeOutQuad'
         });
@@ -109,7 +108,7 @@ const ValidationInput = () => {
         });
       } else {
         anime.animate(inputBorder, {
-          borderColor: ['hsl(var(--border))', 'hsl(0, 84%, 60%)'],
+          borderColor: ['#e5e7eb', '#ef4444'],
           duration: 400,
           easing: 'easeOutQuad'
         });

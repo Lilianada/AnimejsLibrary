@@ -22,7 +22,8 @@ const GradientText = ({ text }: { text: string }) => {
         ref={textRef}
         className="bg-clip-text text-transparent bg-[length:200%_auto]"
         style={{
-          backgroundImage: 'linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)), hsl(var(--primary)))'
+          backgroundImage: 'linear-gradient(to right, #ff4bbd, #7c3aed, #fb7185, #ff4bbd)'
+          // Using direct hex colors instead of hsl variables
         }}
       >
         {text}
