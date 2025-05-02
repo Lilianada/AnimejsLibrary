@@ -1,9 +1,8 @@
-
 import React from "react";
 import { CodeToggle } from "../CodeToggle";
 import AnimeToastDemoComponent, { useToastCode } from "./AnimeToastDemo";
-import ToastWithActions, { ToastWithActionsCode } from "./ToastWithActions";
-import StackedToasts, { StackToastsCode } from "./StackedToasts";
+import ToastWithActions from "./ToastWithActions";
+import StackedToasts from "./StackedToasts";
 
 const AnimeToastExamples = () => {
   return (
@@ -46,7 +45,6 @@ const AnimeToastExamples = () => {
               </div>
             </div>
           }
-          codeContent={ToastWithActionsCode}
           className="w-full"
           minHeightClass="min-h-[500px]"
         />
@@ -63,7 +61,6 @@ const AnimeToastExamples = () => {
               </div>
             </div>
           }
-          codeContent={StackToastsCode}
           className="w-full"
           minHeightClass="min-h-[500px]"
         />
