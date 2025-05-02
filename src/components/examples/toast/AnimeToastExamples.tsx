@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
@@ -154,7 +155,9 @@ const useAnimeToast = () => {
   return { addToast, removeToast, ToastWrapper };
 };
 
-const useToastCode = `import React, { useRef, useState } from "react";
+// Fixed template string escaping for code examples
+const useToastCode = 
+`import React, { useRef, useState } from "react";
 import * as anime from "animejs";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
 
@@ -308,7 +311,8 @@ const useAnimeToast = () => {
   return { addToast, removeToast, ToastWrapper };
 };`;
 
-const ToastWithActionsCode = `import React, { useRef } from "react";
+const ToastWithActionsCode = 
+`import React, { useRef } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 
@@ -379,9 +383,10 @@ const ToastWithActions = () => {
       </div>
     </div>
   );
-};
+};`;
 
-const StackToastsCode = `import React, { useState, useRef, useEffect } from "react";
+const StackToastsCode = 
+`import React, { useState, useRef, useEffect } from "react";
 import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
@@ -497,7 +502,7 @@ const StackedToasts = () => {
       </div>
     </div>
   );
-};
+};`;
 
 const AnimeToastDemoComponent = () => {
   const { addToast, ToastWrapper } = useAnimeToast();
