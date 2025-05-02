@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
+import * as animeNamespace from 'animejs';
+
+const anime = animeNamespace.default;
 
 export interface ToastProps {
   message: string;
