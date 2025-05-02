@@ -1,107 +1,59 @@
 
 import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 interface FadeInRevealProps {
-  src: string;
-  alt: string;
+  imageSrc: string;
+  altText?: string;
+  className?: string;
 }
 
-const FadeInReveal = ({ src, alt }: FadeInRevealProps) => {
-  const imageRef = useRef<HTMLDivElement>(null);
+const FadeInReveal = ({ imageSrc, altText = '', className = '' }: FadeInRevealProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          
-          // Animate using anime.js
-          anime({
-            targets: imageRef.current,
-            opacity: [0, 1],
-            filter: ['blur(10px)', 'blur(0px)'],
-            scale: [0.9, 1],
-            easing: 'easeOutExpo',
-            duration: 1500
-          });
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && containerRef.current) {
+            observer.unobserve(entry.target);
+            
+            // Create fade and scale animation
+            anime.default({
+              targets: imageRef.current,
+              opacity: [0, 1],
+              scale: [0.9, 1],
+              easing: 'easeOutCubic',
+              duration: 800
+            });
+          }
+        });
       },
       { threshold: 0.1 }
     );
     
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
     
     return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current);
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
       }
     };
   }, []);
-
+  
   return (
-    <div 
-      ref={imageRef}
-      className="w-full h-72 rounded-md overflow-hidden opacity-0"
-    >
+    <div ref={containerRef} className={`overflow-hidden ${className}`}>
       <img 
-        src={src} 
-        alt={alt} 
-        className="w-full h-full object-cover" 
+        ref={imageRef}
+        src={imageSrc} 
+        alt={altText} 
+        className="w-full h-full object-cover opacity-0 scale-90"
       />
     </div>
   );
 };
 
 export default FadeInReveal;
-
-export const fadeInRevealCode = `import { useEffect, useRef } from "react";
-import anime from "animejs";
-
-const FadeInReveal = ({ src, alt }) => {
-  const imageRef = useRef(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          
-          // Animate using anime.js
-          anime({
-            targets: imageRef.current,
-            opacity: [0, 1],
-            filter: ['blur(10px)', 'blur(0px)'],
-            scale: [0.9, 1],
-            easing: 'easeOutExpo',
-            duration: 1500
-          });
-        }
-      },
-      { threshold: 0.1 }
-    );
-    
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
-    }
-    
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div 
-      ref={imageRef}
-      className="w-full h-72 rounded-md overflow-hidden opacity-0"
-    >
-      <img 
-        src={src} 
-        alt={alt} 
-        className="w-full h-full object-cover" 
-      />
-    </div>
-  );
-};
-
-export default FadeInReveal;`;

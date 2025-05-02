@@ -1,42 +1,67 @@
 
 import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 interface SlideInRevealProps {
-  src: string;
-  alt: string;
+  imageSrc: string;
+  altText?: string;
+  className?: string;
+  direction?: 'right' | 'left' | 'top' | 'bottom';
 }
 
-const SlideInReveal = ({ src, alt }: SlideInRevealProps) => {
+const SlideInReveal = ({ 
+  imageSrc, 
+  altText = '', 
+  className = '',
+  direction = 'right'
+}: SlideInRevealProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          
-          // Sequence animations with anime.js
-          const timeline = anime.timeline({
-            easing: 'easeOutExpo'
-          });
-          
-          timeline
-            .add({
-              targets: overlayRef.current,
-              translateX: ['0%', '100%'],
-              duration: 800
-            })
-            .add({
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && containerRef.current) {
+            observer.unobserve(entry.target);
+            
+            // Get transform start position based on direction
+            const getStartPosition = () => {
+              switch(direction) {
+                case 'right': return { translateX: '100%' };
+                case 'left': return { translateX: '-100%' };
+                case 'top': return { translateY: '-100%' };
+                case 'bottom': return { translateY: '100%' };
+                default: return { translateX: '100%' };
+              }
+            };
+            
+            // Create image slide in animation
+            anime.default({
               targets: imageRef.current,
-              translateX: ['-100%', '0%'],
+              ...getStartPosition(),
+              translateX: '0%',
+              translateY: '0%',
               opacity: [0, 1],
+              easing: 'easeOutQuad',
               duration: 800
-            }, '-=600');
-        }
-      }, 
+            });
+            
+            // Create overlay animation
+            anime.default({
+              targets: overlayRef.current,
+              scaleX: direction === 'top' || direction === 'bottom' ? [1, 1] : [1, 0],
+              scaleY: direction === 'left' || direction === 'right' ? [1, 1] : [1, 0],
+              translateX: direction === 'right' ? ['0%', '-100%'] : (direction === 'left' ? ['0%', '100%'] : '0%'),
+              translateY: direction === 'bottom' ? ['0%', '-100%'] : (direction === 'top' ? ['0%', '100%'] : '0%'),
+              easing: 'easeInOutQuad',
+              duration: 800,
+              delay: 300
+            });
+          }
+        });
+      },
       { threshold: 0.1 }
     );
     
@@ -49,89 +74,34 @@ const SlideInReveal = ({ src, alt }: SlideInRevealProps) => {
         observer.unobserve(containerRef.current);
       }
     };
-  }, []);
-
+  }, [direction]);
+  
   return (
-    <div 
-      ref={containerRef}
-      className="w-full h-72 rounded-md overflow-hidden relative"
-    >
-      <div
-        ref={overlayRef}
-        className="absolute inset-0 bg-primary z-10"
-      />
+    <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
       <img 
         ref={imageRef}
-        src={src} 
-        alt={alt} 
-        className="w-full h-full object-cover opacity-0 transform -translate-x-full"
+        src={imageSrc} 
+        alt={altText} 
+        className="w-full h-full object-cover opacity-0"
+        style={{ 
+          transform: direction === 'right' ? 'translateX(100%)' : 
+                     direction === 'left' ? 'translateX(-100%)' : 
+                     direction === 'top' ? 'translateY(-100%)' : 
+                     'translateY(100%)'
+        }}
+      />
+      <div 
+        ref={overlayRef}
+        className="absolute inset-0 bg-primary origin-left"
+        style={{ 
+          transformOrigin: direction === 'right' ? 'right' : 
+                          direction === 'left' ? 'left' : 
+                          direction === 'top' ? 'top' : 
+                          'bottom' 
+        }}
       />
     </div>
   );
 };
 
 export default SlideInReveal;
-
-export const slideInRevealCode = `import { useEffect, useRef } from "react";
-import anime from "animejs";
-
-const SlideInReveal = ({ src, alt }) => {
-  const containerRef = useRef(null);
-  const imageRef = useRef(null);
-  const overlayRef = useRef(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          observer.unobserve(entry.target);
-          
-          // Sequence animations with anime.js
-          const timeline = anime.timeline({
-            easing: 'easeOutExpo'
-          });
-          
-          timeline
-            .add({
-              targets: overlayRef.current,
-              translateX: ['0%', '100%'],
-              duration: 800
-            })
-            .add({
-              targets: imageRef.current,
-              translateX: ['-100%', '0%'],
-              opacity: [0, 1],
-              duration: 800
-            }, '-=600');
-        }
-      }, 
-      { threshold: 0.1 }
-    );
-    
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-    
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div 
-      ref={containerRef}
-      className="w-full h-72 rounded-md overflow-hidden relative"
-    >
-      <div
-        ref={overlayRef}
-        className="absolute inset-0 bg-primary z-10"
-      />
-      <img 
-        ref={imageRef}
-        src={src} 
-        alt={alt} 
-        className="w-full h-full object-cover opacity-0 transform -translate-x-full"
-      />
-    </div>
-  );
-};
-
-export default SlideInReveal;`;

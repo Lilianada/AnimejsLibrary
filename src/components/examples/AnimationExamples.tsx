@@ -5,7 +5,7 @@ import TextAnimations from "./animations/TextAnimations";
 import ImageRevealAnimations from "./animations/image-reveal";
 import DraggableCardStack from "./animations/DraggableCardStack";
 import HeroTextAnimations from "./animations/HeroTextAnimations";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,18 +17,18 @@ const AnimationExamples = () => {
 
       if (cards) {
         // Use anime.js for card animations
-        anime.set(cards, {
+        anime.default.set(cards, {
           opacity: 0,
           translateY: 20
         });
         
-        anime({
+        anime.default({
           targets: cards,
           opacity: 1,
           translateY: 0,
           duration: 600,
           easing: 'easeOutExpo',
-          delay: anime.stagger(100)
+          delay: anime.default.stagger(100)
         });
       }
     };
@@ -64,7 +64,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime({
+      anime.default({
         targets: window.document.scrollingElement,
         scrollTop: topOffset,
         duration: 600,

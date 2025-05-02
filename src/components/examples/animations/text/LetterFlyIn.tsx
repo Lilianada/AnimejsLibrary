@@ -1,13 +1,18 @@
 
 import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 interface LetterFlyInProps {
   text: string;
   delay?: number;
+  direction?: 'bottom' | 'top' | 'left' | 'right';
 }
 
-const LetterFlyIn = ({ text, delay = 0 }: LetterFlyInProps) => {
+const LetterFlyIn = ({ 
+  text, 
+  delay = 0, 
+  direction = 'bottom'
+}: LetterFlyInProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -15,40 +20,40 @@ const LetterFlyIn = ({ text, delay = 0 }: LetterFlyInProps) => {
     
     const letters = containerRef.current.querySelectorAll('.letter');
     
-    // Set initial state
-    anime.set(letters, {
+    // Set initial properties
+    anime.default.set(letters, {
       opacity: 0,
-      translateY: 40,
-      translateZ: 0,
-      translateX: function() {
-        return [anime.random(-40, 40)];
-      }
+      translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
+      translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
     });
     
-    // Animate each letter
-    anime({
+    // Animate letters
+    anime.default({
       targets: letters,
-      opacity: 1,
-      translateY: 0,
-      translateX: 0,
-      scale: [0.8, 1],
-      delay: function(el, i) {
-        return delay + (i * 30);
-      },
-      duration: 1000,
-      easing: 'easeOutElastic(1.5, 0.5)',
+      opacity: [0, 1],
+      translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
+      translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
+      rotate: [
+        { value: direction === 'bottom' || direction === 'top' ? [-25, 25] : 0 }
+      ],
+      duration: 600,
+      easing: 'easeOutQuad',
+      delay: anime.default.stagger(80, { start: delay }),
     });
-  }, [delay, text]);
+    
+  }, [text, delay, direction]);
   
   return (
-    <div className="text-2xl sm:text-3xl md:text-4xl font-bold overflow-hidden">
-      <div ref={containerRef} className="flex flex-wrap justify-center">
-        {text.split('').map((letter, index) => (
-          <span key={`${letter}-${index}`} className="letter inline-block mx-[0.01em]">
-            {letter === ' ' ? '\u00A0' : letter}
-          </span>
-        ))}
-      </div>
+    <div ref={containerRef} className="inline-block">
+      {text.split('').map((letter, index) => (
+        <span
+          key={index}
+          className="letter inline-block"
+          style={{ opacity: 0 }}
+        >
+          {letter === ' ' ? '\u00A0' : letter}
+        </span>
+      ))}
     </div>
   );
 };
@@ -56,55 +61,60 @@ const LetterFlyIn = ({ text, delay = 0 }: LetterFlyInProps) => {
 export default LetterFlyIn;
 
 export const letterFlyInCode = `import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 interface LetterFlyInProps {
   text: string;
   delay?: number;
+  direction?: 'bottom' | 'top' | 'left' | 'right';
 }
 
-const LetterFlyIn = ({ text, delay = 0 }: LetterFlyInProps) => {
-  const containerRef = useRef(null);
+const LetterFlyIn = ({ 
+  text, 
+  delay = 0, 
+  direction = 'bottom'
+}: LetterFlyInProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (!containerRef.current) return;
     
     const letters = containerRef.current.querySelectorAll('.letter');
     
-    // Set initial state
-    anime.set(letters, {
+    // Set initial properties
+    anime.default.set(letters, {
       opacity: 0,
-      translateY: 40,
-      translateZ: 0,
-      translateX: function() {
-        return [anime.random(-40, 40)];
-      }
+      translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
+      translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
     });
     
-    // Animate each letter
-    anime({
+    // Animate letters
+    anime.default({
       targets: letters,
-      opacity: 1,
-      translateY: 0,
-      translateX: 0,
-      scale: [0.8, 1],
-      delay: function(el, i) {
-        return delay + (i * 30);
-      },
-      duration: 1000,
-      easing: 'easeOutElastic(1.5, 0.5)',
+      opacity: [0, 1],
+      translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
+      translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
+      rotate: [
+        { value: direction === 'bottom' || direction === 'top' ? [-25, 25] : 0 }
+      ],
+      duration: 600,
+      easing: 'easeOutQuad',
+      delay: anime.default.stagger(80, { start: delay }),
     });
-  }, [delay, text]);
+    
+  }, [text, delay, direction]);
   
   return (
-    <div className="text-2xl sm:text-3xl md:text-4xl font-bold overflow-hidden">
-      <div ref={containerRef} className="flex flex-wrap justify-center">
-        {text.split('').map((letter, index) => (
-          <span key={\`\${letter}-\${index}\`} className="letter inline-block mx-[0.01em]">
-            {letter === ' ' ? '\u00A0' : letter}
-          </span>
-        ))}
-      </div>
+    <div ref={containerRef} className="inline-block">
+      {text.split('').map((letter, index) => (
+        <span
+          key={index}
+          className="letter inline-block"
+          style={{ opacity: 0 }}
+        >
+          {letter === ' ' ? '\u00A0' : letter}
+        </span>
+      ))}
     </div>
   );
 };

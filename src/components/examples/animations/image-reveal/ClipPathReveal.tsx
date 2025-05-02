@@ -1,117 +1,63 @@
 
-import { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+import { useEffect, useRef } from "react";
+import * as anime from "animejs";
 
 interface ClipPathRevealProps {
-  src: string;
-  alt: string;
+  imageSrc: string;
+  altText?: string;
+  className?: string;
 }
 
-const ClipPathReveal = ({ src, alt }: ClipPathRevealProps) => {
-  const imageRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
+const ClipPathReveal = ({ imageSrc, altText = '', className = '' }: ClipPathRevealProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.unobserve(entry.target);
-          
-          // Animate using anime.js
-          anime({
-            targets: imageRef.current,
-            clipPath: ['inset(100% 0 0 0)', 'inset(0% 0 0 0)'],
-            easing: 'easeInOutQuad',
-            duration: 1200
-          });
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && containerRef.current) {
+            observer.unobserve(entry.target);
+            
+            // Create clip path animation
+            anime.default({
+              targets: imageRef.current,
+              clipPath: ['inset(100% 0 0 0)', 'inset(0 0 0 0)'], 
+              opacity: [0, 1],
+              easing: 'easeInOutQuad',
+              duration: 800,
+              delay: 100
+            });
+          }
+        });
       },
       { threshold: 0.1 }
     );
     
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
     
     return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current);
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
       }
     };
   }, []);
-
+  
   return (
-    <div className="w-full h-full relative overflow-hidden">
-      <div 
+    <div ref={containerRef} className={`overflow-hidden relative ${className}`}>
+      <img 
         ref={imageRef}
-        className="w-full h-72 rounded-md overflow-hidden"
+        src={imageSrc} 
+        alt={altText} 
+        className="w-full h-full object-cover opacity-0"
         style={{ 
-          clipPath: isInView ? 'inset(0% 0 0 0)' : 'inset(100% 0 0 0)'
+          clipPath: 'inset(100% 0 0 0)'
         }}
-      >
-        <img 
-          src={src} 
-          alt={alt} 
-          className="w-full h-full object-cover" 
-        />
-      </div>
+      />
     </div>
   );
 };
 
 export default ClipPathReveal;
-
-export const clipPathRevealCode = `import { useEffect, useRef, useState } from "react";
-import anime from "animejs";
-
-const ClipPathReveal = ({ src, alt }) => {
-  const imageRef = useRef(null);
-  const [isInView, setIsInView] = useState(false);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.unobserve(entry.target);
-          
-          // Animate using anime.js
-          anime({
-            targets: imageRef.current,
-            clipPath: ['inset(100% 0 0 0)', 'inset(0% 0 0 0)'],
-            easing: 'easeInOutQuad',
-            duration: 1200
-          });
-        }
-      },
-      { threshold: 0.1 }
-    );
-    
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
-    }
-    
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div className="w-full h-full relative overflow-hidden">
-      <div 
-        ref={imageRef}
-        className="w-full h-72 rounded-md overflow-hidden"
-        style={{ 
-          clipPath: isInView ? 'inset(0% 0 0 0)' : 'inset(100% 0 0 0)'
-        }}
-      >
-        <img 
-          src={src} 
-          alt={alt} 
-          className="w-full h-full object-cover" 
-        />
-      </div>
-    </div>
-  );
-};
-
-export default ClipPathReveal;`;

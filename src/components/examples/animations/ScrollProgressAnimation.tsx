@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CodeToggle } from "../CodeToggle";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const ScrollProgressAnimation = () => {
   return (
@@ -61,7 +61,7 @@ const LinearProgress = () => {
   
   useEffect(() => {
     if (progressRef.current && valueRef.current) {
-      anime({
+      anime.default({
         targets: progressRef.current,
         width: `${scrollPercentage}%`,
         easing: 'easeOutCubic',
@@ -166,7 +166,7 @@ const CircleProgress = () => {
 
 // Code block for linear progress
 const linearProgressCode = `import { useState, useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const LinearProgress = () => {
   const progressRef = useRef(null);
@@ -194,7 +194,7 @@ const LinearProgress = () => {
   
   useEffect(() => {
     if (progressRef.current && valueRef.current) {
-      anime({
+      anime.default({
         targets: progressRef.current,
         width: \`\${scrollPercentage}%\`,
         easing: 'easeOutCubic',
@@ -226,7 +226,7 @@ export default LinearProgress;`;
 
 // Code block for circle progress
 const circleProgressCode = `import { useState, useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const CircleProgress = () => {
   const circleRef = useRef(null);
@@ -259,7 +259,7 @@ const CircleProgress = () => {
     if (circleRef.current && valueRef.current) {
       const offset = circumference - (scrollPercentage / 100) * circumference;
       
-      anime({
+      anime.default({
         targets: circleRef.current,
         strokeDashoffset: offset,
         easing: 'easeOutCubic',

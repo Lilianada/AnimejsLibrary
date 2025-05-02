@@ -1,94 +1,102 @@
 
-import { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+import { useRef, useEffect, ReactNode } from "react";
+import * as anime from "animejs";
 
 interface TextRevealOnScrollProps {
-  children: React.ReactNode;
+  children: ReactNode;
+  threshold?: number;
 }
 
-const TextRevealOnScroll = ({ children }: TextRevealOnScrollProps) => {
-  const textRef = useRef<HTMLDivElement>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
+const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    if (!textRef.current) return;
-
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          
-          anime({
-            targets: textRef.current?.querySelector('.reveal-text'),
-            translateY: [100, 0],
-            opacity: [0, 1],
-            easing: 'easeOutExpo',
-            duration: 1200,
-            delay: 300
-          });
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && containerRef.current) {
+            observer.unobserve(entry.target);
+            
+            anime.default({
+              targets: containerRef.current,
+              opacity: [0, 1],
+              translateY: [20, 0],
+              easing: 'easeOutCubic',
+              duration: 800,
+              delay: 200
+            });
+          }
+        });
       },
-      { threshold: 0.2 }
+      { threshold }
     );
-
-    observer.observe(textRef.current);
-
+    
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    
     return () => {
-      observer.disconnect();
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
     };
-  }, [hasAnimated]);
-
+  }, [threshold]);
+  
   return (
-    <div ref={textRef} className="overflow-hidden">
-      <div className="reveal-text opacity-0">{children}</div>
+    <div ref={containerRef} className="opacity-0 transform translate-y-5">
+      {children}
     </div>
   );
 };
 
 export default TextRevealOnScroll;
 
-export const textRevealOnScrollCode = `import { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+export const textFadeInCode = `import { useRef, useEffect, ReactNode } from "react";
+import * as anime from "animejs";
 
 interface TextRevealOnScrollProps {
-  children: React.ReactNode;
+  children: ReactNode;
+  threshold?: number;
 }
 
-const TextRevealOnScroll = ({ children }: TextRevealOnScrollProps) => {
-  const textRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
+const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    if (!textRef.current) return;
-
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          
-          anime({
-            targets: textRef.current?.querySelector('.reveal-text'),
-            translateY: [100, 0],
-            opacity: [0, 1],
-            easing: 'easeOutExpo',
-            duration: 1200,
-            delay: 300
-          });
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && containerRef.current) {
+            observer.unobserve(entry.target);
+            
+            anime.default({
+              targets: containerRef.current,
+              opacity: [0, 1],
+              translateY: [20, 0],
+              easing: 'easeOutCubic',
+              duration: 800,
+              delay: 200
+            });
+          }
+        });
       },
-      { threshold: 0.2 }
+      { threshold }
     );
-
-    observer.observe(textRef.current);
-
+    
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    
     return () => {
-      observer.disconnect();
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
     };
-  }, [hasAnimated]);
-
+  }, [threshold]);
+  
   return (
-    <div ref={textRef} className="overflow-hidden">
-      <div className="reveal-text opacity-0">{children}</div>
+    <div ref={containerRef} className="opacity-0 transform translate-y-5">
+      {children}
     </div>
   );
 };
