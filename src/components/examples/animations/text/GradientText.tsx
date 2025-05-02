@@ -1,0 +1,72 @@
+
+import { useEffect, useRef } from "react";
+import * as anime from "animejs";
+
+const GradientText = ({ text }: { text: string }) => {
+  const textRef = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    if (!textRef.current) return;
+    
+    anime.default({
+      targets: textRef.current,
+      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+      easing: 'easeInOutSine',
+      duration: 4000,
+      loop: true
+    });
+  }, []);
+
+  return (
+    <div className="text-4xl font-bold">
+      <span 
+        ref={textRef}
+        className="bg-clip-text text-transparent bg-[length:200%_auto]"
+        style={{
+          backgroundImage: 'linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)), hsl(var(--primary)))'
+        }}
+      >
+        {text}
+      </span>
+    </div>
+  );
+};
+
+export default GradientText;
+
+export const gradientTextCode = `import { useEffect, useRef } from "react";
+import * as anime from "animejs";
+
+const GradientText = ({ text }: { text: string }) => {
+  const textRef = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    if (!textRef.current) return;
+    
+    // Create animated gradient movement using anime.js
+    anime.default({
+      targets: textRef.current,
+      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+      easing: 'easeInOutSine',
+      duration: 4000,
+      loop: true
+    });
+  }, []);
+
+  return (
+    <div className="text-4xl font-bold">
+      <span 
+        ref={textRef}
+        className="bg-clip-text text-transparent bg-[length:200%_auto]"
+        style={{
+          backgroundImage: 'linear-gradient(to right, #ff6b6b, #6b6bff, #6bff6b, #ff6b6b)'
+          // You can customize your gradient colors
+        }}
+      >
+        {text}
+      </span>
+    </div>
+  );
+};
+
+export default GradientText;`;

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check } from "lucide-react";
@@ -9,7 +10,7 @@ interface CodeBlockProps {
   language?: string;
 }
 
-const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = "tsx" }) => {
+export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = "tsx" }) => {
   const [copied, setCopied] = React.useState(false);
 
   const copyToClipboard = async () => {
