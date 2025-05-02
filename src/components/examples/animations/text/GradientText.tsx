@@ -8,8 +8,7 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
-    anime.animate({
-      targets: textRef.current,
+    anime.animate(textRef.current, {
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
       duration: 4000,
@@ -43,8 +42,7 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
-    anime.animate({
-      targets: textRef.current,
+    anime.animate(textRef.current, {
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
       duration: 4000,

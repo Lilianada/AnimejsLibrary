@@ -11,8 +11,7 @@ const StaggeredHeroText = () => {
     // Create a sequence of animations manually instead of using timeline
     const playAnimation = () => {
       // First animate the container
-      anime.default({
-        targets: containerRef.current,
+      anime.animate(containerRef.current, {
         opacity: [0, 1],
         translateY: [40, 0],
         easing: 'easeOutExpo',
@@ -26,8 +25,7 @@ const StaggeredHeroText = () => {
       if (!containerRef.current) return;
       const lines = containerRef.current.querySelectorAll('.hero-line');
       
-      anime.default({
-        targets: lines,
+      anime.animate(lines, {
         translateY: [40, 0],
         opacity: [0, 1],
         easing: 'easeOutExpo',
@@ -43,8 +41,7 @@ const StaggeredHeroText = () => {
       const highlights = containerRef.current.querySelectorAll('.hero-highlight');
       
       highlights.forEach((highlight, index) => {
-        anime.default({
-          targets: highlight,
+        anime.animate(highlight, {
           backgroundPosition: ['-100% 0', '200% 0'],
           easing: 'easeInOutQuad',
           duration: 1200,
@@ -84,8 +81,7 @@ const StaggeredHeroText = () => {
     // Create a sequence of animations manually
     const playAnimation = () => {
       // First animate the container
-      anime.default({
-        targets: containerRef.current,
+      anime.animate(containerRef.current, {
         opacity: [0, 1],
         translateY: [40, 0],
         easing: 'easeOutExpo',
@@ -99,8 +95,7 @@ const StaggeredHeroText = () => {
       if (!containerRef.current) return;
       const lines = containerRef.current.querySelectorAll('.hero-line');
       
-      anime.default({
-        targets: lines,
+      anime.animate(lines, {
         translateY: [40, 0],
         opacity: [0, 1],
         easing: 'easeOutExpo',
@@ -116,8 +111,7 @@ const StaggeredHeroText = () => {
       const highlights = containerRef.current.querySelectorAll('.hero-highlight');
       
       highlights.forEach((highlight, index) => {
-        anime.default({
-          targets: highlight,
+        anime.animate(highlight, {
           backgroundPosition: ['-100% 0', '200% 0'],
           easing: 'easeInOutQuad',
           duration: 1200,

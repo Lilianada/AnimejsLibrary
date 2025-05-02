@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Move } from "lucide-react"; // Fixed import
 import { Card, CardContent } from "@/components/ui/card";
@@ -55,8 +56,7 @@ const DraggableCardStack = () => {
     
     if (!expanded) {
       // Expand cards
-      anime.default({
-        targets: cards,
+      anime.animate(cards, {
         translateX: (el, i) => [(i - 1) * 10, (i - 1) * 150],
         translateY: (el, i) => [-(i * 10), 0],
         rotate: (el, i) => [-(i * 2), 0],
@@ -72,8 +72,7 @@ const DraggableCardStack = () => {
       });
     } else {
       // Collapse cards
-      anime.default({
-        targets: cards,
+      anime.animate(cards, {
         translateX: (el, i) => [(i - 1) * 150, (i - 1) * 10],
         translateY: (el, i) => [0, -(i * 10)],
         rotate: (el, i) => [0, -(i * 2)],
@@ -114,9 +113,8 @@ const DraggableCardStack = () => {
         return newPositions;
       });
       
-      // Apply position to the card using anime.default instead of anime.set
-      anime.default({
-        targets: cardElement,
+      // Apply position to the card using anime.animate
+      anime.animate(cardElement, {
         translateX: originalPos.x + dx,
         translateY: originalPos.y + dy,
         duration: 0 // Instant update
@@ -128,8 +126,7 @@ const DraggableCardStack = () => {
       document.removeEventListener("mouseup", onMouseUp);
       
       // Animate card back to its original position with a spring effect
-      anime.default({
-        targets: cardElement,
+      anime.animate(cardElement, {
         translateX: [(originalPos.x + positions[index].x) / 2, (index - 1) * 150],
         translateY: [(originalPos.y + positions[index].y) / 2, 0],
         duration: 800,

@@ -22,8 +22,7 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.animate({
-        targets: letter,
+      anime.animate(letter, {
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
         translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
@@ -32,8 +31,7 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime.animate({
-      targets: letters,
+    anime.animate(letters, {
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -87,8 +85,7 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.animate({
-        targets: letter,
+      anime.animate(letter, {
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
         translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
@@ -97,8 +94,7 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime.animate({
-      targets: letters,
+    anime.animate(letters, {
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
