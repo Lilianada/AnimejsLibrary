@@ -3,11 +3,12 @@ import { useState, useEffect, useRef } from "react";
 import { CodeToggle } from "../CodeToggle";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import CodeBlock from "./CodeBlock";
+import anime from "animejs";
 
 const ScrollProgressAnimation = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   const demoRef = useRef<HTMLDivElement>(null);
   
   // Demo scroll handler for the contained demo area
@@ -17,6 +18,16 @@ const ScrollProgressAnimation = () => {
     const { scrollTop, scrollHeight, clientHeight } = demoRef.current;
     const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
     setScrollProgress(scrollPercentage);
+    
+    // Animate the progress bar using animejs
+    if (progressBarRef.current) {
+      anime({
+        targets: progressBarRef.current,
+        width: `${scrollPercentage}%`,
+        duration: 100,
+        easing: 'easeOutExpo'
+      });
+    }
   };
   
   // Global scroll handler for the page progress indicator
@@ -37,13 +48,19 @@ const ScrollProgressAnimation = () => {
   }, []);
   
   const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    anime({
+      targets: window.document.scrollingElement,
+      scrollTop: 0,
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
   };
 
-  const progressBarCode = `import { useState, useEffect } from "react";
+  const progressBarCode = `import { useEffect, useRef } from "react";
+import anime from "animejs";
 
 const ScrollProgress = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const progressBarRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,7 +70,13 @@ const ScrollProgress = () => {
         document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
       
-      setScrollProgress(scrollPercent);
+      // Animate the progress bar using animejs
+      anime({
+        targets: progressBarRef.current,
+        width: \`\${scrollPercent}%\`,
+        duration: 100,
+        easing: 'easeOutExpo'
+      });
     };
 
     // Add scroll event listener
@@ -68,8 +91,9 @@ const ScrollProgress = () => {
   return (
     <div className="fixed top-0 left-0 right-0 h-1 z-50">
       <div
+        ref={progressBarRef}
         className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
-        style={{ width: \`\${scrollProgress}%\` }}
+        style={{ width: '0%' }}
       />
     </div>
   );
@@ -80,6 +104,7 @@ export default ScrollProgress;`;
   const scrollToTopCode = `import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import anime from "animejs";
 
 const ScrollToTop = () => {
   const [showButton, setShowButton] = useState(false);
@@ -97,7 +122,13 @@ const ScrollToTop = () => {
   }, []);
 
   const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Use animejs for smooth scroll to top animation
+    anime({
+      targets: window.document.scrollingElement,
+      scrollTop: 0,
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
   };
 
   return (
@@ -122,6 +153,7 @@ export default ScrollToTop;`;
       {/* Fixed progress bar */}
       <div className="fixed top-0 left-0 right-0 h-1 z-50">
         <div
+          ref={progressBarRef}
           className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-100 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
@@ -153,7 +185,8 @@ export default ScrollToTop;`;
                 >
                   <div className="sticky top-0 left-0 right-0 h-1 z-10 bg-muted">
                     <div
-                      className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-100 ease-out"
+                      ref={progressBarRef}
+                      className="h-full bg-gradient-to-r from-primary to-secondary"
                       style={{ width: `${scrollProgress}%` }}
                     />
                   </div>
@@ -206,10 +239,10 @@ export default ScrollToTop;`;
         <h4 className="text-lg font-medium mb-3">Implementation Notes</h4>
         <div className="p-4 bg-muted/50 rounded-lg">
           <ul className="list-disc pl-4 space-y-2">
-            <li>The progress bar updates smoothly as the user scrolls, providing visual feedback.</li>
-            <li>The scroll-to-top button appears only when the user has scrolled down, reducing visual clutter.</li>
+            <li>The progress bar updates smoothly using anime.js animations, providing fluid visual feedback.</li>
+            <li>The scroll-to-top button uses anime.js for a smooth scrolling effect rather than the browser's default.</li>
             <li>Both components use React's useEffect hook to efficiently add and remove event listeners.</li>
-            <li>The progress calculation works by dividing the current scroll position by the maximum scrollable area.</li>
+            <li>The easing functions in anime.js provide natural-feeling animations that enhance the user experience.</li>
           </ul>
         </div>
       </div>

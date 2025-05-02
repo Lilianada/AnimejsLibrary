@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CodeToggle } from "../CodeToggle";
+import anime from "animejs";
 
 const ImageRevealAnimations = () => {
   return (
@@ -67,6 +68,7 @@ const ImageRevealAnimations = () => {
 // Clipping Mask Reveal Component
 const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }) => {
   const [isRevealed, setIsRevealed] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,8 +76,6 @@ const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: stri
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(() => setIsRevealed(true), 300);
-        } else {
-          setIsRevealed(false);
         }
       },
       { threshold: 0.3 }
@@ -92,19 +92,37 @@ const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: stri
     };
   }, []);
 
+  useEffect(() => {
+    if (!imageRef.current) return;
+    
+    if (isRevealed) {
+      anime({
+        targets: imageRef.current,
+        clipPath: ['polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)', 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'],
+        duration: 1500,
+        easing: 'easeInOutQuad'
+      });
+    } else {
+      anime({
+        targets: imageRef.current,
+        clipPath: 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)',
+        duration: 700,
+        easing: 'easeInOutQuad'
+      });
+    }
+  }, [isRevealed]);
+
   return (
     <div ref={containerRef} className="w-full max-w-md mx-auto">
       <div className="relative overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
         <div
-          className="absolute inset-0 transition-transform duration-1500 ease-in-out"
+          ref={imageRef}
+          className="absolute inset-0"
           style={{
             backgroundImage: `url(${imageUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            clipPath: isRevealed
-              ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
-              : "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
-            transition: "clip-path 1.5s ease",
+            clipPath: 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)'
           }}
         />
         <img
@@ -132,9 +150,19 @@ const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), 300);
-        } else {
-          setIsVisible(false);
+          setTimeout(() => {
+            setIsVisible(true);
+            
+            if (imageRef.current) {
+              anime({
+                targets: imageRef.current,
+                filter: ['blur(20px)', 'blur(0px)'],
+                scale: [1.1, 1],
+                duration: 2000,
+                easing: 'easeOutCubic'
+              });
+            }
+          }, 300);
         }
       },
       { threshold: 0.3 }
@@ -151,23 +179,39 @@ const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }
     };
   }, []);
 
+  const handleToggle = () => {
+    setIsVisible(!isVisible);
+    
+    if (imageRef.current) {
+      anime({
+        targets: imageRef.current,
+        filter: isVisible ? ['blur(0px)', 'blur(20px)'] : ['blur(20px)', 'blur(0px)'],
+        scale: isVisible ? [1, 1.1] : [1.1, 1],
+        duration: 1000,
+        easing: 'easeInOutQuad'
+      });
+    }
+  };
+
   return (
-    <div ref={imageRef} className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto">
       <div className="overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
         <div
+          ref={imageRef}
           style={{
             backgroundImage: `url(${imageUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            width: "100%",
+            height: "100%",
+            filter: "blur(20px)",
+            transform: "scale(1.1)"
           }}
-          className={`w-full h-full transition-all duration-2000 ease-out ${
-            isVisible ? "blur-0 scale-100" : "blur-xl scale-110"
-          }`}
         />
       </div>
       <button
         className="mt-4 px-4 py-2 bg-primary/80 text-white rounded-md hover:bg-primary transition-colors mx-auto block"
-        onClick={() => setIsVisible(!isVisible)}
+        onClick={handleToggle}
       >
         {isVisible ? "Blur" : "Reveal"}
       </button>
@@ -179,12 +223,22 @@ const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }
 const ScaleInImages = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          
+          anime({
+            targets: imagesRef.current,
+            scale: [1.5, 1],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 1500,
+            delay: anime.stagger(200)
+          });
         }
       },
       { threshold: 0.3 }
@@ -201,28 +255,41 @@ const ScaleInImages = () => {
     };
   }, []);
 
+  const resetAnimation = () => {
+    setIsVisible(false);
+    
+    anime.set(imagesRef.current, {
+      scale: 1.5,
+      opacity: 0
+    });
+    
+    setTimeout(() => {
+      setIsVisible(true);
+      anime({
+        targets: imagesRef.current,
+        scale: [1.5, 1],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        delay: anime.stagger(200)
+      });
+    }, 100);
+  };
+
   const images = [
     {
       url: "https://images.unsplash.com/photo-1587502537745-84b86da1204f",
       alt: "Mountain and lake",
-      delay: 0,
     },
     {
       url: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a",
       alt: "Forest landscape",
-      delay: 200,
     },
     {
       url: "https://images.unsplash.com/photo-1502082553048-f009c37129b9",
       alt: "Green trees",
-      delay: 400,
     },
   ];
-
-  const resetAnimation = () => {
-    setIsVisible(false);
-    setTimeout(() => setIsVisible(true), 100);
-  };
 
   return (
     <div ref={containerRef} className="w-full">
@@ -233,14 +300,14 @@ const ScaleInImages = () => {
             className="overflow-hidden rounded-lg aspect-square"
           >
             <div
-              className={`w-full h-full transition-all duration-1000 ease-out ${
-                isVisible ? "scale-100 opacity-100" : "scale-150 opacity-0"
-              }`}
+              ref={el => imagesRef.current[index] = el}
+              className="w-full h-full"
               style={{
                 backgroundImage: `url(${image.url}?auto=format&fit=crop&w=300&h=300)`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                transitionDelay: `${image.delay}ms`,
+                opacity: 0,
+                transform: "scale(1.5)",
               }}
             />
           </div>
@@ -260,11 +327,33 @@ const ScaleInImages = () => {
 const ParallaxScroll = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const middleLayerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
     if (containerRef.current) {
       const { scrollTop } = containerRef.current;
       setScrollPosition(scrollTop);
+      
+      // Update parallax elements using anime instead of direct style manipulation
+      if (backgroundRef.current) {
+        anime.set(backgroundRef.current, {
+          translateY: scrollTop * 0.2
+        });
+      }
+      
+      if (middleLayerRef.current) {
+        anime.set(middleLayerRef.current, {
+          translateY: scrollTop * 0.4
+        });
+      }
+      
+      if (contentRef.current) {
+        anime.set(contentRef.current, {
+          translateY: scrollTop * 0.1
+        });
+      }
     }
   };
 
@@ -278,33 +367,31 @@ const ParallaxScroll = () => {
         <div className="relative h-[800px] overflow-hidden">
           {/* Background layer (moves slower) */}
           <div
+            ref={backgroundRef}
             className="absolute inset-0 w-full h-full"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              transform: `translateY(${scrollPosition * 0.2}px)`,
             }}
           />
           
           {/* Middle layer */}
           <div
+            ref={middleLayerRef}
             className="absolute inset-0 w-full h-full"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=500&h=300')`,
               backgroundSize: "cover",
               backgroundPosition: "bottom center",
               opacity: 0.7,
-              transform: `translateY(${scrollPosition * 0.4}px)`,
             }}
           />
           
           {/* Content layer */}
           <div
+            ref={contentRef}
             className="absolute inset-0 flex items-center justify-center text-white text-center p-4"
-            style={{
-              transform: `translateY(${scrollPosition * 0.1}px)`,
-            }}
           >
             <div className="bg-black/50 p-6 rounded-lg backdrop-blur-sm">
               <h3 className="text-2xl font-bold mb-2">Parallax Effect</h3>
@@ -319,18 +406,19 @@ const ParallaxScroll = () => {
 
 // Code strings for the examples
 const clippingRevealCode = `import { useState, useEffect, useRef } from "react";
+import anime from "animejs";
 
 const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }) => {
   const [isRevealed, setIsRevealed] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Intersection Observer to trigger animation when in viewport
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(() => setIsRevealed(true), 300);
-        } else {
-          setIsRevealed(false);
         }
       },
       { threshold: 0.3 }
@@ -347,19 +435,40 @@ const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: stri
     };
   }, []);
 
+  useEffect(() => {
+    if (!imageRef.current) return;
+    
+    if (isRevealed) {
+      anime({
+        targets: imageRef.current,
+        clipPath: [
+          'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)', 
+          'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+        ],
+        duration: 1500,
+        easing: 'easeInOutQuad'
+      });
+    } else {
+      anime({
+        targets: imageRef.current,
+        clipPath: 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)',
+        duration: 700,
+        easing: 'easeInOutQuad'
+      });
+    }
+  }, [isRevealed]);
+
   return (
     <div ref={containerRef} className="w-full max-w-md mx-auto">
       <div className="relative overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
         <div
-          className="absolute inset-0 transition-transform duration-1500 ease-in-out"
+          ref={imageRef}
+          className="absolute inset-0"
           style={{
             backgroundImage: \`url(\${imageUrl})\`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            clipPath: isRevealed
-              ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
-              : "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
-            transition: "clip-path 1.5s ease",
+            clipPath: 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)'
           }}
         />
         <img
@@ -369,8 +478,9 @@ const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: stri
         />
       </div>
       <button
+        className="mt-4 px-4 py-2 bg-primary/80 text-white rounded-md 
+          hover:bg-primary transition-colors mx-auto block"
         onClick={() => setIsRevealed(!isRevealed)}
-        className="mt-4 px-4 py-2 bg-primary text-white rounded-md"
       >
         {isRevealed ? "Reset" : "Reveal"}
       </button>
@@ -381,6 +491,7 @@ const ClippingReveal = ({ imageUrl, altText }: { imageUrl: string; altText: stri
 export default ClippingReveal;`;
 
 const blurRevealCode = `import { useState, useEffect, useRef } from "react";
+import anime from "animejs";
 
 const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -390,9 +501,20 @@ const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), 300);
-        } else {
-          setIsVisible(false);
+          setTimeout(() => {
+            setIsVisible(true);
+            
+            // Use anime.js for smooth blur animation
+            if (imageRef.current) {
+              anime({
+                targets: imageRef.current,
+                filter: ['blur(20px)', 'blur(0px)'],
+                scale: [1.1, 1],
+                duration: 2000,
+                easing: 'easeOutCubic'
+              });
+            }
+          }, 300);
         }
       },
       { threshold: 0.3 }
@@ -409,23 +531,41 @@ const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }
     };
   }, []);
 
+  const handleToggle = () => {
+    setIsVisible(!isVisible);
+    
+    // Toggle blur with anime.js
+    if (imageRef.current) {
+      anime({
+        targets: imageRef.current,
+        filter: isVisible ? ['blur(0px)', 'blur(20px)'] : ['blur(20px)', 'blur(0px)'],
+        scale: isVisible ? [1, 1.1] : [1.1, 1],
+        duration: 1000,
+        easing: 'easeInOutQuad'
+      });
+    }
+  };
+
   return (
-    <div ref={imageRef} className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto">
       <div className="overflow-hidden rounded-lg shadow-lg aspect-[4/3]">
         <div
+          ref={imageRef}
           style={{
             backgroundImage: \`url(\${imageUrl})\`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            width: "100%",
+            height: "100%",
+            filter: "blur(20px)",
+            transform: "scale(1.1)"
           }}
-          className={\`w-full h-full transition-all duration-2000 ease-out \${
-            isVisible ? "blur-0 scale-100" : "blur-xl scale-110"
-          }\`}
         />
       </div>
       <button
-        className="mt-4 px-4 py-2 bg-primary text-white rounded-md"
-        onClick={() => setIsVisible(!isVisible)}
+        className="mt-4 px-4 py-2 bg-primary/80 text-white rounded-md 
+          hover:bg-primary transition-colors mx-auto block"
+        onClick={handleToggle}
       >
         {isVisible ? "Blur" : "Reveal"}
       </button>
@@ -436,16 +576,28 @@ const BlurReveal = ({ imageUrl, altText }: { imageUrl: string; altText: string }
 export default BlurReveal;`;
 
 const scaleInImagesCode = `import { useState, useEffect, useRef } from "react";
+import anime from "animejs";
 
 const ScaleInImages = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const imagesRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          
+          // Use anime.js for scaling and opacity animations
+          anime({
+            targets: imagesRef.current,
+            scale: [1.5, 1],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 1500,
+            delay: anime.stagger(200) // stagger effect for each image
+          });
         }
       },
       { threshold: 0.3 }
@@ -462,28 +614,42 @@ const ScaleInImages = () => {
     };
   }, []);
 
+  const resetAnimation = () => {
+    setIsVisible(false);
+    
+    // Reset animation with anime.js
+    anime.set(imagesRef.current, {
+      scale: 1.5,
+      opacity: 0
+    });
+    
+    setTimeout(() => {
+      setIsVisible(true);
+      anime({
+        targets: imagesRef.current,
+        scale: [1.5, 1],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        delay: anime.stagger(200)
+      });
+    }, 100);
+  };
+
   const images = [
     {
       url: "https://images.unsplash.com/photo-1587502537745-84b86da1204f",
       alt: "Mountain and lake",
-      delay: 0,
     },
     {
       url: "https://images.unsplash.com/photo-1599940824399-b87987ceb72a",
       alt: "Forest landscape",
-      delay: 200,
     },
     {
       url: "https://images.unsplash.com/photo-1502082553048-f009c37129b9",
       alt: "Green trees",
-      delay: 400,
     },
   ];
-
-  const resetAnimation = () => {
-    setIsVisible(false);
-    setTimeout(() => setIsVisible(true), 100);
-  };
 
   return (
     <div ref={containerRef} className="w-full">
@@ -494,21 +660,22 @@ const ScaleInImages = () => {
             className="overflow-hidden rounded-lg aspect-square"
           >
             <div
-              className={\`w-full h-full transition-all duration-1000 ease-out \${
-                isVisible ? "scale-100 opacity-100" : "scale-150 opacity-0"
-              }\`}
+              ref={el => imagesRef.current[index] = el}
+              className="w-full h-full"
               style={{
                 backgroundImage: \`url(\${image.url}?auto=format&fit=crop&w=300&h=300)\`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                transitionDelay: \`\${image.delay}ms\`,
+                opacity: 0,
+                transform: "scale(1.5)",
               }}
             />
           </div>
         ))}
       </div>
       <button
-        className="mt-4 px-4 py-2 bg-primary text-white rounded-md mx-auto block"
+        className="mt-4 px-4 py-2 bg-primary/80 text-white rounded-md 
+          hover:bg-primary transition-colors mx-auto block"
         onClick={resetAnimation}
       >
         Reset Animation
@@ -520,15 +687,36 @@ const ScaleInImages = () => {
 export default ScaleInImages;`;
 
 const parallaxScrollCode = `import { useState, useRef } from "react";
+import anime from "animejs";
 
 const ParallaxScroll = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const middleLayerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
     if (containerRef.current) {
       const { scrollTop } = containerRef.current;
-      setScrollPosition(scrollTop);
+      
+      // Use anime.js for smooth parallax effect
+      if (backgroundRef.current) {
+        anime.set(backgroundRef.current, {
+          translateY: scrollTop * 0.2 // Background moves slower
+        });
+      }
+      
+      if (middleLayerRef.current) {
+        anime.set(middleLayerRef.current, {
+          translateY: scrollTop * 0.4 // Middle layer moves faster
+        });
+      }
+      
+      if (contentRef.current) {
+        anime.set(contentRef.current, {
+          translateY: scrollTop * 0.1 // Content moves slowly
+        });
+      }
     }
   };
 
@@ -542,33 +730,31 @@ const ParallaxScroll = () => {
         <div className="relative h-[800px] overflow-hidden">
           {/* Background layer (moves slower) */}
           <div
+            ref={backgroundRef}
             className="absolute inset-0 w-full h-full"
             style={{
-              backgroundImage: \`url('https://images.unsplash.com/photo-1534447677768-be436bb09401')\`,
+              backgroundImage: \`url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000')\`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              transform: \`translateY(\${scrollPosition * 0.2}px)\`,
             }}
           />
           
           {/* Middle layer */}
           <div
+            ref={middleLayerRef}
             className="absolute inset-0 w-full h-full"
             style={{
-              backgroundImage: \`url('https://images.unsplash.com/photo-1541701494587-cb58502866ab')\`,
+              backgroundImage: \`url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=500&h=300')\`,
               backgroundSize: "cover",
               backgroundPosition: "bottom center",
               opacity: 0.7,
-              transform: \`translateY(\${scrollPosition * 0.4}px)\`,
             }}
           />
           
           {/* Content layer */}
           <div
+            ref={contentRef}
             className="absolute inset-0 flex items-center justify-center text-white text-center p-4"
-            style={{
-              transform: \`translateY(\${scrollPosition * 0.1}px)\`,
-            }}
           >
             <div className="bg-black/50 p-6 rounded-lg backdrop-blur-sm">
               <h3 className="text-2xl font-bold mb-2">Parallax Effect</h3>

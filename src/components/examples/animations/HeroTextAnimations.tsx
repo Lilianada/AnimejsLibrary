@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CodeToggle } from "../CodeToggle";
+import anime from "animejs";
 
 const HeroTextAnimations = () => {
   return (
@@ -60,55 +61,118 @@ const HeroTextAnimations = () => {
 
 // Split Text Reveal Component
 const SplitTextReveal = () => {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const mainTextRef = useRef<HTMLDivElement>(null);
+  const subTextRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  const animateElements = () => {
+    setIsAnimated(true);
+    
+    // Animate main text elements
+    if (mainTextRef.current) {
+      const spans = mainTextRef.current.querySelectorAll('span');
+      anime.timeline({
+        easing: 'easeOutExpo',
+      })
+      .add({
+        targets: spans,
+        translateY: ['100%', '0%'],
+        duration: 1000,
+        delay: anime.stagger(200),
+        opacity: [0, 1]
+      });
+    }
+    
+    // Animate subtitle with delay
+    if (subTextRef.current) {
+      anime({
+        targets: subTextRef.current,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: 'easeOutQuad',
+        delay: 600
+      });
+    }
+    
+    // Animate button with more delay
+    if (buttonRef.current) {
+      anime({
+        targets: buttonRef.current,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 800,
+        easing: 'easeOutQuad',
+        delay: 800
+      });
+    }
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsRevealed(true), 500);
-    return () => clearTimeout(timer);
+    setTimeout(() => {
+      animateElements();
+    }, 500);
   }, []);
 
   const resetAnimation = () => {
-    setIsRevealed(false);
-    setTimeout(() => setIsRevealed(true), 500);
+    setIsAnimated(false);
+    
+    // Reset all elements
+    if (mainTextRef.current) {
+      const spans = mainTextRef.current.querySelectorAll('span');
+      anime.set(spans, {
+        translateY: '100%',
+        opacity: 0
+      });
+    }
+    
+    if (subTextRef.current) {
+      anime.set(subTextRef.current, {
+        translateY: 20,
+        opacity: 0
+      });
+    }
+    
+    if (buttonRef.current) {
+      anime.set(buttonRef.current, {
+        translateY: 20,
+        opacity: 0
+      });
+    }
+    
+    // Re-run animation after a short delay
+    setTimeout(() => {
+      animateElements();
+    }, 100);
   };
 
   return (
     <div className="text-center">
-      <div className="mb-4">
-        <div className="overflow-hidden inline-block">
-          <span
-            className={`text-3xl sm:text-4xl font-bold inline-block transition-transform duration-1000 ${
-              isRevealed ? "translate-y-0" : "translate-y-full"
-            }`}
-          >
+      <div ref={mainTextRef} className="mb-4">
+        <div className="inline-block overflow-hidden mr-2">
+          <span className="text-3xl sm:text-4xl font-bold inline-block opacity-0">
             Creative
           </span>
-        </div>{" "}
-        <div className="overflow-hidden inline-block">
-          <span
-            className={`text-3xl sm:text-4xl font-bold inline-block transition-transform duration-1000 delay-[200ms] ${
-              isRevealed ? "translate-y-0" : "translate-y-full"
-            }`}
-          >
+        </div>
+        <div className="inline-block overflow-hidden">
+          <span className="text-3xl sm:text-4xl font-bold inline-block opacity-0">
             Developer
           </span>
         </div>
       </div>
       <div className="overflow-hidden">
         <p
-          className={`text-muted-foreground transition-all duration-1000 delay-[400ms] ${
-            isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          ref={subTextRef}
+          className="text-muted-foreground opacity-0"
         >
           Building amazing web experiences
         </p>
       </div>
       <button
+        ref={buttonRef}
         onClick={resetAnimation}
-        className={`mt-6 px-4 py-2 bg-primary/80 text-white rounded-md 
-          hover:bg-primary transition-colors transition-all duration-1000 delay-[600ms] ${
-            isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+        className="mt-6 px-4 py-2 bg-primary/80 text-white rounded-md hover:bg-primary transition-colors opacity-0"
       >
         Reset Animation
       </button>
@@ -119,19 +183,55 @@ const SplitTextReveal = () => {
 // Masked Text Effect Component
 const MaskedTextEffect = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const maskRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     // Auto-play the animation once
     setIsHovered(true);
-    const timer = setTimeout(() => setIsHovered(false), 2000);
+    
+    if (maskRef.current) {
+      anime({
+        targets: maskRef.current,
+        translateY: '100%',
+        easing: 'cubicBezier(0.77, 0, 0.175, 1)',
+        duration: 800
+      });
+    }
+    
+    const timer = setTimeout(() => {
+      setIsHovered(false);
+      
+      if (maskRef.current) {
+        anime({
+          targets: maskRef.current,
+          translateY: '0%',
+          easing: 'cubicBezier(0.77, 0, 0.175, 1)',
+          duration: 800
+        });
+      }
+    }, 2000);
+    
     return () => clearTimeout(timer);
   }, []);
+
+  const handleHover = (hovering: boolean) => {
+    setIsHovered(hovering);
+    
+    if (maskRef.current) {
+      anime({
+        targets: maskRef.current,
+        translateY: hovering ? '100%' : '0%',
+        easing: 'cubicBezier(0.77, 0, 0.175, 1)',
+        duration: 800
+      });
+    }
+  };
 
   return (
     <div 
       className="text-center"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => handleHover(true)}
+      onMouseLeave={() => handleHover(false)}
     >
       <h2 className="relative text-4xl md:text-5xl font-bold overflow-hidden cursor-pointer p-4">
         {/* Background text (revealed) */}
@@ -144,11 +244,8 @@ const MaskedTextEffect = () => {
         
         {/* Foreground text (mask) */}
         <span
+          ref={maskRef}
           className="relative inline-block bg-[#111] text-white mix-blend-lighten"
-          style={{
-            transition: "transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)",
-            transform: isHovered ? "translateY(100%)" : "translateY(0)",
-          }}
         >
           DIGITAL CREATION
         </span>
@@ -161,18 +258,82 @@ const MaskedTextEffect = () => {
 // Glitch Text Effect Component
 const GlitchText = ({ text }: { text: string }) => {
   const [isGlitching, setIsGlitching] = useState(false);
+  const mainTextRef = useRef<HTMLSpanElement>(null);
+  const glitchLayerOneRef = useRef<HTMLSpanElement>(null);
+  const glitchLayerTwoRef = useRef<HTMLSpanElement>(null);
+  
+  const triggerGlitch = () => {
+    setIsGlitching(true);
+    
+    // Create glitch animation with anime.js
+    if (mainTextRef.current && glitchLayerOneRef.current && glitchLayerTwoRef.current) {
+      // Show glitch layers
+      anime.set([glitchLayerOneRef.current, glitchLayerTwoRef.current], {
+        opacity: 0.7
+      });
+      
+      // Animate main text with short random movements
+      anime.timeline({
+        targets: mainTextRef.current,
+        easing: 'easeInOutQuad',
+        duration: 100,
+        loop: 8,
+        direction: 'alternate',
+      })
+      .add({
+        translateX: () => anime.random(-5, 5),
+        translateY: () => anime.random(-3, 3),
+      })
+      .add({
+        translateX: () => anime.random(-5, 5),
+        translateY: () => anime.random(-3, 3),
+      })
+      .add({
+        translateX: 0,
+        translateY: 0,
+        complete: () => {
+          anime.set([glitchLayerOneRef.current, glitchLayerTwoRef.current], {
+            opacity: 0
+          });
+          setIsGlitching(false);
+        }
+      });
+      
+      // Animate glitch layer one
+      anime.timeline({
+        targets: glitchLayerOneRef.current,
+        easing: 'steps(2)',
+        duration: 100,
+        loop: 6
+      })
+      .add({
+        translateX: () => anime.random(-10, 10),
+        translateY: () => anime.random(-5, 5),
+      });
+      
+      // Animate glitch layer two
+      anime.timeline({
+        targets: glitchLayerTwoRef.current,
+        easing: 'steps(2)',
+        duration: 50,
+        loop: 10
+      })
+      .add({
+        translateX: () => anime.random(-8, 8),
+        translateY: () => anime.random(-6, 6),
+      });
+    }
+  };
   
   useEffect(() => {
     // Trigger initial animation
     const initialTimeout = setTimeout(() => {
-      setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 2000);
+      triggerGlitch();
     }, 800);
     
     // Set up interval to periodically trigger the glitch effect
     const interval = setInterval(() => {
-      setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 2000);
+      triggerGlitch();
     }, 8000);
     
     return () => {
@@ -183,33 +344,28 @@ const GlitchText = ({ text }: { text: string }) => {
   
   return (
     <div className="text-center">
-      <h2
-        className={`text-3xl sm:text-4xl font-bold relative inline-block ${
-          isGlitching ? "animate-glitch" : ""
-        }`}
-      >
+      <h2 className="text-3xl sm:text-4xl font-bold relative inline-block">
         <span className="relative inline-block">
           {/* Create the "glitched" pseudo-elements */}
-          {isGlitching && (
-            <>
-              <span className="absolute top-0 left-0 w-full text-primary 
-                animate-glitch-1 opacity-70" style={{ clipPath: "polygon(0 0, 100% 0, 100% 45%, 0 45%)" }}>
-                {text}
-              </span>
-              <span className="absolute top-0 left-0 w-full text-accent 
-                animate-glitch-2 opacity-70" style={{ clipPath: "polygon(0 80%, 100% 20%, 100% 100%, 0 100%)" }}>
-                {text}
-              </span>
-            </>
-          )}
-          <span className={isGlitching ? "opacity-90" : ""}>{text}</span>
+          <span 
+            ref={glitchLayerOneRef} 
+            className="absolute top-0 left-0 w-full text-primary opacity-0"
+            style={{ clipPath: "polygon(0 0, 100% 0, 100% 45%, 0 45%)" }}
+          >
+            {text}
+          </span>
+          <span 
+            ref={glitchLayerTwoRef} 
+            className="absolute top-0 left-0 w-full text-accent opacity-0"
+            style={{ clipPath: "polygon(0 80%, 100% 20%, 100% 100%, 0 100%)" }}
+          >
+            {text}
+          </span>
+          <span ref={mainTextRef}>{text}</span>
         </span>
       </h2>
       <button
-        onClick={() => {
-          setIsGlitching(true);
-          setTimeout(() => setIsGlitching(false), 2000);
-        }}
+        onClick={triggerGlitch}
         className="mt-6 px-4 py-2 bg-primary/80 text-white rounded-md hover:bg-primary transition-colors"
       >
         Trigger Glitch
@@ -223,6 +379,7 @@ const PerspectiveText = () => {
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -238,12 +395,34 @@ const PerspectiveText = () => {
     
     setRotateX(rotX);
     setRotateY(rotY);
+    
+    // Use anime.js for smooth rotation
+    if (textContainerRef.current) {
+      anime({
+        targets: textContainerRef.current,
+        rotateX: rotX,
+        rotateY: rotY,
+        easing: 'easeOutQuad',
+        duration: 300
+      });
+    }
   };
   
   const handleMouseLeave = () => {
     // Reset rotations when mouse leaves
     setRotateX(0);
     setRotateY(0);
+    
+    // Animate back to center position
+    if (textContainerRef.current) {
+      anime({
+        targets: textContainerRef.current,
+        rotateX: 0,
+        rotateY: 0,
+        easing: 'easeOutQuad',
+        duration: 600
+      });
+    }
   };
   
   return (
@@ -254,10 +433,8 @@ const PerspectiveText = () => {
       onMouseLeave={handleMouseLeave}
     >
       <div 
-        className="text-center transition-transform duration-300 ease-out transform-preserve-3d"
-        style={{
-          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-        }}
+        ref={textContainerRef}
+        className="text-center transform-preserve-3d"
       >
         <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">
           3D PERSPECTIVE
@@ -269,58 +446,123 @@ const PerspectiveText = () => {
 };
 
 // Code strings for the examples
-const splitTextRevealCode = `import { useState, useEffect } from "react";
+const splitTextRevealCode = `import { useEffect, useRef, useState } from "react";
+import anime from "animejs";
 
 const SplitTextReveal = () => {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const mainTextRef = useRef<HTMLDivElement>(null);
+  const subTextRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  const animateElements = () => {
+    setIsAnimated(true);
+    
+    // Animate main text elements with anime.js
+    if (mainTextRef.current) {
+      const spans = mainTextRef.current.querySelectorAll('span');
+      anime.timeline({
+        easing: 'easeOutExpo',
+      })
+      .add({
+        targets: spans,
+        translateY: ['100%', '0%'],
+        duration: 1000,
+        delay: anime.stagger(200),
+        opacity: [0, 1]
+      });
+    }
+    
+    // Animate subtitle with delay
+    if (subTextRef.current) {
+      anime({
+        targets: subTextRef.current,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: 'easeOutQuad',
+        delay: 600
+      });
+    }
+    
+    // Animate button with more delay
+    if (buttonRef.current) {
+      anime({
+        targets: buttonRef.current,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 800,
+        easing: 'easeOutQuad',
+        delay: 800
+      });
+    }
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsRevealed(true), 500);
-    return () => clearTimeout(timer);
+    setTimeout(() => {
+      animateElements();
+    }, 500);
   }, []);
 
   const resetAnimation = () => {
-    setIsRevealed(false);
-    setTimeout(() => setIsRevealed(true), 500);
+    setIsAnimated(false);
+    
+    // Reset all elements with anime.js
+    if (mainTextRef.current) {
+      const spans = mainTextRef.current.querySelectorAll('span');
+      anime.set(spans, {
+        translateY: '100%',
+        opacity: 0
+      });
+    }
+    
+    if (subTextRef.current) {
+      anime.set(subTextRef.current, {
+        translateY: 20,
+        opacity: 0
+      });
+    }
+    
+    if (buttonRef.current) {
+      anime.set(buttonRef.current, {
+        translateY: 20,
+        opacity: 0
+      });
+    }
+    
+    // Re-run animation after a short delay
+    setTimeout(() => {
+      animateElements();
+    }, 100);
   };
 
   return (
     <div className="text-center">
-      <div className="mb-4">
-        <div className="overflow-hidden inline-block">
-          <span
-            className={\`text-3xl sm:text-4xl font-bold inline-block transition-transform duration-1000 \${
-              isRevealed ? "translate-y-0" : "translate-y-full"
-            }\`}
-          >
+      <div ref={mainTextRef} className="mb-4">
+        <div className="inline-block overflow-hidden mr-2">
+          <span className="text-3xl sm:text-4xl font-bold inline-block opacity-0">
             Creative
           </span>
-        </div>{" "}
-        <div className="overflow-hidden inline-block">
-          <span
-            className={\`text-3xl sm:text-4xl font-bold inline-block transition-transform duration-1000 delay-[200ms] \${
-              isRevealed ? "translate-y-0" : "translate-y-full"
-            }\`}
-          >
+        </div>
+        <div className="inline-block overflow-hidden">
+          <span className="text-3xl sm:text-4xl font-bold inline-block opacity-0">
             Developer
           </span>
         </div>
       </div>
       <div className="overflow-hidden">
         <p
-          className={\`text-muted-foreground transition-all duration-1000 delay-[400ms] \${
-            isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }\`}
+          ref={subTextRef}
+          className="text-muted-foreground opacity-0"
         >
           Building amazing web experiences
         </p>
       </div>
       <button
+        ref={buttonRef}
         onClick={resetAnimation}
-        className={\`mt-6 px-4 py-2 bg-primary/80 text-white rounded-md 
-          hover:bg-primary transition-colors transition-all duration-1000 delay-[600ms] \${
-            isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }\`}
+        className="mt-6 px-4 py-2 bg-primary/80 text-white rounded-md 
+          hover:bg-primary transition-colors opacity-0"
       >
         Reset Animation
       </button>
@@ -330,23 +572,61 @@ const SplitTextReveal = () => {
 
 export default SplitTextReveal;`;
 
-const maskedTextCode = `import { useState, useEffect } from "react";
+const maskedTextCode = `import { useState, useEffect, useRef } from "react";
+import anime from "animejs";
 
 const MaskedTextEffect = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const maskRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     // Auto-play the animation once
     setIsHovered(true);
-    const timer = setTimeout(() => setIsHovered(false), 2000);
+    
+    if (maskRef.current) {
+      anime({
+        targets: maskRef.current,
+        translateY: '100%',
+        easing: 'cubicBezier(0.77, 0, 0.175, 1)',
+        duration: 800
+      });
+    }
+    
+    const timer = setTimeout(() => {
+      setIsHovered(false);
+      
+      if (maskRef.current) {
+        anime({
+          targets: maskRef.current,
+          translateY: '0%',
+          easing: 'cubicBezier(0.77, 0, 0.175, 1)',
+          duration: 800
+        });
+      }
+    }, 2000);
+    
     return () => clearTimeout(timer);
   }, []);
+
+  const handleHover = (hovering: boolean) => {
+    setIsHovered(hovering);
+    
+    // Use anime.js for smooth mask animation
+    if (maskRef.current) {
+      anime({
+        targets: maskRef.current,
+        translateY: hovering ? '100%' : '0%',
+        easing: 'cubicBezier(0.77, 0, 0.175, 1)',
+        duration: 800
+      });
+    }
+  };
 
   return (
     <div 
       className="text-center"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => handleHover(true)}
+      onMouseLeave={() => handleHover(false)}
     >
       <h2 className="relative text-4xl md:text-5xl font-bold overflow-hidden cursor-pointer p-4">
         {/* Background text (revealed) */}
@@ -359,11 +639,8 @@ const MaskedTextEffect = () => {
         
         {/* Foreground text (mask) */}
         <span
+          ref={maskRef}
           className="relative inline-block bg-[#111] text-white mix-blend-lighten"
-          style={{
-            transition: "transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)",
-            transform: isHovered ? "translateY(100%)" : "translateY(0)",
-          }}
         >
           DIGITAL CREATION
         </span>
@@ -375,22 +652,87 @@ const MaskedTextEffect = () => {
 
 export default MaskedTextEffect;`;
 
-const glitchTextCode = `import { useState, useEffect } from "react";
+const glitchTextCode = `import { useState, useEffect, useRef } from "react";
+import anime from "animejs";
 
 const GlitchText = ({ text }: { text: string }) => {
   const [isGlitching, setIsGlitching] = useState(false);
+  const mainTextRef = useRef<HTMLSpanElement>(null);
+  const glitchLayerOneRef = useRef<HTMLSpanElement>(null);
+  const glitchLayerTwoRef = useRef<HTMLSpanElement>(null);
+  
+  const triggerGlitch = () => {
+    setIsGlitching(true);
+    
+    // Create glitch animation with anime.js
+    if (mainTextRef.current && glitchLayerOneRef.current && glitchLayerTwoRef.current) {
+      // Show glitch layers
+      anime.set([glitchLayerOneRef.current, glitchLayerTwoRef.current], {
+        opacity: 0.7
+      });
+      
+      // Animate main text with short random movements
+      anime.timeline({
+        targets: mainTextRef.current,
+        easing: 'easeInOutQuad',
+        duration: 100,
+        loop: 8,
+        direction: 'alternate',
+      })
+      .add({
+        translateX: () => anime.random(-5, 5),
+        translateY: () => anime.random(-3, 3),
+      })
+      .add({
+        translateX: () => anime.random(-5, 5),
+        translateY: () => anime.random(-3, 3),
+      })
+      .add({
+        translateX: 0,
+        translateY: 0,
+        complete: () => {
+          anime.set([glitchLayerOneRef.current, glitchLayerTwoRef.current], {
+            opacity: 0
+          });
+          setIsGlitching(false);
+        }
+      });
+      
+      // Animate glitch layer one
+      anime.timeline({
+        targets: glitchLayerOneRef.current,
+        easing: 'steps(2)',
+        duration: 100,
+        loop: 6
+      })
+      .add({
+        translateX: () => anime.random(-10, 10),
+        translateY: () => anime.random(-5, 5),
+      });
+      
+      // Animate glitch layer two
+      anime.timeline({
+        targets: glitchLayerTwoRef.current,
+        easing: 'steps(2)',
+        duration: 50,
+        loop: 10
+      })
+      .add({
+        translateX: () => anime.random(-8, 8),
+        translateY: () => anime.random(-6, 6),
+      });
+    }
+  };
   
   useEffect(() => {
     // Trigger initial animation
     const initialTimeout = setTimeout(() => {
-      setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 2000);
+      triggerGlitch();
     }, 800);
     
     // Set up interval to periodically trigger the glitch effect
     const interval = setInterval(() => {
-      setIsGlitching(true);
-      setTimeout(() => setIsGlitching(false), 2000);
+      triggerGlitch();
     }, 8000);
     
     return () => {
@@ -401,34 +743,29 @@ const GlitchText = ({ text }: { text: string }) => {
   
   return (
     <div className="text-center">
-      <h2
-        className={\`text-3xl sm:text-4xl font-bold relative inline-block \${
-          isGlitching ? "animate-glitch" : ""
-        }\`}
-      >
+      <h2 className="text-3xl sm:text-4xl font-bold relative inline-block">
         <span className="relative inline-block">
           {/* Create the "glitched" pseudo-elements */}
-          {isGlitching && (
-            <>
-              <span className="absolute top-0 left-0 w-full text-primary 
-                animate-glitch-1 opacity-70" style={{ clipPath: "polygon(0 0, 100% 0, 100% 45%, 0 45%)" }}>
-                {text}
-              </span>
-              <span className="absolute top-0 left-0 w-full text-accent 
-                animate-glitch-2 opacity-70" style={{ clipPath: "polygon(0 80%, 100% 20%, 100% 100%, 0 100%)" }}>
-                {text}
-              </span>
-            </>
-          )}
-          <span className={isGlitching ? "opacity-90" : ""}>{text}</span>
+          <span 
+            ref={glitchLayerOneRef} 
+            className="absolute top-0 left-0 w-full text-primary opacity-0"
+            style={{ clipPath: "polygon(0 0, 100% 0, 100% 45%, 0 45%)" }}
+          >
+            {text}
+          </span>
+          <span 
+            ref={glitchLayerTwoRef} 
+            className="absolute top-0 left-0 w-full text-accent opacity-0"
+            style={{ clipPath: "polygon(0 80%, 100% 20%, 100% 100%, 0 100%)" }}
+          >
+            {text}
+          </span>
+          <span ref={mainTextRef}>{text}</span>
         </span>
       </h2>
       <button
-        onClick={() => {
-          setIsGlitching(true);
-          setTimeout(() => setIsGlitching(false), 2000);
-        }}
-        className="mt-6 px-4 py-2 bg-primary/80 text-white rounded-md"
+        onClick={triggerGlitch}
+        className="mt-6 px-4 py-2 bg-primary/80 text-white rounded-md hover:bg-primary transition-colors"
       >
         Trigger Glitch
       </button>
@@ -436,40 +773,14 @@ const GlitchText = ({ text }: { text: string }) => {
   );
 };
 
-// Add to tailwind.config.js:
-// keyframes: {
-//   'glitch': {
-//     '0%, 100%': { transform: 'translate(0)' },
-//     '20%': { transform: 'translate(-5px, 5px)' },
-//     '40%': { transform: 'translate(-5px, -5px)' },
-//     '60%': { transform: 'translate(5px, 5px)' },
-//     '80%': { transform: 'translate(5px, -5px)' },
-//   },
-//   'glitch-1': {
-//     '0%, 100%': { transform: 'translate(0)' },
-//     '40%': { transform: 'translate(-3px, 3px)' },
-//     '66%': { transform: 'translate(3px, -3px)' },
-//   },
-//   'glitch-2': {
-//     '0%, 100%': { transform: 'translate(0)' },
-//     '33%': { transform: 'translate(5px, -5px)' },
-//     '77%': { transform: 'translate(-5px, 5px)' },
-//   },
-// },
-// animation: {
-//   'glitch': 'glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite',
-//   'glitch-1': 'glitch-1 0.4s linear infinite alternate-reverse',
-//   'glitch-2': 'glitch-2 0.4s linear infinite alternate-reverse',
-// },
-
 export default GlitchText;`;
 
 const perspectiveTextCode = `import { useState, useRef } from "react";
+import anime from "animejs";
 
 const PerspectiveText = () => {
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -482,14 +793,29 @@ const PerspectiveText = () => {
     const rotX = ((y - height / 2) / height) * -20;
     const rotY = ((x - width / 2) / width) * 20;
     
-    setRotateX(rotX);
-    setRotateY(rotY);
+    // Use anime.js for smooth rotation
+    if (textContainerRef.current) {
+      anime({
+        targets: textContainerRef.current,
+        rotateX: rotX,
+        rotateY: rotY,
+        easing: 'easeOutQuad',
+        duration: 300
+      });
+    }
   };
   
   const handleMouseLeave = () => {
-    // Reset rotations when mouse leaves
-    setRotateX(0);
-    setRotateY(0);
+    // Reset rotations when mouse leaves with anime.js
+    if (textContainerRef.current) {
+      anime({
+        targets: textContainerRef.current,
+        rotateX: 0,
+        rotateY: 0,
+        easing: 'easeOutQuad',
+        duration: 600
+      });
+    }
   };
   
   return (
@@ -500,10 +826,8 @@ const PerspectiveText = () => {
       onMouseLeave={handleMouseLeave}
     >
       <div 
-        className="text-center transition-transform duration-300 ease-out transform-preserve-3d"
-        style={{
-          transform: \`rotateX(\${rotateX}deg) rotateY(\${rotateY}deg)\`,
-        }}
+        ref={textContainerRef}
+        className="text-center transform-preserve-3d"
       >
         <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">
           3D PERSPECTIVE

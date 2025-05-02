@@ -1,11 +1,11 @@
 
 import { useRef, useEffect, useState } from "react";
-import { CodeToggle } from "./CodeToggle";
 import ScrollProgressAnimation from "./animations/ScrollProgressAnimation";
 import TextAnimations from "./animations/TextAnimations";
 import ImageRevealAnimations from "./animations/ImageRevealAnimations";
 import DraggableCardStack from "./animations/DraggableCardStack";
 import HeroTextAnimations from "./animations/HeroTextAnimations";
+import anime from "animejs";
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,18 +15,22 @@ const AnimationExamples = () => {
     const animateElements = () => {
       const cards = containerRef.current?.querySelectorAll(".animation-card");
 
-      cards?.forEach((card, index) => {
-        const element = card as HTMLElement;
-        element.style.opacity = "0";
-        element.style.transform = "translateY(20px)";
-
-        setTimeout(() => {
-          element.style.transition =
-            "opacity 600ms ease-out, transform 600ms ease-out";
-          element.style.opacity = "1";
-          element.style.transform = "translateY(0)";
-        }, index * 100);
-      });
+      if (cards) {
+        // Use anime.js for card animations
+        anime.set(cards, {
+          opacity: 0,
+          translateY: 20
+        });
+        
+        anime({
+          targets: cards,
+          opacity: 1,
+          translateY: 0,
+          duration: 600,
+          easing: 'easeOutExpo',
+          delay: anime.stagger(100)
+        });
+      }
     };
 
     animateElements();
@@ -54,12 +58,27 @@ const AnimationExamples = () => {
     };
   }, []);
 
+  // Handle navigation button clicks with smooth scrolling using anime.js
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const topOffset = section.getBoundingClientRect().top + window.scrollY;
+      
+      anime({
+        targets: window.document.scrollingElement,
+        scrollTop: topOffset,
+        duration: 600,
+        easing: 'easeInOutQuad'
+      });
+    }
+  };
+
   return (
     <div ref={containerRef} className="space-y-12">
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-3">Web Animation Examples</h2>
         <p className="text-muted-foreground">
-          A collection of practical animations to enhance your website's user experience. 
+          A collection of practical animations powered by anime.js to enhance your website's user experience. 
           Each animation example includes code snippets that you can easily incorporate into your projects.
         </p>
       </div>
@@ -75,9 +94,7 @@ const AnimationExamples = () => {
                   ? 'bg-primary/20 text-primary font-medium' 
                   : 'bg-muted/50 hover:bg-muted'
               }`}
-              onClick={() => {
-                document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => scrollToSection(section)}
             >
               {section.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
             </button>
@@ -101,7 +118,7 @@ const AnimationExamples = () => {
           <div className="mb-6">
             <h3 className="text-xl font-semibold mb-2">Text Animations</h3>
             <p className="text-muted-foreground">
-              Engaging typewriter and text reveal effects that bring your content to life 
+              Engaging typewriter and text reveal effects powered by anime.js that bring your content to life 
               and capture your visitor's attention.
             </p>
           </div>
@@ -113,7 +130,7 @@ const AnimationExamples = () => {
             <h3 className="text-xl font-semibold mb-2">Image Reveal Animations</h3>
             <p className="text-muted-foreground">
               Creative ways to reveal images as they enter the viewport, 
-              creating a more dynamic and engaging browsing experience.
+              creating a more dynamic and engaging browsing experience using anime.js transitions.
             </p>
           </div>
           <ImageRevealAnimations />

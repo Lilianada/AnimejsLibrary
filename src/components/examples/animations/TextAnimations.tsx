@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CodeToggle } from "../CodeToggle";
-import CodeBlock from "./CodeBlock";
+import anime from "animejs";
 
 const TextAnimations = () => {
   return (
@@ -16,7 +16,7 @@ const TextAnimations = () => {
                   phrases={[
                     "Build amazing websites.",
                     "Create engaging user experiences.",
-                    "Design with animations.",
+                    "Design with anime.js animations.",
                     "Captivate your audience."
                   ]} 
                 />
@@ -108,33 +108,44 @@ const TypewriterEffect = ({ phrases }: { phrases: string[] }) => {
 
 // Text Reveal On Scroll Component
 const TextRevealOnScroll = () => {
-  const elementRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-
+  
   useEffect(() => {
+    if (!containerRef.current) return;
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          
+          // Use anime.js to animate text lines
+          anime({
+            targets: '.text-line',
+            translateY: [20, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 800,
+            delay: anime.stagger(200)
+          });
+          
           observer.unobserve(entry.target);
         }
       },
       { threshold: 0.1 }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
+    observer.observe(containerRef.current);
+    
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
       }
     };
   }, []);
 
   return (
-    <div ref={elementRef} className="space-y-6">
+    <div ref={containerRef} className="space-y-6">
       {[
         "This text will reveal",
         "one line at a time",
@@ -142,12 +153,7 @@ const TextRevealOnScroll = () => {
       ].map((line, index) => (
         <div
           key={index}
-          className={`text-xl font-medium overflow-hidden transition-all duration-1000 ease-in-out transform ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
-          }`}
-          style={{ transitionDelay: `${index * 200}ms` }}
+          className="text-line text-xl font-medium opacity-0"
         >
           {line}
         </div>
@@ -158,33 +164,47 @@ const TextRevealOnScroll = () => {
 
 // Letter Fly In Component
 const LetterFlyIn = ({ text }: { text: string }) => {
-  const [isAnimated, setIsAnimated] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    // Trigger animation after component mount
-    setTimeout(() => setIsAnimated(true), 500);
+    // Setup for letter animation
+    const letters = containerRef.current?.querySelectorAll('.letter');
     
-    // Reset animation periodically
-    const interval = setInterval(() => {
-      setIsAnimated(false);
-      setTimeout(() => setIsAnimated(true), 500);
-    }, 6000);
+    // Reset and trigger animation
+    const animateLetters = () => {
+      if (!letters) return;
+      
+      // Reset animation
+      anime.set(letters, {
+        translateY: -30,
+        opacity: 0,
+        scale: 1.2
+      });
+      
+      // Start animation
+      anime({
+        targets: letters,
+        translateY: 0,
+        opacity: 1,
+        scale: 1,
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: anime.stagger(50)
+      });
+    };
+    
+    animateLetters();
+    
+    // Setup interval to repeat animation
+    const interval = setInterval(animateLetters, 6000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [text]);
   
   return (
-    <div className="text-4xl font-bold flex overflow-hidden">
+    <div ref={containerRef} className="text-4xl font-bold flex">
       {text.split("").map((letter, index) => (
-        <span
-          key={index}
-          className={`inline-block transition-all duration-700 ease-out ${
-            isAnimated
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-16"
-          }`}
-          style={{ transitionDelay: `${index * 60}ms` }}
-        >
+        <span key={index} className="letter inline-block">
           {letter}
         </span>
       ))}
@@ -194,9 +214,29 @@ const LetterFlyIn = ({ text }: { text: string }) => {
 
 // Gradient Text Component
 const GradientText = ({ text }: { text: string }) => {
+  const textRef = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    if (!textRef.current) return;
+    
+    anime({
+      targets: textRef.current,
+      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+      easing: 'easeInOutSine',
+      duration: 4000,
+      loop: true
+    });
+  }, []);
+
   return (
     <div className="text-4xl font-bold">
-      <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent bg-[length:200%] animate-gradient-x">
+      <span 
+        ref={textRef}
+        className="bg-clip-text text-transparent bg-[length:200%_auto]"
+        style={{
+          backgroundImage: 'linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)), hsl(var(--primary)))'
+        }}
+      >
         {text}
       </span>
     </div>
@@ -204,8 +244,8 @@ const GradientText = ({ text }: { text: string }) => {
 };
 
 // Code strings for the examples
-
 const typewriterCode = `import { useState, useEffect } from "react";
+import anime from "animejs";
 
 const TypewriterEffect = ({ phrases }: { phrases: string[] }) => {
   const [text, setText] = useState("");
@@ -259,36 +299,45 @@ const TypewriterEffect = ({ phrases }: { phrases: string[] }) => {
 
 export default TypewriterEffect;`;
 
-const textFadeInCode = `import { useRef, useState, useEffect } from "react";
+const textFadeInCode = `import { useEffect, useRef } from "react";
+import anime from "animejs";
 
 const TextRevealOnScroll = () => {
-  const elementRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
+    if (!containerRef.current) return;
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          // Use anime.js to animate text lines
+          anime({
+            targets: '.text-line',
+            translateY: [20, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 800,
+            delay: anime.stagger(200) // stagger each line
+          });
+          
           observer.unobserve(entry.target);
         }
       },
       { threshold: 0.1 }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
+    observer.observe(containerRef.current);
+    
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
       }
     };
   }, []);
 
   return (
-    <div ref={elementRef} className="space-y-6">
+    <div ref={containerRef} className="space-y-6">
       {[
         "This text will reveal",
         "one line at a time",
@@ -296,13 +345,7 @@ const TextRevealOnScroll = () => {
       ].map((line, index) => (
         <div
           key={index}
-          className={\`text-xl font-medium overflow-hidden transition-all 
-            duration-1000 ease-in-out transform \${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
-          }\`}
-          style={{ transitionDelay: \`\${index * 200}ms\` }}
+          className="text-line text-xl font-medium opacity-0"
         >
           {line}
         </div>
@@ -313,36 +356,51 @@ const TextRevealOnScroll = () => {
 
 export default TextRevealOnScroll;`;
 
-const letterFlyInCode = `import { useState, useEffect } from "react";
+const letterFlyInCode = `import { useEffect, useRef } from "react";
+import anime from "animejs";
 
 const LetterFlyIn = ({ text }: { text: string }) => {
-  const [isAnimated, setIsAnimated] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    // Trigger animation after component mount
-    setTimeout(() => setIsAnimated(true), 500);
+    // Setup for letter animation
+    const letters = containerRef.current?.querySelectorAll('.letter');
     
-    // Reset animation periodically
-    const interval = setInterval(() => {
-      setIsAnimated(false);
-      setTimeout(() => setIsAnimated(true), 500);
-    }, 6000);
+    // Reset and trigger animation
+    const animateLetters = () => {
+      if (!letters) return;
+      
+      // Reset animation
+      anime.set(letters, {
+        translateY: -30,
+        opacity: 0,
+        scale: 1.2
+      });
+      
+      // Start animation
+      anime({
+        targets: letters,
+        translateY: 0,
+        opacity: 1,
+        scale: 1,
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: anime.stagger(50) // stagger each letter
+      });
+    };
+    
+    animateLetters();
+    
+    // Setup interval to repeat animation
+    const interval = setInterval(animateLetters, 6000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [text]);
   
   return (
-    <div className="text-4xl font-bold flex overflow-hidden">
+    <div ref={containerRef} className="text-4xl font-bold flex">
       {text.split("").map((letter, index) => (
-        <span
-          key={index}
-          className={\`inline-block transition-all duration-700 ease-out \${
-            isAnimated
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-16"
-          }\`}
-          style={{ transitionDelay: \`\${index * 60}ms\` }}
-        >
+        <span key={index} className="letter inline-block">
           {letter}
         </span>
       ))}
@@ -352,30 +410,40 @@ const LetterFlyIn = ({ text }: { text: string }) => {
 
 export default LetterFlyIn;`;
 
-const gradientTextCode = `import React from "react";
+const gradientTextCode = `import { useEffect, useRef } from "react";
+import anime from "animejs";
 
 const GradientText = ({ text }: { text: string }) => {
+  const textRef = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    if (!textRef.current) return;
+    
+    // Create animated gradient movement using anime.js
+    anime({
+      targets: textRef.current,
+      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+      easing: 'easeInOutSine',
+      duration: 4000,
+      loop: true
+    });
+  }, []);
+
   return (
     <div className="text-4xl font-bold">
-      <span className="bg-clip-text text-transparent bg-gradient-to-r 
-        from-primary via-secondary to-accent bg-[length:200%] 
-        animate-gradient-x">
+      <span 
+        ref={textRef}
+        className="bg-clip-text text-transparent bg-[length:200%_auto]"
+        style={{
+          backgroundImage: 'linear-gradient(to right, #ff6b6b, #6b6bff, #6bff6b, #ff6b6b)'
+          // You can customize your gradient colors
+        }}
+      >
         {text}
       </span>
     </div>
   );
 };
-
-// Add to tailwind.config.js:
-// animation: {
-//   'gradient-x': 'gradient-x 4s ease infinite',
-// },
-// keyframes: {
-//   'gradient-x': {
-//     '0%, 100%': { backgroundPosition: '0% 50%' },
-//     '50%': { backgroundPosition: '100% 50%' },
-//   },
-// },
 
 export default GradientText;`;
 

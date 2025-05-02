@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { CodeToggle } from "../CodeToggle";
 import { Move, RotateCcw } from "lucide-react";
+import anime from "animejs";
 
 // Define type for a card in the stack
 type Card = {
@@ -16,6 +17,7 @@ type Card = {
 const DraggableCardStack = () => {
   const codeString = `import { useState, useEffect, useRef } from "react";
 import { Move, RotateCcw } from "lucide-react";
+import anime from "animejs";
 
 // Define type for a card in the stack
 type Card = {
@@ -65,20 +67,35 @@ const DraggableCardStack = () => {
   ];
 
   const [cards, setCards] = useState<Card[]>(initialCards);
-  const dragItem = useRef<HTMLDivElement | null>(null);
   const draggedCardId = useRef<number | null>(null);
   const initialPosition = useRef({ x: 0, y: 0 });
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Reset the cards to their initial state
   const resetCards = () => {
+    // First set the state
     setCards(initialCards.map(card => ({ ...card, x: 0, y: 0, isDragged: false })));
+    
+    // Then animate the cards back to their original positions
+    cardRefs.current.forEach((cardEl, index) => {
+      if (cardEl) {
+        anime({
+          targets: cardEl,
+          translateX: 0,
+          translateY: 0,
+          rotate: initialCards[index].rotation,
+          duration: 800,
+          easing: 'easeOutElastic(1, .6)'
+        });
+      }
+    });
   };
 
   // Handle the start of dragging
   const handleDragStart = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
+    e.preventDefault();
     draggedCardId.current = id;
     const cardElement = e.currentTarget;
-    dragItem.current = cardElement;
     
     // Get initial mouse position
     initialPosition.current = {
@@ -100,18 +117,28 @@ const DraggableCardStack = () => {
 
   // Handle the dragging
   const handleDrag = (e: MouseEvent) => {
-    if (!draggedCardId.current || !dragItem.current) return;
+    if (!draggedCardId.current) return;
     
-    const cardElement = dragItem.current;
-    const containerRect = cardElement.parentElement?.getBoundingClientRect();
+    const cardIndex = cards.findIndex(card => card.id === draggedCardId.current);
+    if (cardIndex === -1) return;
     
+    const cardEl = cardRefs.current[cardIndex];
+    if (!cardEl) return;
+    
+    const containerRect = cardEl.parentElement?.getBoundingClientRect();
     if (!containerRect) return;
     
     // Calculate new position
     const newX = e.clientX - containerRect.left - initialPosition.current.x;
     const newY = e.clientY - containerRect.top - initialPosition.current.y;
     
-    // Update the card's position
+    // Use anime.js for smooth dragging
+    anime.set(cardEl, {
+      translateX: newX,
+      translateY: newY
+    });
+    
+    // Update state
     setCards(prevCards =>
       prevCards.map(card =>
         card.id === draggedCardId.current
@@ -124,7 +151,6 @@ const DraggableCardStack = () => {
   // Handle the end of dragging
   const handleDragEnd = () => {
     draggedCardId.current = null;
-    dragItem.current = null;
     
     // Remove global event listeners
     document.removeEventListener('mousemove', handleDrag);
@@ -139,23 +165,53 @@ const DraggableCardStack = () => {
     };
   }, []);
 
+  // Animate cards on initial render
+  useEffect(() => {
+    cardRefs.current.forEach((cardEl, index) => {
+      if (cardEl) {
+        // Start cards from the center and animate them into position
+        anime.set(cardEl, {
+          translateX: 0,
+          translateY: 0,
+          rotate: 0,
+          scale: 0.8,
+          opacity: 0
+        });
+        
+        // Animate cards into initial positions
+        anime({
+          targets: cardEl,
+          translateX: 0,
+          translateY: 0,
+          rotate: initialCards[index].rotation,
+          scale: 1,
+          opacity: 1,
+          duration: 800,
+          delay: index * 150,
+          easing: 'easeOutElastic(1, .6)'
+        });
+      }
+    });
+  }, []);
+
   return (
     <div className="w-full max-w-lg mx-auto">
       <div className="relative h-[400px] border rounded-lg flex items-center justify-center overflow-visible">
         {/* Card Stack */}
         <div className="relative w-64 h-64">
-          {cards.map((card) => (
+          {cards.map((card, index) => (
             <div
               key={card.id}
+              ref={el => cardRefs.current[index] = el}
               className={\`absolute top-0 left-0 w-64 h-64 rounded-lg shadow-lg cursor-grab 
-                active:cursor-grabbing transition-all duration-300 \${
+                active:cursor-grabbing transition-shadow duration-300 \${
                 card.isDragged ? 'z-50 shadow-xl' : 'hover:shadow-xl'
               }\`}
               style={{
                 backgroundImage: \`url(\${card.imageUrl})\`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                transform: \`rotate(\${card.rotation}deg) translate(\${card.x}px, \${card.y}px)\`,
+                transform: \`rotate(\${card.rotation}deg)\`,
                 zIndex: card.isDragged ? 50 : 5 - card.id,
               }}
               onMouseDown={(e) => handleDragStart(e, card.id)}
@@ -227,13 +283,31 @@ export default DraggableCardStack;`;
   ];
 
   const [cards, setCards] = useState<Card[]>(initialCards);
-  const dragItem = useRef<HTMLDivElement | null>(null);
   const draggedCardId = useRef<number | null>(null);
   const initialPosition = useRef({ x: 0, y: 0 });
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Reset the cards to their initial state
   const resetCards = () => {
+    // First set the state
     setCards(initialCards.map(card => ({ ...card, x: 0, y: 0, isDragged: false })));
+    
+    // Then animate the cards back to their original positions with anime.js
+    cardRefs.current.forEach((cardEl, index) => {
+      if (cardEl) {
+        anime({
+          targets: cardEl,
+          translateX: 0,
+          translateY: 0,
+          rotate: initialCards[index].rotation,
+          scale: [0.95, 1],
+          opacity: [0.9, 1],
+          duration: 800,
+          delay: index * 100,
+          easing: 'easeOutElastic(1, .6)'
+        });
+      }
+    });
   };
 
   // Handle the start of dragging
@@ -241,7 +315,6 @@ export default DraggableCardStack;`;
     e.preventDefault();
     draggedCardId.current = id;
     const cardElement = e.currentTarget;
-    dragItem.current = cardElement;
     
     // Get initial mouse position
     initialPosition.current = {
@@ -263,18 +336,28 @@ export default DraggableCardStack;`;
 
   // Handle the dragging
   const handleDrag = useCallback((e: MouseEvent) => {
-    if (!draggedCardId.current || !dragItem.current) return;
+    if (!draggedCardId.current) return;
     
-    const cardElement = dragItem.current;
-    const containerRect = cardElement.parentElement?.getBoundingClientRect();
+    const cardIndex = cards.findIndex(card => card.id === draggedCardId.current);
+    if (cardIndex === -1) return;
     
+    const cardEl = cardRefs.current[cardIndex];
+    if (!cardEl) return;
+    
+    const containerRect = cardEl.parentElement?.getBoundingClientRect();
     if (!containerRect) return;
     
     // Calculate new position
     const newX = e.clientX - containerRect.left - initialPosition.current.x;
     const newY = e.clientY - containerRect.top - initialPosition.current.y;
     
-    // Update the card's position
+    // Use anime.js for smooth dragging
+    anime.set(cardEl, {
+      translateX: newX,
+      translateY: newY
+    });
+    
+    // Update state
     setCards(prevCards =>
       prevCards.map(card =>
         card.id === draggedCardId.current
@@ -282,12 +365,23 @@ export default DraggableCardStack;`;
           : card
       )
     );
-  }, []);
+  }, [cards]);
 
   // Handle the end of dragging
   const handleDragEnd = useCallback(() => {
+    if (!draggedCardId.current) return;
+  
+    // Update state to reflect the drag end
+    setCards(prevCards =>
+      prevCards.map(card =>
+        card.id === draggedCardId.current
+          ? { ...card, isDragged: false }
+          : card
+      )
+    );
+    
+    // Clear reference
     draggedCardId.current = null;
-    dragItem.current = null;
     
     // Remove global event listeners
     document.removeEventListener('mousemove', handleDrag);
@@ -302,6 +396,35 @@ export default DraggableCardStack;`;
     };
   }, [handleDrag, handleDragEnd]);
 
+  // Animate cards on initial render
+  useEffect(() => {
+    cardRefs.current.forEach((cardEl, index) => {
+      if (cardEl) {
+        // Start cards from the center and animate them into position
+        anime.set(cardEl, {
+          translateX: 0,
+          translateY: 0,
+          rotate: 0,
+          scale: 0.8,
+          opacity: 0
+        });
+        
+        // Animate cards into initial positions with anime.js
+        anime({
+          targets: cardEl,
+          translateX: 0,
+          translateY: 0,
+          rotate: initialCards[index].rotation,
+          scale: 1,
+          opacity: 1,
+          duration: 800,
+          delay: index * 150,
+          easing: 'easeOutElastic(1, .6)'
+        });
+      }
+    });
+  }, []);
+
   return (
     <div className="space-y-8">
       <CodeToggle
@@ -311,11 +434,12 @@ export default DraggableCardStack;`;
             <div className="relative h-[400px] border rounded-lg flex items-center justify-center overflow-visible">
               {/* Card Stack */}
               <div className="relative w-64 h-64">
-                {cards.map((card) => (
+                {cards.map((card, index) => (
                   <div
                     key={card.id}
+                    ref={el => cardRefs.current[index] = el}
                     className={`absolute top-0 left-0 w-64 h-64 rounded-lg shadow-lg cursor-grab 
-                      active:cursor-grabbing transition-all duration-300 group ${
+                      active:cursor-grabbing transition-shadow duration-300 group ${
                       card.isDragged ? 'z-50 shadow-xl' : 'hover:shadow-xl'
                     }`}
                     style={{
