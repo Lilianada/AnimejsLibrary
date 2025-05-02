@@ -20,17 +20,20 @@ const LetterFlyIn = ({
     
     const letters = containerRef.current.querySelectorAll('.letter');
     
-    // Set initial properties
+    // Set initial properties using anime.default instead of anime.set
     letters.forEach(letter => {
-      anime.set(letter, {
+      anime.default({
+        targets: letter,
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
-        translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
+        translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
+        duration: 1 // Immediate effect
       });
     });
     
     // Animate letters
-    anime.animate(letters, {
+    anime.default({
+      targets: letters,
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -84,15 +87,18 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.set(letter, {
+      anime.default({
+        targets: letter,
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
-        translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0)
+        translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
+        duration: 1 // Immediate effect
       });
     });
     
     // Animate letters
-    anime.animate(letters, {
+    anime.default({
+      targets: letters,
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],

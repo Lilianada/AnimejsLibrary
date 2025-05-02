@@ -16,15 +16,18 @@ const AnimationExamples = () => {
       const cards = containerRef.current?.querySelectorAll(".animation-card");
 
       if (cards) {
-        // Use anime.js for card animations
+        // Use correct anime.js syntax
         cards.forEach(card => {
-          anime.set(card, {
+          anime.default({
+            targets: card,
             opacity: 0,
-            translateY: 20
+            translateY: 20,
+            duration: 1,
           });
         });
         
-        anime.animate(cards, {
+        anime.default({
+          targets: cards,
           opacity: 1,
           translateY: 0,
           duration: 600,
@@ -65,7 +68,8 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime.animate(window.document.scrollingElement, {
+      anime.default({
+        targets: window.document.scrollingElement,
         scrollTop: topOffset,
         duration: 600,
         easing: 'easeInOutQuad'
