@@ -1,456 +1,390 @@
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
+import { CodeToggle } from "../CodeToggle";
+import { ArrowsPointingOutIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
-import { RefreshCw } from "lucide-react";
-import * as anime from "animejs";
-
-interface CardProps {
-  image: string;
-  alt: string;
-  index: number;
-  isDragging: boolean;
-  dragPosition: { x: number; y: number };
-  onDragStart: () => void;
-  onDragEnd: () => void;
-  onDrag: (x: number, y: number) => void;
-}
+import { ArrowsPointingOut, RotateCw } from "lucide-react";
+import anime from "animejs";
 
 const DraggableCardStack = () => {
-  const cards = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      alt: "Gradient bubble",
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      alt: "Abstract light",
-    },
-    {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1550859492-d5da9d8e45f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
-      alt: "Abstract pattern",
-    },
-    {
-      id: 4,
-      image: "https://images.unsplash.com/photo-1507908708918-778587c9e563?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      alt: "Colorful smoke",
-    },
-  ];
-
-  const [dragStates, setDragStates] = useState(
-    cards.map(() => ({
-      isDragging: false,
-      dragPosition: { x: 0, y: 0 },
-    }))
-  );
-
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Handle drag start for a specific card
-  const handleDragStart = (index: number) => {
-    setDragStates((prev) => {
-      const newStates = [...prev];
-      newStates[index] = {
-        ...newStates[index],
-        isDragging: true,
-      };
-      return newStates;
-    });
-  };
-
-  // Handle drag movement for a specific card
-  const handleDrag = (index: number, x: number, y: number) => {
-    setDragStates((prev) => {
-      const newStates = [...prev];
-      newStates[index] = {
-        ...newStates[index],
-        dragPosition: { x, y },
-      };
-      return newStates;
-    });
-  };
-
-  // Handle drag end for a specific card
-  const handleDragEnd = (index: number) => {
-    setDragStates((prev) => {
-      const newStates = [...prev];
-      newStates[index] = {
-        ...newStates[index],
-        isDragging: false,
-      };
-      return newStates;
-    });
-  };
-
-  // Reset all cards to initial positions
-  const resetCards = () => {
-    // Use anime.js for the reset animation
-    cards.forEach((_, index) => {
-      anime.default({
-        targets: `.card-${index}`,
-        translateX: 0,
-        translateY: 0,
-        rotate: getInitialRotation(index),
-        opacity: 1,
-        scale: 1,
-        duration: 600,
-        easing: "easeOutElastic(1, .6)",
-      });
-    });
-
-    // Reset state after animation completes
-    setTimeout(() => {
-      setDragStates(
-        cards.map(() => ({
-          isDragging: false,
-          dragPosition: { x: 0, y: 0 },
-        }))
-      );
-    }, 600);
-  };
-
-  // Initial animation when component mounts
-  useEffect(() => {
-    anime.default({
-      targets: ".draggable-card",
-      scale: [0.9, 1],
-      opacity: [0, 1],
-      delay: anime.stagger(150),
-      duration: 800,
-      easing: "easeOutElastic(1, .6)",
-    });
-  }, []);
-
-  // Helper function to get initial rotation for each card
-  const getInitialRotation = (index: number): number => {
-    const rotations = [-3, 2, -2, 4];
-    return rotations[index % rotations.length];
-  };
-
   return (
     <div className="space-y-8">
-      <div className="border rounded-lg p-6 relative">
-        <div className="text-center mb-8">
-          <p className="text-muted-foreground">
-            Drag each card to reveal the ones underneath. Click the reset button
-            to rearrange the stack.
-          </p>
-        </div>
-
-        {/* Card stack container */}
-        <div
-          ref={containerRef}
-          className="relative h-[400px] md:h-[500px] w-full max-w-md mx-auto perspective-500"
-        >
-          {cards.map((card, index) => (
-            <Card
-              key={card.id}
-              image={card.image}
-              alt={card.alt}
-              index={index}
-              isDragging={dragStates[index].isDragging}
-              dragPosition={dragStates[index].dragPosition}
-              onDragStart={() => handleDragStart(index)}
-              onDragEnd={() => handleDragEnd(index)}
-              onDrag={(x, y) => handleDrag(index, x, y)}
-            />
-          ))}
-        </div>
-
-        <div className="mt-6 flex justify-center">
-          <Button
-            onClick={resetCards}
-            size="sm"
-            variant="outline"
-            className="flex gap-2 items-center"
-          >
-            <RefreshCw className="w-4 h-4" />
-            <span>Reset Stack</span>
-          </Button>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Implementation</h3>
-        <div className="bg-muted/30 rounded-lg p-6 text-sm overflow-auto max-h-[600px]">
-          <pre className="whitespace-pre-wrap">
-            {`import React, { useState, useRef, useEffect } from "react";
-import * as anime from "animejs";
-
-interface CardProps {
-  image: string;
-  alt: string;
-  index: number;
-  isDragging: boolean;
-  dragPosition: { x: number; y: number };
-  onDragStart: () => void;
-  onDragEnd: () => void;
-  onDrag: (x: number, y: number) => void;
-}
-
-const Card: React.FC<CardProps> = ({
-  image,
-  alt,
-  index,
-  isDragging,
-  dragPosition,
-  onDragStart,
-  onDragEnd,
-  onDrag,
-}) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const startPos = useRef({ x: 0, y: 0 });
-
-  // Initial rotation for the stacked appearance
-  const getInitialRotation = () => {
-    const rotations = [-3, 2, -2, 4]; 
-    return rotations[index % rotations.length];
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    
-    e.preventDefault();
-    onDragStart();
-    
-    // Record initial mouse position
-    startPos.current = {
-      x: e.clientX - dragPosition.x,
-      y: e.clientY - dragPosition.y
-    };
-    
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleMouseMove = (e: MouseEvent) => {
-    const x = e.clientX - startPos.current.x;
-    const y = e.clientY - startPos.current.y;
-    onDrag(x, y);
-  };
-
-  const handleMouseUp = () => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-    onDragEnd();
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!cardRef.current || e.touches.length !== 1) return;
-    
-    e.preventDefault();
-    onDragStart();
-    
-    // Record initial touch position
-    startPos.current = {
-      x: e.touches[0].clientX - dragPosition.x,
-      y: e.touches[0].clientY - dragPosition.y
-    };
-    
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.addEventListener("touchend", handleTouchEnd);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (e.touches.length !== 1) return;
-    
-    e.preventDefault(); // Prevent scrolling while dragging
-    
-    const x = e.touches[0].clientX - startPos.current.x;
-    const y = e.touches[0].clientY - startPos.current.y;
-    onDrag(x, y);
-  };
-
-  const handleTouchEnd = () => {
-    document.removeEventListener("touchmove", handleTouchMove);
-    document.removeEventListener("touchend", handleTouchEnd);
-    onDragEnd();
-  };
-
-  // Calculate z-index based on card position and drag state
-  const zIndex = isDragging ? 10 : 3 - index;
-
-  // Calculate the stacking appearance (cards getting smaller as they go deeper)
-  const scale = 1 - index * 0.03;
-  
-  // Calculate the slight offset for each card in the stack
-  const translateY = index * -4;
-
-  return (
-    <div
-      ref={cardRef}
-      className={\`draggable-card card-\${index} absolute inset-0 cursor-grab active:cursor-grabbing select-none\`}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      style={{
-        transform: \`translateX(\${dragPosition.x}px) translateY(\${dragPosition.y + translateY}px) rotate(\${getInitialRotation()}deg) scale(\${scale})\`,
-        zIndex,
-        transition: isDragging ? 'none' : 'transform 0.3s ease-out',
-      }}
-    >
-      <div className="w-full h-full rounded-xl overflow-hidden shadow-lg">
-        <img
-          src={image}
-          alt={alt}
-          className="w-full h-full object-cover"
+      <div className="grid lg:grid-cols-2 gap-6">
+        <CodeToggle
+          previewContent={
+            <div className="p-4 space-y-4">
+              <h4 className="text-lg font-medium">Draggable Card Stack</h4>
+              <div className="border rounded-lg p-8 min-h-[400px] flex items-center justify-center bg-muted/30">
+                <CardStack />
+              </div>
+            </div>
+          }
+          codeContent={cardStackCode}
+          minHeightClass="min-h-[500px]"
         />
+        
+        <div className="space-y-4 p-6 bg-muted/30 rounded-lg">
+          <h3 className="text-xl font-semibold">How It Works</h3>
+          <div className="space-y-3">
+            <div className="flex gap-2 items-start">
+              <span className="bg-primary/20 text-primary font-medium rounded-full w-6 h-6 flex items-center justify-center shrink-0">1</span>
+              <p className="text-sm">Each card in the stack is positioned with subtle rotation and translate offsets to create a stacked appearance.</p>
+            </div>
+            <div className="flex gap-2 items-start">
+              <span className="bg-primary/20 text-primary font-medium rounded-full w-6 h-6 flex items-center justify-center shrink-0">2</span>
+              <p className="text-sm">When a user clicks or touches a card, it becomes draggable using mouse or touch events.</p>
+            </div>
+            <div className="flex gap-2 items-start">
+              <span className="bg-primary/20 text-primary font-medium rounded-full w-6 h-6 flex items-center justify-center shrink-0">3</span>
+              <p className="text-sm">The card follows the cursor/finger with a smooth animation powered by anime.js.</p>
+            </div>
+            <div className="flex gap-2 items-start">
+              <span className="bg-primary/20 text-primary font-medium rounded-full w-6 h-6 flex items-center justify-center shrink-0">4</span>
+              <p className="text-sm">When released, the card stays in its final position, revealing cards underneath.</p>
+            </div>
+            <div className="flex gap-2 items-start">
+              <span className="bg-primary/20 text-primary font-medium rounded-full w-6 h-6 flex items-center justify-center shrink-0">5</span>
+              <p className="text-sm">The reset button animates all cards back to their original position in the stack.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-const DraggableCardStack = () => {
-  // Card data and state management...
-  // Reset functionality with anime.js...
+// Card Stack Component
+const CardStack = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [isDragging, setIsDragging] = useState<number | null>(null);
+  const dragStartPos = useRef({ x: 0, y: 0 });
+  const cardInitialPos = useRef<{x: number, y: number, rotation: number}[]>([]);
   
+  // Set up initial positions for cards
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const cards = cardsRef.current.filter(Boolean);
+    
+    // Store initial positions
+    cardInitialPos.current = cards.map((_, i) => ({
+      x: i * -2,
+      y: i * -2,
+      rotation: (i - 1.5) * -3
+    }));
+    
+    // Apply initial positions and rotations
+    cards.forEach((card, i) => {
+      if (card) {
+        anime({
+          targets: card,
+          translateX: cardInitialPos.current[i].x,
+          translateY: cardInitialPos.current[i].y,
+          rotate: cardInitialPos.current[i].rotation,
+          opacity: 1,
+          easing: 'easeOutQuad',
+          duration: 500,
+          delay: i * 100
+        });
+      }
+    });
+  }, []);
+  
+  // Handle mouse and touch events
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent, index: number) => {
+    e.preventDefault();
+    setIsDragging(index);
+    
+    // Get mouse/touch start position
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    dragStartPos.current = { x: clientX, y: clientY };
+  };
+  
+  const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+    if (isDragging === null) return;
+    
+    // Get current mouse/touch position
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    // Calculate drag distance
+    const deltaX = clientX - dragStartPos.current.x;
+    const deltaY = clientY - dragStartPos.current.y;
+    
+    const card = cardsRef.current[isDragging];
+    if (card) {
+      anime({
+        targets: card,
+        translateX: cardInitialPos.current[isDragging].x + deltaX,
+        translateY: cardInitialPos.current[isDragging].y + deltaY,
+        rotate: cardInitialPos.current[isDragging].rotation,
+        easing: 'linear',
+        duration: 0
+      });
+    }
+  };
+  
+  const handleMouseUp = () => {
+    setIsDragging(null);
+  };
+  
+  // Add and remove event listeners
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleMouseMove);
+    window.addEventListener('touchend', handleMouseUp);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleMouseMove);
+      window.removeEventListener('touchend', handleMouseUp);
+    };
+  });
+  
+  // Handle reset button click
+  const handleReset = () => {
+    const cards = cardsRef.current.filter(Boolean);
+    
+    cards.forEach((card, i) => {
+      if (card) {
+        anime({
+          targets: card,
+          translateX: cardInitialPos.current[i].x,
+          translateY: cardInitialPos.current[i].y,
+          rotate: cardInitialPos.current[i].rotation,
+          opacity: 1,
+          easing: 'easeOutElastic(1, .5)',
+          duration: 800
+        });
+      }
+    });
+  };
+
+  // Images for cards
+  const cardImages = [
+    "https://images.unsplash.com/photo-1686914143117-3aa3fc9d2340?q=80&w=1964&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1683009427738-e836bed10849?q=80&w=1964&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1628373383885-4be0bc0172fa?q=80&w=1964&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1672700955223-35f6abf19f62?q=80&w=1964&auto=format&fit=crop"
+  ];
+
   return (
-    <div>
-      {/* Card stack container */}
-      <div className="relative h-[400px] w-full max-w-md mx-auto perspective-500">
-        {cards.map((card, index) => (
-          <Card
-            key={card.id}
-            image={card.image}
-            alt={card.alt}
-            index={index}
-            isDragging={dragStates[index].isDragging}
-            dragPosition={dragStates[index].dragPosition}
-            onDragStart={() => handleDragStart(index)}
-            onDragEnd={() => handleDragEnd(index)}
-            onDrag={(x, y) => handleDrag(index, x, y)}
-          />
+    <div className="relative w-full max-w-md">
+      <div 
+        ref={containerRef}
+        className="relative h-80 sm:h-96 w-full flex items-center justify-center"
+      >
+        {cardImages.map((image, i) => (
+          <div
+            key={i}
+            ref={el => cardsRef.current[i] = el}
+            className={`absolute w-64 h-64 bg-card rounded-lg shadow-lg cursor-grab opacity-0
+              ${isDragging === i ? 'z-20 cursor-grabbing shadow-xl' : `z-${10 - i}`}
+            `}
+            style={{ 
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+            onMouseDown={(e) => handleMouseDown(e, i)}
+            onTouchStart={(e) => handleMouseDown(e, i)}
+          >
+            <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center">
+              <span className="text-2xl font-bold text-white opacity-80">
+                {i + 1}
+              </span>
+            </div>
+          </div>
         ))}
       </div>
       
-      <button onClick={resetCards}>
-        Reset Stack
-      </button>
-    </div>
-  );
-};
-
-export default DraggableCardStack;`}
-          </pre>
-        </div>
+      <div className="flex justify-center mt-4">
+        <Button
+          variant="outline" 
+          className="flex items-center gap-2"
+          onClick={handleReset}
+        >
+          <RotateCw className="w-4 h-4" />
+          Reset Stack
+        </Button>
       </div>
     </div>
   );
 };
 
-// Separate Card component for draggable functionality
-const Card: React.FC<CardProps> = ({
-  image,
-  alt,
-  index,
-  isDragging,
-  dragPosition,
-  onDragStart,
-  onDragEnd,
-  onDrag,
-}) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const startPos = useRef({ x: 0, y: 0 });
+const cardStackCode = `import { useState, useRef, useEffect } from "react";
+import { RotateCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import anime from "animejs";
 
-  // Initial rotation for the stacked appearance
-  const getInitialRotation = useCallback(() => {
-    const rotations = [-3, 2, -2, 4];
-    return rotations[index % rotations.length];
-  }, [index]);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    
-    e.preventDefault();
-    onDragStart();
-    
-    // Record initial mouse position
-    startPos.current = {
-      x: e.clientX - dragPosition.x,
-      y: e.clientY - dragPosition.y
-    };
-    
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const x = e.clientX - startPos.current.x;
-    const y = e.clientY - startPos.current.y;
-    onDrag(x, y);
-  }, [onDrag]);
-
-  const handleMouseUp = useCallback(() => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-    onDragEnd();
-  }, [handleMouseMove, onDragEnd]);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!cardRef.current || e.touches.length !== 1) return;
-    
-    e.preventDefault();
-    onDragStart();
-    
-    // Record initial touch position
-    startPos.current = {
-      x: e.touches[0].clientX - dragPosition.x,
-      y: e.touches[0].clientY - dragPosition.y
-    };
-    
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.addEventListener("touchend", handleTouchEnd);
-  };
-
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (e.touches.length !== 1) return;
-    
-    e.preventDefault(); // Prevent scrolling while dragging
-    
-    const x = e.touches[0].clientX - startPos.current.x;
-    const y = e.touches[0].clientY - startPos.current.y;
-    onDrag(x, y);
-  }, [onDrag]);
-
-  const handleTouchEnd = useCallback(() => {
-    document.removeEventListener("touchmove", handleTouchMove);
-    document.removeEventListener("touchend", handleTouchEnd);
-    onDragEnd();
-  }, [handleTouchMove, onDragEnd]);
-
-  // Calculate z-index based on card position and drag state
-  const zIndex = isDragging ? 10 : 3 - index;
-
-  // Calculate the stacking appearance (cards getting smaller as they go deeper)
-  const scale = 1 - index * 0.03;
+const CardStack = () => {
+  const containerRef = useRef(null);
+  const cardsRef = useRef([]);
+  const [isDragging, setIsDragging] = useState(null);
+  const dragStartPos = useRef({ x: 0, y: 0 });
+  const cardInitialPos = useRef([]);
   
-  // Calculate the slight offset for each card in the stack
-  const translateY = index * -4;
+  // Set up initial positions for cards
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const cards = cardsRef.current.filter(Boolean);
+    
+    // Store initial positions
+    cardInitialPos.current = cards.map((_, i) => ({
+      x: i * -2,
+      y: i * -2,
+      rotation: (i - 1.5) * -3
+    }));
+    
+    // Apply initial positions and rotations
+    cards.forEach((card, i) => {
+      if (card) {
+        anime({
+          targets: card,
+          translateX: cardInitialPos.current[i].x,
+          translateY: cardInitialPos.current[i].y,
+          rotate: cardInitialPos.current[i].rotation,
+          opacity: 1,
+          easing: 'easeOutQuad',
+          duration: 500,
+          delay: i * 100
+        });
+      }
+    });
+  }, []);
+  
+  // Handle mouse and touch events
+  const handleMouseDown = (e, index) => {
+    e.preventDefault();
+    setIsDragging(index);
+    
+    // Get mouse/touch start position
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    dragStartPos.current = { x: clientX, y: clientY };
+  };
+  
+  const handleMouseMove = (e) => {
+    if (isDragging === null) return;
+    
+    // Get current mouse/touch position
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    // Calculate drag distance
+    const deltaX = clientX - dragStartPos.current.x;
+    const deltaY = clientY - dragStartPos.current.y;
+    
+    const card = cardsRef.current[isDragging];
+    if (card) {
+      anime({
+        targets: card,
+        translateX: cardInitialPos.current[isDragging].x + deltaX,
+        translateY: cardInitialPos.current[isDragging].y + deltaY,
+        rotate: cardInitialPos.current[isDragging].rotation,
+        easing: 'linear',
+        duration: 0
+      });
+    }
+  };
+  
+  const handleMouseUp = () => {
+    setIsDragging(null);
+  };
+  
+  // Add and remove event listeners
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleMouseMove);
+    window.addEventListener('touchend', handleMouseUp);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleMouseMove);
+      window.removeEventListener('touchend', handleMouseUp);
+    };
+  });
+  
+  // Handle reset button click
+  const handleReset = () => {
+    const cards = cardsRef.current.filter(Boolean);
+    
+    cards.forEach((card, i) => {
+      if (card) {
+        anime({
+          targets: card,
+          translateX: cardInitialPos.current[i].x,
+          translateY: cardInitialPos.current[i].y,
+          rotate: cardInitialPos.current[i].rotation,
+          opacity: 1,
+          easing: 'easeOutElastic(1, .5)',
+          duration: 800
+        });
+      }
+    });
+  };
+
+  // Images for cards (replace with your own)
+  const cardImages = [
+    "https://images.unsplash.com/photo-1686914143117-3aa3fc9d2340?q=80&w=1964&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1683009427738-e836bed10849?q=80&w=1964&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1628373383885-4be0bc0172fa?q=80&w=1964&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1672700955223-35f6abf19f62?q=80&w=1964&auto=format&fit=crop"
+  ];
 
   return (
-    <div
-      ref={(el) => {
-        if (el) cardRef.current = el;
-      }}
-      className={`draggable-card card-${index} absolute inset-0 cursor-grab active:cursor-grabbing select-none`}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleTouchStart}
-      style={{
-        transform: `translateX(${dragPosition.x}px) translateY(${dragPosition.y + translateY}px) rotate(${getInitialRotation()}deg) scale(${scale})`,
-        zIndex,
-        transition: isDragging ? 'none' : 'transform 0.3s ease-out',
-      }}
-    >
-      <div className="w-full h-full rounded-xl overflow-hidden shadow-lg">
-        <img
-          src={image}
-          alt={alt}
-          className="w-full h-full object-cover"
-        />
+    <div className="relative w-full max-w-md">
+      <div 
+        ref={containerRef}
+        className="relative h-80 sm:h-96 w-full flex items-center justify-center"
+      >
+        {cardImages.map((image, i) => (
+          <div
+            key={i}
+            ref={el => cardsRef.current[i] = el}
+            className={\`absolute w-64 h-64 bg-card rounded-lg shadow-lg cursor-grab opacity-0
+              \${isDragging === i ? 'z-20 cursor-grabbing shadow-xl' : \`z-\${10 - i}\`}
+            \`}
+            style={{ 
+              backgroundImage: \`url(\${image})\`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+            onMouseDown={(e) => handleMouseDown(e, i)}
+            onTouchStart={(e) => handleMouseDown(e, i)}
+          >
+            <div className="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center">
+              <span className="text-2xl font-bold text-white opacity-80">
+                {i + 1}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="flex justify-center mt-4">
+        <Button
+          variant="outline" 
+          className="flex items-center gap-2"
+          onClick={handleReset}
+        >
+          <RotateCw className="w-4 h-4" />
+          Reset Stack
+        </Button>
       </div>
     </div>
   );
 };
+
+export default CardStack;`;
 
 export default DraggableCardStack;

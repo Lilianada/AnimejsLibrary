@@ -1,10 +1,11 @@
+
 import { useRef, useEffect, useState } from "react";
 import ScrollProgressAnimation from "./animations/ScrollProgressAnimation";
 import TextAnimations from "./animations/TextAnimations";
-import ImageRevealAnimations from "./animations/ImageRevealAnimations";
+import ImageRevealAnimations from "./animations/image-reveal";
 import DraggableCardStack from "./animations/DraggableCardStack";
 import HeroTextAnimations from "./animations/HeroTextAnimations";
-import * as anime from "animejs";
+import anime from "animejs";
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ const AnimationExamples = () => {
           translateY: 20
         });
         
-        anime.default({
+        anime({
           targets: cards,
           opacity: 1,
           translateY: 0,
@@ -63,7 +64,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime.default({
+      anime({
         targets: window.document.scrollingElement,
         scrollTop: topOffset,
         duration: 600,
