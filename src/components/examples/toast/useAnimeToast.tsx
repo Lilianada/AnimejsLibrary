@@ -1,9 +1,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import * as animeModule from "animejs";
+import * as anime from "animejs";
 import AnimeToast, { AnimeToastContainer, ToastProps } from "./AnimeToast";
-
-const anime = animeModule.default;
 
 const useAnimeToast = () => {
   const [toasts, setToasts] = useState<Array<ToastProps & { id: string }>>([]);

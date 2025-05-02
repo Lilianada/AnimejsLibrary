@@ -1,9 +1,6 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
-import * as animeModule from 'animejs';
-
-const anime = animeModule.default;
+import * as anime from 'animejs';
 
 interface ToastWithActionsProps {
   message: string;
@@ -97,18 +94,7 @@ export default ToastWithActions;
 // Add the code export for the component
 export const ToastWithActionsCode = `import React, { useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
-import * as animeModule from 'animejs';
-
-const anime = animeModule.default;
-
-interface ToastWithActionsProps {
-  message: string;
-  onAccept?: () => void;
-  onDecline?: () => void;
-  onClose?: () => void;
-  acceptText?: string;
-  declineText?: string;
-}
+import * as anime from 'animejs';
 
 const ToastWithActions = ({
   message,
@@ -117,8 +103,8 @@ const ToastWithActions = ({
   onClose,
   acceptText = "Accept",
   declineText = "Decline"
-}: ToastWithActionsProps) => {
-  const toastRef = useRef<HTMLDivElement>(null);
+}) => {
+  const toastRef = useRef(null);
 
   // Entrance animation
   useEffect(() => {
@@ -160,27 +146,13 @@ const ToastWithActions = ({
   };
 
   return (
-    <div 
-      ref={toastRef}
-      className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[350px]"
-      style={{ opacity: 0 }}
-    >
+    <div ref={toastRef} className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[350px]" style={{ opacity: 0 }}>
       <div className="mb-3 text-sm">{message}</div>
       <div className="flex justify-end gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleDecline}
-          className="h-8 px-3"
-        >
+        <Button variant="outline" size="sm" onClick={handleDecline} className="h-8 px-3">
           {declineText}
         </Button>
-        <Button 
-          variant="default" 
-          size="sm" 
-          onClick={handleAccept}
-          className="h-8 px-3"
-        >
+        <Button variant="default" size="sm" onClick={handleAccept} className="h-8 px-3">
           {acceptText}
         </Button>
       </div>
@@ -188,5 +160,4 @@ const ToastWithActions = ({
   );
 };
 
-export default ToastWithActions;
-`;
+export default ToastWithActions;`;
