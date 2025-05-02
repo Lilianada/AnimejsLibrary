@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 
 const ToastWithActions = () => {
@@ -11,7 +11,7 @@ const ToastWithActions = () => {
   useEffect(() => {
     if (!toastRef.current) return;
     
-    anime({
+    anime.default({
       targets: toastRef.current,
       opacity: [0, 1],
       translateY: [10, 0],
@@ -31,7 +31,7 @@ const ToastWithActions = () => {
     if (!toastRef.current || !visible) return;
     
     setVisible(false);
-    anime({
+    anime.default({
       targets: toastRef.current,
       opacity: 0,
       translateY: 10,
@@ -50,7 +50,7 @@ const ToastWithActions = () => {
     setVisible(true);
     if (toastRef.current) {
       toastRef.current.style.display = "block";
-      anime({
+      anime.default({
         targets: toastRef.current,
         opacity: [0, 1],
         translateY: [10, 0],

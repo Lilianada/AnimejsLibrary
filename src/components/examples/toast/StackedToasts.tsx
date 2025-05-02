@@ -1,6 +1,5 @@
-
 import React, { useState, useRef, useEffect } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
 
@@ -35,7 +34,7 @@ const StackedToasts = () => {
     if (toastEls.length > 0) {
       const newToast = toastEls[toastEls.length - 1];
       
-      anime({
+      anime.default({
         targets: newToast,
         opacity: [0, 1],
         translateY: [20, 0],
@@ -47,7 +46,7 @@ const StackedToasts = () => {
     // Adjust positions of existing toasts
     if (toastEls.length > 1) {
       for (let i = 0; i < toastEls.length - 1; i++) {
-        anime({
+        anime.default({
           targets: toastEls[i],
           translateY: -((toastEls.length - 1 - i) * 4),
           scale: 1 - ((toastEls.length - 1 - i) * 0.05),
@@ -122,7 +121,7 @@ const StackedToasts = () => {
 export default StackedToasts;
 
 export const StackToastsCode = `import React, { useState, useRef, useEffect } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
 
@@ -157,7 +156,7 @@ const StackedToasts = () => {
     if (toastEls.length > 0) {
       const newToast = toastEls[toastEls.length - 1];
       
-      anime({
+      anime.default({
         targets: newToast,
         opacity: [0, 1],
         translateY: [20, 0],
@@ -169,7 +168,7 @@ const StackedToasts = () => {
     // Adjust positions of existing toasts
     if (toastEls.length > 1) {
       for (let i = 0; i < toastEls.length - 1; i++) {
-        anime({
+        anime.default({
           targets: toastEls[i],
           translateY: -((toastEls.length - 1 - i) * 4),
           scale: 1 - ((toastEls.length - 1 - i) * 0.05),
@@ -180,23 +179,23 @@ const StackedToasts = () => {
     }
   }, [toasts]);
   
-  const getToastIcon = (type) => {
+  function getToastIcon(type: string) {
     switch(type) {
       case "success": return <CheckCircle className="h-5 w-5" />;
       case "error": return <XCircle className="h-5 w-5" />;
       case "warning": return <AlertTriangle className="h-5 w-5" />;
       default: return <Info className="h-5 w-5" />;
     }
-  };
+  }
   
-  const getToastColor = (type) => {
+  function getToastColor(type: string) {
     switch(type) {
       case "success": return "bg-green-500 text-white";
       case "error": return "bg-red-500 text-white";
       case "warning": return "bg-amber-500 text-white";
       default: return "bg-blue-500 text-white";
     }
-  };
+  }
   
   return (
     <div className="space-y-4">
@@ -239,4 +238,4 @@ const StackedToasts = () => {
       </div>
     </div>
   );
-};`;
+};`

@@ -1,6 +1,6 @@
 
 import React, { useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
 
 export interface ToastProps {
@@ -32,7 +32,7 @@ const AnimeToast = ({ message, type = "info", duration = 3000, onClose }: ToastP
     if (!toastRef.current || !progressRef.current) return;
     
     // Animate toast entrance
-    anime({
+    anime.default({
       targets: toastRef.current,
       opacity: [0, 1],
       translateX: ["100%", "0%"],
@@ -41,7 +41,7 @@ const AnimeToast = ({ message, type = "info", duration = 3000, onClose }: ToastP
     });
     
     // Animate progress bar
-    anime({
+    anime.default({
       targets: progressRef.current,
       width: ["100%", "0%"],
       duration: duration,
@@ -51,7 +51,7 @@ const AnimeToast = ({ message, type = "info", duration = 3000, onClose }: ToastP
     // Close toast after duration
     const timer = setTimeout(() => {
       if (toastRef.current) {
-        anime({
+        anime.default({
           targets: toastRef.current,
           opacity: 0,
           translateX: "100%",
@@ -70,7 +70,7 @@ const AnimeToast = ({ message, type = "info", duration = 3000, onClose }: ToastP
   const handleClose = () => {
     if (!toastRef.current) return;
     
-    anime({
+    anime.default({
       targets: toastRef.current,
       opacity: 0,
       translateX: "100%",
