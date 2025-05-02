@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as animeNamespace from 'animejs';
 
+// @ts-expect-error - Vite/Rollup handles the default export during build
 const anime = animeNamespace.default;
 
 export interface ToastProps {

@@ -17,4 +17,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: [
+      'animejs', // Explicitly pre-bundle animejs
+    ],
+  },
+  build: {
+    commonjsOptions: {
+      // Help handle mixed CJS/ESM modules like animejs
+      transformMixedEsModules: true,
+    }
+  }
 }));

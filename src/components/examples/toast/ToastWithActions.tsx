@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import * as animeNamespace from 'animejs';
 
+// @ts-expect-error - Vite/Rollup handles the default export during build
 const anime = animeNamespace.default;
 
 interface ToastWithActionsProps {
@@ -98,6 +99,7 @@ export const ToastWithActionsCode = `import React, { useEffect, useRef } from 'r
 import { Button } from "@/components/ui/button";
 import * as animeNamespace from 'animejs';
 
+// @ts-expect-error - Vite/Rollup handles the default export during build
 const anime = animeNamespace.default;
 
 interface ToastWithActionsProps {

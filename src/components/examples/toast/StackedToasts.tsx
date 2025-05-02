@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
-import anime from 'animejs/lib/anime.es.js';
+import * as animeNamespace from 'animejs';
+
+// @ts-expect-error - Vite/Rollup handles the default export during build
+const anime = animeNamespace.default; // Keep this alias for conciseness in the code
 
 interface StackedToast {
   id: string;
@@ -135,7 +138,10 @@ export default StackedToasts;
 // Export the code as a string for rendering in the code viewer
 export const StackToastsCode = `import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
-import anime from 'animejs/lib/anime.es.js';
+import * as animeNamespace from 'animejs';
+
+// @ts-expect-error - Vite/Rollup handles the default export during build
+const anime = animeNamespace.default; // Keep this alias for conciseness in the code
 
 interface StackedToast {
   id: string;
