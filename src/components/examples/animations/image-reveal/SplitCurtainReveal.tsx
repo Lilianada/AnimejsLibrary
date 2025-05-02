@@ -28,8 +28,7 @@ const SplitCurtainReveal = ({
             observer.unobserve(entry.target);
             
             // Create image fade in animation
-            anime.default({
-              targets: imageRef.current,
+            anime.animate(imageRef.current, {
               opacity: [0, 1],
               easing: 'easeOutCubic',
               duration: 800,
@@ -38,29 +37,25 @@ const SplitCurtainReveal = ({
             
             // Create curtains animation
             if (direction === 'horizontal') {
-              anime.default({
-                targets: curtain1Ref.current,
+              anime.animate(curtain1Ref.current, {
                 translateX: ['0%', '-100%'],
                 easing: 'easeInOutQuart',
                 duration: 800
               });
               
-              anime.default({
-                targets: curtain2Ref.current,
+              anime.animate(curtain2Ref.current, {
                 translateX: ['0%', '100%'],
                 easing: 'easeInOutQuart',
                 duration: 800
               });
             } else {
-              anime.default({
-                targets: curtain1Ref.current,
+              anime.animate(curtain1Ref.current, {
                 translateY: ['0%', '-100%'],
                 easing: 'easeInOutQuart',
                 duration: 800
               });
               
-              anime.default({
-                targets: curtain2Ref.current,
+              anime.animate(curtain2Ref.current, {
                 translateY: ['0%', '100%'],
                 easing: 'easeInOutQuart',
                 duration: 800

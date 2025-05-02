@@ -10,14 +10,13 @@ const TextSketchEffect = () => {
     
     const letters = textRef.current.querySelectorAll('span');
     
-    anime.default({
-      targets: letters,
+    anime.animate(letters, {
       opacity: [0, 1],
       translateY: [20, 0],
       translateX: [20, 0],
       translateZ: 0,
       duration: 1800,
-      delay: anime.default.stagger(40),
+      delay: anime.stagger(40),
       easing: 'easeOutExpo',
     });
     
@@ -38,7 +37,8 @@ const TextSketchEffect = () => {
           </span>
         ))}
       </div>
-      <style jsx>{`
+      <style>
+        {`
         .sketch-text {
           font-family: 'Arial', sans-serif;
           color: transparent;
@@ -56,7 +56,8 @@ const TextSketchEffect = () => {
           width: 100%;
           height: 100%;
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };
@@ -74,14 +75,13 @@ const TextSketchEffect = () => {
     
     const letters = textRef.current.querySelectorAll('span');
     
-    anime.default({
-      targets: letters,
+    anime.animate(letters, {
       opacity: [0, 1],
       translateY: [20, 0],
       translateX: [20, 0],
       translateZ: 0,
       duration: 1800,
-      delay: anime.default.stagger(40),
+      delay: anime.stagger(40),
       easing: 'easeOutExpo',
     });
     
@@ -102,7 +102,7 @@ const TextSketchEffect = () => {
           </span>
         ))}
       </div>
-      <style jsx>{\`
+      <style>{\`
         .sketch-text {
           font-family: 'Arial', sans-serif;
           color: transparent;

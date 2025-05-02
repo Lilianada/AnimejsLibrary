@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 interface FadeInRevealProps {
   imageSrc: string;
@@ -20,8 +20,7 @@ const FadeInReveal = ({ imageSrc, altText = '', className = '' }: FadeInRevealPr
             observer.unobserve(entry.target);
             
             // Create fade and scale animation
-            anime({
-              targets: imageRef.current,
+            anime.animate(imageRef.current, {
               opacity: [0, 1],
               scale: [0.9, 1],
               easing: 'easeOutCubic',
@@ -59,7 +58,7 @@ const FadeInReveal = ({ imageSrc, altText = '', className = '' }: FadeInRevealPr
 export default FadeInReveal;
 
 export const fadeInRevealCode = `import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const FadeInReveal = ({ imageSrc, altText = '', className = '' }) => {
   const containerRef = useRef(null);
@@ -73,8 +72,7 @@ const FadeInReveal = ({ imageSrc, altText = '', className = '' }) => {
             observer.unobserve(entry.target);
             
             // Create fade and scale animation
-            anime({
-              targets: imageRef.current,
+            anime.animate(imageRef.current, {
               opacity: [0, 1],
               scale: [0.9, 1],
               easing: 'easeOutCubic',
