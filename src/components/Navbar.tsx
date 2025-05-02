@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const location = useLocation().pathname; // Use useLocation hook for more reliable path tracking
+  const location = useLocation().pathname;
   
   const links = [
     { href: "/docs", label: "Docs", icon: Book },
@@ -42,7 +42,7 @@ const Navbar = () => {
                   boxShadow: "none",
                 }}
               >
-                <link.icon className="h-4 w-4" />
+                <link.icon className="h-4 w-4 mr-1" />
                 <span>{link.label}</span>
               </Link>
             ))}
@@ -52,7 +52,7 @@ const Navbar = () => {
             >
               <Link to="/examples" className="flex items-center space-x-1">
                 <span>Sponsor</span>
-                <HeartIcon className="h-4 w-4" />
+                <HeartIcon className="h-4 w-4 ml-1" />
               </Link>
             </Button>
           </div>

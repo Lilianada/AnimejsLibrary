@@ -1,10 +1,11 @@
+
 import React from "react";
 import { Button } from "./ui/button";
 import { GithubIcon } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative bg-background overflow-hidden h-[calc(100vh-70px)] flex items-center">
+    <section className="relative bg-background flex-grow flex items-center justify-center overflow-hidden">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[600px] bg-gradient-to-br from-[#201636]/50 via-[#fd8d3d1a] to-[#9046ff33] rounded-full opacity-30 blur-[60px]"></div>
       </div>
@@ -27,17 +28,17 @@ const Hero = () => {
         {/* Replaced Waitlist form with Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <Button
-            asChild // Use asChild to render an anchor tag
+            asChild
             variant="outline"
             className="border-white/20 hover:bg-white/10"
           >
             <a href="#" target="_blank" rel="noopener noreferrer">
-              <GithubIcon className="h-5 w-5" />
+              <GithubIcon className="h-5 w-5 mr-2" />
               Star on Github
             </a>
           </Button>
           <Button
-            asChild // Use asChild to render an anchor tag
+            asChild
             className="bg-primary text-bg hover:bg-primary/90"
           >
             <a href="/examples">See Examples</a>
