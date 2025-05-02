@@ -20,7 +20,7 @@ const ClipPathReveal = ({ imageSrc, altText = '', className = '' }: ClipPathReve
             observer.unobserve(entry.target);
             
             // Create clip path animation
-            anime.default.animate(imageRef.current, {
+            anime.animate(imageRef.current, {
               clipPath: ['inset(100% 0 0 0)', 'inset(0 0 0 0)'], 
               opacity: [0, 1],
               easing: 'easeInOutQuad',
@@ -76,7 +76,7 @@ const ClipPathReveal = ({ imageSrc, altText = '', className = '' }) => {
             observer.unobserve(entry.target);
             
             // Create clip path animation
-            anime.default.animate(imageRef.current, {
+            anime.animate(imageRef.current, {
               clipPath: ['inset(100% 0 0 0)', 'inset(0 0 0 0)'], 
               opacity: [0, 1],
               easing: 'easeInOutQuad',

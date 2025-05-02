@@ -18,18 +18,18 @@ const AnimationExamples = () => {
       if (cards) {
         // Use anime.js for card animations
         cards.forEach(card => {
-          anime.default.set(card, {
+          anime.set(card, {
             opacity: 0,
             translateY: 20
           });
         });
         
-        anime.default.animate(cards, {
+        anime.animate(cards, {
           opacity: 1,
           translateY: 0,
           duration: 600,
           easing: 'easeOutExpo',
-          delay: anime.default.stagger(100)
+          delay: anime.stagger(100)
         });
       }
     };
@@ -65,7 +65,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime.default.animate(window.document.scrollingElement, {
+      anime.animate(window.document.scrollingElement, {
         scrollTop: topOffset,
         duration: 600,
         easing: 'easeInOutQuad'

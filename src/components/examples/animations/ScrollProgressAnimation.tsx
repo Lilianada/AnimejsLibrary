@@ -61,7 +61,7 @@ const LinearProgress = () => {
   
   useEffect(() => {
     if (progressRef.current && valueRef.current) {
-      anime.default.animate(progressRef.current, {
+      anime.animate(progressRef.current, {
         width: `${scrollPercentage}%`,
         easing: 'easeOutCubic',
         duration: 300
@@ -120,7 +120,7 @@ const CircleProgress = () => {
     if (circleRef.current && valueRef.current) {
       const offset = circumference - (scrollPercentage / 100) * circumference;
       
-      anime.default.animate(circleRef.current, {
+      anime.animate(circleRef.current, {
         strokeDashoffset: offset,
         easing: 'easeOutCubic',
         duration: 300
@@ -192,7 +192,7 @@ const LinearProgress = () => {
   
   useEffect(() => {
     if (progressRef.current && valueRef.current) {
-      anime.default.animate(progressRef.current, {
+      anime.animate(progressRef.current, {
         width: \`\${scrollPercentage}%\`,
         easing: 'easeOutCubic',
         duration: 300
@@ -256,7 +256,7 @@ const CircleProgress = () => {
     if (circleRef.current && valueRef.current) {
       const offset = circumference - (scrollPercentage / 100) * circumference;
       
-      anime.default.animate(circleRef.current, {
+      anime.animate(circleRef.current, {
         strokeDashoffset: offset,
         easing: 'easeOutCubic',
         duration: 300

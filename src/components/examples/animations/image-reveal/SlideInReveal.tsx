@@ -38,7 +38,7 @@ const SlideInReveal = ({
             };
             
             // Create image slide in animation
-            anime.default.animate(imageRef.current, {
+            anime.animate(imageRef.current, {
               ...getStartPosition(),
               translateX: '0%',
               translateY: '0%',
@@ -48,7 +48,7 @@ const SlideInReveal = ({
             });
             
             // Create overlay animation
-            anime.default.animate(overlayRef.current, {
+            anime.animate(overlayRef.current, {
               scaleX: direction === 'top' || direction === 'bottom' ? [1, 1] : [1, 0],
               scaleY: direction === 'left' || direction === 'right' ? [1, 1] : [1, 0],
               translateX: direction === 'right' ? ['0%', '-100%'] : (direction === 'left' ? ['0%', '100%'] : '0%'),
@@ -136,7 +136,7 @@ const SlideInReveal = ({
             };
             
             // Create image slide in animation
-            anime.default.animate(imageRef.current, {
+            anime.animate(imageRef.current, {
               ...getStartPosition(),
               translateX: '0%',
               translateY: '0%',
@@ -146,7 +146,7 @@ const SlideInReveal = ({
             });
             
             // Create overlay animation
-            anime.default.animate(overlayRef.current, {
+            anime.animate(overlayRef.current, {
               scaleX: direction === 'top' || direction === 'bottom' ? [1, 1] : [1, 0],
               scaleY: direction === 'left' || direction === 'right' ? [1, 1] : [1, 0],
               translateX: direction === 'right' ? ['0%', '-100%'] : (direction === 'left' ? ['0%', '100%'] : '0%'),

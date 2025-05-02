@@ -8,7 +8,7 @@ const StaggeredHeroText = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const timeline = anime.default.timeline({
+    const timeline = anime.timeline({
       easing: 'easeOutExpo',
       duration: 750,
     });
@@ -26,7 +26,7 @@ const StaggeredHeroText = () => {
       targets: lines,
       translateY: [40, 0],
       opacity: [0, 1],
-      delay: anime.default.stagger(200)
+      delay: anime.stagger(200)
     }, '-=400');
 
     // Then animate the highlight elements
@@ -68,7 +68,7 @@ const StaggeredHeroText = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const timeline = anime.default.timeline({
+    const timeline = anime.timeline({
       easing: 'easeOutExpo',
       duration: 750,
     });
@@ -86,7 +86,7 @@ const StaggeredHeroText = () => {
       targets: lines,
       translateY: [40, 0],
       opacity: [0, 1],
-      delay: anime.default.stagger(200)
+      delay: anime.stagger(200)
     }, '-=400');
 
     // Then animate the highlight elements
