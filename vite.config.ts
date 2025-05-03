@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -15,6 +16,9 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Add specific resolution for animejs to avoid path issues
+      'animejs/lib/anime.es.js': 'animejs',
+      'animejs': 'animejs'
     },
   },
   optimizeDeps: {

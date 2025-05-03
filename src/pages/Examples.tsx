@@ -29,7 +29,7 @@ const Examples = () => {
           onSelectCategory={(category) => navigate(`/examples/${category}`)}
         />
         <div className="flex-1 overflow-y-auto pb-16">
-          <div className="pt-24 md:pt-10"> {/* Increased top padding for better spacing */}
+          <div className="pt-24 md:pt-20"> {/* Increased top padding more for mobile & desktop */}
             <Outlet />
           </div>
           <Footer />
