@@ -1,7 +1,9 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CodeToggle } from "@/components/examples/CodeToggle";
 import { ArrowUp, ArrowDown, ChevronRight, Loader2 } from "lucide-react";
+import AnimatedSubmitButton, { animatedSubmitButtonCode } from "./animations/buttons/AnimatedSubmitButton";
 
 // Define button types for structure
 const BUTTON_EXAMPLES = [
@@ -76,6 +78,18 @@ const BUTTON_EXAMPLES = [
       </Button>
     ),
     code: `import { Button } from "@/components/ui/button";\n\n<Button asChild>\n  <a href="#">Login</a>\n</Button>`,
+  },
+  {
+    label: "Animated Submit Button",
+    description: "Button with loading and success animations.",
+    component: (
+      <AnimatedSubmitButton 
+        text="Click to Submit" 
+        loadingText="Processing..."
+        successText="Done!"
+      />
+    ),
+    code: animatedSubmitButtonCode,
   },
 ];
 

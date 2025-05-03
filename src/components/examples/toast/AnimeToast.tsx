@@ -1,9 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
-import * as animeNamespace from 'animejs';
-
-// Access the default export properly
-const anime = animeNamespace.default || animeNamespace;
+import anime from 'animejs/lib/anime.es.js';
 
 export interface ToastProps {
   message: string;

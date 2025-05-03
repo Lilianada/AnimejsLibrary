@@ -1,10 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import * as animeNamespace from 'animejs';
+import anime from 'animejs/lib/anime.es.js';
 import { Button } from '@/components/ui/button';
-
-// Access the default export properly
-const anime = animeNamespace.default || animeNamespace;
 
 interface ToastWithActionsProps {
   message: string;
@@ -123,11 +120,8 @@ export default ToastWithActions;
 
 // Code snippet for documentation
 export const ToastWithActionsCode = `import React, { useState, useRef, useEffect } from 'react';
-import * as animeNamespace from 'animejs';
+import anime from 'animejs/lib/anime.es.js';
 import { Button } from '@/components/ui/button';
-
-// Access the default export properly
-const anime = animeNamespace.default || animeNamespace;
 
 interface ToastWithActionsProps {
   message: string;
