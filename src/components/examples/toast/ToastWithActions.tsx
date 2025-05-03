@@ -1,5 +1,6 @@
+
 import React, { useState, useRef, useEffect } from 'react';
-import * as anime from 'animejs';
+import anime from 'animejs/lib/anime.es.js';
 import { Button } from '@/components/ui/button';
 
 interface ToastWithActionsProps {
@@ -24,7 +25,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Entrance animation
     if (toastRef.current) {
-      anime.default({
+      anime({
         targets: toastRef.current,
         translateY: ['-100%', '0%'],
         opacity: [0, 1],
@@ -35,7 +36,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Progress bar animation
     if (progressRef.current) {
-      anime.default({
+      anime({
         targets: progressRef.current,
         width: ['100%', '0%'],
         duration: duration,
@@ -53,7 +54,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   
   const handleClose = () => {
     if (toastRef.current) {
-      anime.default({
+      anime({
         targets: toastRef.current,
         translateY: ['0%', '-120%'],
         opacity: [1, 0],
@@ -119,7 +120,7 @@ export default ToastWithActions;
 
 // Code snippet for documentation
 export const ToastWithActionsCode = `import React, { useState, useRef, useEffect } from 'react';
-import * as anime from 'animejs';
+import anime from 'animejs/lib/anime.es.js';
 import { Button } from '@/components/ui/button';
 
 interface ToastWithActionsProps {
@@ -144,7 +145,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Entrance animation
     if (toastRef.current) {
-      anime.default({
+      anime({
         targets: toastRef.current,
         translateY: ['-100%', '0%'],
         opacity: [0, 1],
@@ -155,7 +156,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Progress bar animation
     if (progressRef.current) {
-      anime.default({
+      anime({
         targets: progressRef.current,
         width: ['100%', '0%'],
         duration: duration,
@@ -173,7 +174,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   
   const handleClose = () => {
     if (toastRef.current) {
-      anime.default({
+      anime({
         targets: toastRef.current,
         translateY: ['0%', '-120%'],
         opacity: [1, 0],

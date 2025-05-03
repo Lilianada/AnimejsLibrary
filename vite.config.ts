@@ -16,13 +16,9 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // Remove specific anime.js resolution to use standard import
-      'animejs': 'animejs'
     },
   },
   optimizeDeps: {
-    include: [
-      'animejs', // Explicitly pre-bundle animejs
-    ],
-  }
+    include: ['animejs'],
+  },
 }));

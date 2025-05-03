@@ -1,7 +1,8 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check } from "lucide-react";
-import * as anime from 'animejs';
+import anime from 'animejs/lib/anime.es.js';
 
 interface AnimatedSubmitButtonProps {
   text: string;
