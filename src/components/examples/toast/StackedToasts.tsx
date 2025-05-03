@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import anime from 'animejs/lib/anime.es.js';
+import anime from 'animejs';
 import useAnimeToast from './useAnimeToast';
 
 const StackedToasts = () => {
@@ -39,7 +39,7 @@ export default StackedToasts;
 // Code snippet for documentation
 export const StackToastsCode = `import React from 'react';
 import { Button } from '@/components/ui/button';
-import * as anime from 'animejs';
+import anime from 'animejs';
 import useAnimeToast from './useAnimeToast';
 
 const StackedToasts = () => {

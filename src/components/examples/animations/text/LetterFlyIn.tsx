@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from "react";
-import * as anime from "animejs";
+import anime from 'animejs';
 
 interface LetterFlyInProps {
   text: string;
@@ -22,7 +22,8 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.animate(letter, {
+      anime({
+        targets: letter,
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
         translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
@@ -31,7 +32,8 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime.animate(letters, {
+    anime({
+      targets: letters,
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -63,7 +65,7 @@ const LetterFlyIn = ({
 export default LetterFlyIn;
 
 export const letterFlyInCode = `import { useEffect, useRef } from "react";
-import * as anime from "animejs";
+import anime from 'animejs';
 
 interface LetterFlyInProps {
   text: string;
@@ -85,7 +87,8 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.animate(letter, {
+      anime({
+        targets: letter,
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
         translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
@@ -94,7 +97,8 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime.animate(letters, {
+    anime({
+      targets: letters,
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
