@@ -2,7 +2,9 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check } from "lucide-react";
-import anime from 'animejs';
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 interface AnimatedSubmitButtonProps {
   text: string;
@@ -99,7 +101,9 @@ export default AnimatedSubmitButton;
 export const animatedSubmitButtonCode = `import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check } from "lucide-react";
-import anime from 'animejs';
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 interface AnimatedSubmitButtonProps {
   text: string;
@@ -191,4 +195,4 @@ const AnimatedSubmitButton = ({
   );
 };
 
-export default AnimatedSubmitButton;`
+export default AnimatedSubmitButton;`;

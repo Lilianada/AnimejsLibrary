@@ -41,8 +41,9 @@ const AnimeToastDemoComponent = () => {
 export default AnimeToastDemoComponent;
 
 export const useToastCode = `import React, { useRef, useState, useEffect } from "react";
-import anime from 'animejs';
-import { CheckCircle, AlertTriangle, Info, XCircle } from "lucide-react";
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 interface ToastProps {
   message: string;

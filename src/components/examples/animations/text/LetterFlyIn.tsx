@@ -1,6 +1,8 @@
 
 import { useEffect, useRef } from "react";
-import anime from 'animejs';
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 interface LetterFlyInProps {
   text: string;
@@ -65,7 +67,9 @@ const LetterFlyIn = ({
 export default LetterFlyIn;
 
 export const letterFlyInCode = `import { useEffect, useRef } from "react";
-import anime from 'animejs';
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 interface LetterFlyInProps {
   text: string;

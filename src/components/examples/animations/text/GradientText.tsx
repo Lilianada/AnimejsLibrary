@@ -1,6 +1,8 @@
 
 import { useEffect, useRef } from "react";
-import anime from 'animejs';
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 const GradientText = ({ text }: { text: string }) => {
   const textRef = useRef<HTMLSpanElement>(null);
@@ -40,7 +42,9 @@ const GradientText = ({ text }: { text: string }) => {
 export default GradientText;
 
 export const gradientTextCode = `import { useEffect, useRef } from "react";
-import anime from 'animejs';
+import * as animeJs from 'animejs';
+
+const anime = animeJs.default;
 
 const GradientText = ({ text }: { text: string }) => {
   const textRef = useRef<HTMLSpanElement>(null);
