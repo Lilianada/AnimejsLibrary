@@ -16,8 +16,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // Add specific resolution for animejs to avoid path issues
-      'animejs/lib/anime.es.js': 'animejs',
+      // Remove specific anime.js resolution to use standard import
       'animejs': 'animejs'
     },
   },
@@ -25,11 +24,5 @@ export default defineConfig(({ mode }) => ({
     include: [
       'animejs', // Explicitly pre-bundle animejs
     ],
-  },
-  build: {
-    commonjsOptions: {
-      // Help handle mixed CJS/ESM modules like animejs
-      transformMixedEsModules: true,
-    }
   }
 }));
