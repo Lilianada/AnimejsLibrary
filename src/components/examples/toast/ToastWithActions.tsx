@@ -1,92 +1,119 @@
-import React, { useEffect, useRef } from 'react';
-import { Button } from "@/components/ui/button";
-import * as animeNamespace from 'animejs';
 
-// @ts-expect-error - Vite/Rollup handles the default export during build
-const anime = animeNamespace.default;
+import React, { useState, useRef, useEffect } from 'react';
+import * as animeNamespace from 'animejs';
+import { Button } from '@/components/ui/button';
+
+// Access the default export properly
+const anime = animeNamespace.default || animeNamespace;
 
 interface ToastWithActionsProps {
   message: string;
   onAccept?: () => void;
   onDecline?: () => void;
-  onClose?: () => void;
-  acceptText?: string;
-  declineText?: string;
+  duration?: number;
 }
 
-const ToastWithActions = ({
+const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   message,
-  onAccept,
-  onDecline,
-  onClose,
-  acceptText = "Accept",
-  declineText = "Decline"
-}: ToastWithActionsProps) => {
+  onAccept = () => {},
+  onDecline = () => {},
+  duration = 8000
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
   const toastRef = useRef<HTMLDivElement>(null);
-
-  // Entrance animation
+  const progressRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    if (!toastRef.current) return;
+    setIsVisible(true);
     
-    anime({
-      targets: toastRef.current,
-      translateY: [-20, 0],
-      opacity: [0, 1],
-      easing: 'easeOutElastic(1, .8)',
-      duration: 600
-    });
-  }, []);
+    // Entrance animation
+    if (toastRef.current) {
+      anime({
+        targets: toastRef.current,
+        translateY: ['-100%', '0%'],
+        opacity: [0, 1],
+        duration: 400,
+        easing: 'easeOutCubic'
+      });
+    }
+    
+    // Progress bar animation
+    if (progressRef.current) {
+      anime({
+        targets: progressRef.current,
+        width: ['100%', '0%'],
+        duration: duration,
+        easing: 'linear'
+      });
+    }
+    
+    // Auto close after duration
+    const timer = setTimeout(() => {
+      handleClose();
+    }, duration);
+    
+    return () => clearTimeout(timer);
+  }, [duration]);
   
   const handleClose = () => {
-    if (!toastRef.current || !onClose) return;
-    
-    // Exit animation
-    anime({
-      targets: toastRef.current,
-      translateY: [0, -20],
-      opacity: [1, 0],
-      easing: 'easeInQuad',
-      duration: 300,
-      complete: () => {
-        if (onClose) onClose();
-      }
-    });
+    if (toastRef.current) {
+      anime({
+        targets: toastRef.current,
+        translateY: ['0%', '-120%'],
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInCubic',
+        complete: () => {
+          setIsVisible(false);
+        }
+      });
+    }
   };
   
   const handleAccept = () => {
-    if (onAccept) onAccept();
+    onAccept();
     handleClose();
   };
   
   const handleDecline = () => {
-    if (onDecline) onDecline();
+    onDecline();
     handleClose();
   };
-
+  
+  if (!isVisible) return null;
+  
   return (
     <div 
       ref={toastRef}
-      className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[350px]"
-      style={{ opacity: 0 }}
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-card shadow-lg rounded-lg border border-border max-w-md w-full opacity-0"
+      style={{ transform: 'translateY(-100%)' }}
     >
-      <div className="mb-3 text-sm">{message}</div>
-      <div className="flex justify-end gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleDecline}
-          className="h-8 px-3"
-        >
-          {declineText}
-        </Button>
-        <Button 
-          variant="default" 
-          size="sm" 
-          onClick={handleAccept}
-          className="h-8 px-3"
-        >
-          {acceptText}
-        </Button>
+      <div className="p-4">
+        <div className="mb-3 text-sm">{message}</div>
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleDecline}
+            className="text-xs"
+          >
+            Decline
+          </Button>
+          <Button 
+            size="sm" 
+            onClick={handleAccept}
+            className="text-xs"
+          >
+            Accept
+          </Button>
+        </div>
+        <div className="mt-2 h-0.5 w-full bg-card-foreground/10 rounded-full">
+          <div 
+            ref={progressRef}
+            className="h-full rounded-full bg-primary"
+            style={{ width: '100%' }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -94,96 +121,122 @@ const ToastWithActions = ({
 
 export default ToastWithActions;
 
-// Add the code export for the component
-export const ToastWithActionsCode = `import React, { useEffect, useRef } from 'react';
-import { Button } from "@/components/ui/button";
+// Code snippet for documentation
+export const ToastWithActionsCode = `import React, { useState, useRef, useEffect } from 'react';
 import * as animeNamespace from 'animejs';
+import { Button } from '@/components/ui/button';
 
-// @ts-expect-error - Vite/Rollup handles the default export during build
-const anime = animeNamespace.default;
+// Access the default export properly
+const anime = animeNamespace.default || animeNamespace;
 
 interface ToastWithActionsProps {
   message: string;
   onAccept?: () => void;
   onDecline?: () => void;
-  onClose?: () => void;
-  acceptText?: string;
-  declineText?: string;
+  duration?: number;
 }
 
-const ToastWithActions = ({
+const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   message,
-  onAccept,
-  onDecline,
-  onClose,
-  acceptText = "Accept",
-  declineText = "Decline"
-}: ToastWithActionsProps) => {
+  onAccept = () => {},
+  onDecline = () => {},
+  duration = 8000
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
   const toastRef = useRef<HTMLDivElement>(null);
-
-  // Entrance animation
+  const progressRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    if (!toastRef.current) return;
+    setIsVisible(true);
     
-    anime({
-      targets: toastRef.current,
-      translateY: [-20, 0],
-      opacity: [0, 1],
-      easing: 'easeOutElastic(1, .8)',
-      duration: 600
-    });
-  }, []);
+    // Entrance animation
+    if (toastRef.current) {
+      anime({
+        targets: toastRef.current,
+        translateY: ['-100%', '0%'],
+        opacity: [0, 1],
+        duration: 400,
+        easing: 'easeOutCubic'
+      });
+    }
+    
+    // Progress bar animation
+    if (progressRef.current) {
+      anime({
+        targets: progressRef.current,
+        width: ['100%', '0%'],
+        duration: duration,
+        easing: 'linear'
+      });
+    }
+    
+    // Auto close after duration
+    const timer = setTimeout(() => {
+      handleClose();
+    }, duration);
+    
+    return () => clearTimeout(timer);
+  }, [duration]);
   
   const handleClose = () => {
-    if (!toastRef.current || !onClose) return;
-    
-    // Exit animation
-    anime({
-      targets: toastRef.current,
-      translateY: [0, -20],
-      opacity: [1, 0],
-      easing: 'easeInQuad',
-      duration: 300,
-      complete: () => {
-        if (onClose) onClose();
-      }
-    });
+    if (toastRef.current) {
+      anime({
+        targets: toastRef.current,
+        translateY: ['0%', '-120%'],
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInCubic',
+        complete: () => {
+          setIsVisible(false);
+        }
+      });
+    }
   };
   
   const handleAccept = () => {
-    if (onAccept) onAccept();
+    onAccept();
     handleClose();
   };
   
   const handleDecline = () => {
-    if (onDecline) onDecline();
+    onDecline();
     handleClose();
   };
-
+  
+  if (!isVisible) return null;
+  
   return (
     <div 
       ref={toastRef}
-      className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[350px]"
-      style={{ opacity: 0 }}
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-card shadow-lg rounded-lg border border-border max-w-md w-full opacity-0"
+      style={{ transform: 'translateY(-100%)' }}
     >
-      <div className="mb-3 text-sm">{message}</div>
-      <div className="flex justify-end gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleDecline}
-          className="h-8 px-3"
-        >
-          {declineText}
-        </Button>
-        <Button 
-          variant="default" 
-          size="sm" 
-          onClick={handleAccept}
-          className="h-8 px-3"
-        >
-          {acceptText}
-        </Button>
+      <div className="p-4">
+        <div className="mb-3 text-sm">{message}</div>
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleDecline}
+            className="text-xs"
+          >
+            Decline
+          </Button>
+          <Button 
+            size="sm" 
+            onClick={handleAccept}
+            className="text-xs"
+          >
+            Accept
+          </Button>
+        </div>
+        <div className="mt-2 h-0.5 w-full bg-muted rounded-full">
+          <div 
+            ref={progressRef}
+            className="h-full rounded-full bg-primary"
+            style={{ width: '100%' }}
+          />
+        </div>
       </div>
     </div>
   );

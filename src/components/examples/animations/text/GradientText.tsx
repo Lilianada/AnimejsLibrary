@@ -1,6 +1,9 @@
 
 import { useEffect, useRef } from "react";
-import * as anime from "animejs";
+import * as animeNamespace from "animejs";
+
+// Access the default export properly
+const anime = animeNamespace.default || animeNamespace;
 
 const GradientText = ({ text }: { text: string }) => {
   const textRef = useRef<HTMLSpanElement>(null);
@@ -29,7 +32,6 @@ const GradientText = ({ text }: { text: string }) => {
         className="bg-clip-text text-transparent bg-[length:200%_auto]"
         style={{
           backgroundImage: 'linear-gradient(to right, #ff4bbd, #7c3aed, #fb7185, #ff4bbd)'
-          // Using direct hex colors instead of hsl variables
         }}
       >
         {text}
@@ -41,7 +43,10 @@ const GradientText = ({ text }: { text: string }) => {
 export default GradientText;
 
 export const gradientTextCode = `import { useEffect, useRef } from "react";
-import * as anime from "animejs";
+import * as animeNamespace from "animejs";
+
+// Access the default export properly
+const anime = animeNamespace.default || animeNamespace;
 
 const GradientText = ({ text }: { text: string }) => {
   const textRef = useRef<HTMLSpanElement>(null);

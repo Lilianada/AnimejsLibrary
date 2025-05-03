@@ -1,9 +1,10 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import * as animeNamespace from "animejs";
 import AnimeToast, { AnimeToastContainer, ToastProps } from "./AnimeToast";
 
-// @ts-expect-error - Vite/Rollup handles the default export during build
-const anime = animeNamespace.default;
+// Access the default export properly
+const anime = animeNamespace.default || animeNamespace;
 
 const useAnimeToast = () => {
   const [toasts, setToasts] = useState<Array<ToastProps & { id: string }>>([]);

@@ -17,14 +17,14 @@ import NotFound from "./pages/NotFound";
 import * as React from "react";
 import { Toaster } from "sonner";
 
-// Import individual example pages
-import ButtonExamples from "./components/examples/ButtonExamples";
-import CardAnimations from "./components/examples/animations/cards/CardAnimations";
-import LoaderShowcase from "./components/examples/LoaderShowcase";
-import ToastsExamples from "./components/examples/ToastsExamples";
-import DraggableExamples from "./components/examples/DraggableExamples";
-import AnimationExamples from "./components/examples/AnimationExamples";
-import FormsExamples from "./components/examples/FormsExamples";
+// Import example pages
+import ButtonsPage from "./pages/examples/ButtonsPage";
+import CardsPage from "./pages/examples/CardsPage";
+import FormsPage from "./pages/examples/FormsPage";
+import LoadersPage from "./pages/examples/LoadersPage";
+import ToastsPage from "./pages/examples/ToastsPage";
+import DraggablePage from "./pages/examples/DraggablePage";
+import AnimationsPage from "./pages/examples/AnimationsPage";
 
 function PageTransition({ children }: { children: React.ReactNode }) {
   const [transitionClass, setTransitionClass] = React.useState("opacity-0");
@@ -69,14 +69,15 @@ const App = () => (
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Index />} />
-            <Route path="examples" element={<Examples />} />
-            <Route path="examples/buttons" element={<ButtonExamples />} />
-            <Route path="examples/cards" element={<CardAnimations />} />
-            <Route path="examples/forms" element={<FormsExamples />} />
-            <Route path="examples/loaders" element={<LoaderShowcase />} />
-            <Route path="examples/toasts" element={<ToastsExamples />} />
-            <Route path="examples/draggable" element={<DraggableExamples />} />
-            <Route path="examples/animations" element={<AnimationExamples />} />
+            <Route path="examples" element={<Examples />}>
+              <Route path="buttons" element={<ButtonsPage />} />
+              <Route path="cards" element={<CardsPage />} />
+              <Route path="forms" element={<FormsPage />} />
+              <Route path="loaders" element={<LoadersPage />} />
+              <Route path="toasts" element={<ToastsPage />} />
+              <Route path="draggable" element={<DraggablePage />} />
+              <Route path="animations" element={<AnimationsPage />} />
+            </Route>
             <Route path="docs" element={<Docs />} />
             <Route path="*" element={<NotFound />} />
           </Route>
