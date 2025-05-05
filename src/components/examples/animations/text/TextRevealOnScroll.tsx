@@ -1,8 +1,6 @@
 
 import { useRef, useEffect, ReactNode } from "react";
-import * as animeJs from 'animejs';
-
-const anime = animeJs.default;
+import * as anime from 'animejs';
 
 interface TextRevealOnScrollProps {
   children: ReactNode;
@@ -19,7 +17,7 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
           if (entry.isIntersecting && containerRef.current) {
             observer.unobserve(entry.target);
             
-            anime({
+            anime.animate({
               opacity: [0, 1],
               translateY: [20, 0],
               targets: containerRef.current,
@@ -54,9 +52,7 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
 export default TextRevealOnScroll;
 
 export const textFadeInCode = `import { useRef, useEffect, ReactNode } from "react";
-import * as animeJs from 'animejs';
-
-const anime = animeJs.default;
+import * as anime from 'animejs';
 
 interface TextRevealOnScrollProps {
   children: ReactNode;
@@ -73,7 +69,7 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
           if (entry.isIntersecting && containerRef.current) {
             observer.unobserve(entry.target);
             
-            anime({
+            anime.animate({
               opacity: [0, 1],
               translateY: [20, 0],
               targets: containerRef.current,

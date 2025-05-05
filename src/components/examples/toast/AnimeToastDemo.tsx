@@ -41,7 +41,7 @@ const AnimeToastDemoComponent = () => {
 export default AnimeToastDemoComponent;
 
 export const useToastCode = `import React, { useRef, useState, useEffect } from "react";
-import * as animeJs from 'animejs';
+import * as anime from 'animejs';
 
 const anime = animeJs.default;
 

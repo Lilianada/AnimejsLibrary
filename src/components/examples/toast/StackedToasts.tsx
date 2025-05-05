@@ -1,10 +1,8 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import * as animeJs from 'animejs';
+import * as anime from 'animejs';
 import useAnimeToast from './useAnimeToast';
-
-const anime = animeJs.default;
 
 const StackedToasts = () => {
   const { addToast, ToastWrapper } = useAnimeToast();
@@ -41,10 +39,8 @@ export default StackedToasts;
 // Code snippet for documentation
 export const StackToastsCode = `import React from 'react';
 import { Button } from '@/components/ui/button';
-import * as animeJs from 'animejs';
+import * as anime from 'animejs';
 import useAnimeToast from './useAnimeToast';
-
-const anime = animeJs.default;
 
 const StackedToasts = () => {
   const { addToast, ToastWrapper } = useAnimeToast();

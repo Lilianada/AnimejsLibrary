@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check } from "lucide-react";
-import * as animeJs from 'animejs';
-
-const anime = animeJs.default;
+import * as anime from 'animejs';
 
 interface AnimatedSubmitButtonProps {
   text: string;
@@ -30,8 +28,7 @@ const AnimatedSubmitButton: React.FC<AnimatedSubmitButtonProps> = ({
     setStatus("loading");
     
     if (buttonRef.current) {
-      anime({
-        targets: buttonRef.current,
+      anime.animate(buttonRef.current, {
         scale: [1, 0.98],
         duration: 150,
         easing: "easeInOutQuad"
@@ -49,8 +46,7 @@ const AnimatedSubmitButton: React.FC<AnimatedSubmitButtonProps> = ({
       setStatus("success");
       
       if (buttonRef.current) {
-        anime({
-          targets: buttonRef.current,
+        anime.animate(buttonRef.current, {
           scale: [0.98, 1.05, 1],
           backgroundColor: ["#8b5cf6", "#10b981", "#8b5cf6"],
           duration: 600,
@@ -101,9 +97,7 @@ export default AnimatedSubmitButton;
 export const animatedSubmitButtonCode = `import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, Check } from "lucide-react";
-import * as animeJs from 'animejs';
-
-const anime = animeJs.default;
+import * as anime from 'animejs';
 
 interface AnimatedSubmitButtonProps {
   text: string;
@@ -129,8 +123,7 @@ const AnimatedSubmitButton = ({
     setStatus("loading");
     
     if (buttonRef.current) {
-      anime({
-        targets: buttonRef.current,
+      anime.animate(buttonRef.current, {
         scale: [1, 0.98],
         duration: 150,
         easing: "easeInOutQuad"
@@ -148,8 +141,7 @@ const AnimatedSubmitButton = ({
       setStatus("success");
       
       if (buttonRef.current) {
-        anime({
-          targets: buttonRef.current,
+        anime.animate(buttonRef.current, {
           scale: [0.98, 1.05, 1],
           backgroundColor: ["#8b5cf6", "#10b981", "#8b5cf6"],
           duration: 600,
