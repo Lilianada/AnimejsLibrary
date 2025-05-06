@@ -35,7 +35,7 @@ const useAnimeToast = () => {
       const translateY = -6 * (toastElements.length - 1 - i);
       const scale = 1 - 0.05 * (toastElements.length - 1 - i);
       
-      anime.animate({
+      anime.default({
         targets: toastElements[i],
         translateY: translateY,
         scale: scale,

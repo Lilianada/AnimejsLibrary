@@ -10,7 +10,7 @@ const ToastsPage = () => {
     <>
       <Toaster position="top-right" richColors closeButton />
       <ToastWrapper>
-        <div className="p-4 sm:p-6 mt-8 md:mt-4"> {/* Added top margin to fix layout issue */}
+        <div className="container mx-auto px-4 py-6 md:px-6 lg:px-8">
           <AnimeToastExamples />
         </div>
       </ToastWrapper>

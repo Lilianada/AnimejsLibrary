@@ -2,7 +2,11 @@
 import AnimationExamples from "@/components/examples/AnimationExamples";
 
 const AnimationsPage = () => {
-  return <AnimationExamples />;
+  return (
+    <div className="container mx-auto px-4 py-6 md:px-6 lg:px-8">
+      <AnimationExamples />
+    </div>
+  );
 };
 
 export default AnimationsPage;
