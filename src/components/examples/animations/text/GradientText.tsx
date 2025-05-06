@@ -8,6 +8,8 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
+    // Commented out gradient animation
+    /*
     const animation = anime.animate({
       targets: textRef.current,
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
@@ -20,6 +22,7 @@ const GradientText = ({ text }: { text: string }) => {
     return () => {
       animation.pause();
     };
+    */
   }, []);
 
   return (
@@ -48,6 +51,8 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
+    // Commented out gradient animation
+    /*
     const animation = anime.animate({
       targets: textRef.current,
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
@@ -60,6 +65,7 @@ const GradientText = ({ text }: { text: string }) => {
     return () => {
       animation.pause();
     };
+    */
   }, []);
 
   return (
