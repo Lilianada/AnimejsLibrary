@@ -224,7 +224,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
             Accept
           </Button>
         </div>
-        <div className="mt-2 h-0.5 w-full bg-muted rounded-full">
+        <div className="mt-2 h-0.5 w-full bg-card-foreground/10 rounded-full">
           <div 
             ref={progressRef}
             className="h-full rounded-full bg-primary"

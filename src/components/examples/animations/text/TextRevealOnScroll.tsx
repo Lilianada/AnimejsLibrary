@@ -18,9 +18,9 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
             observer.unobserve(entry.target);
             
             anime.animate({
+              targets: containerRef.current,
               opacity: [0, 1],
               translateY: [20, 0],
-              targets: containerRef.current,
               easing: 'easeOutCubic',
               duration: 800,
               delay: 200
@@ -70,9 +70,9 @@ const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollPro
             observer.unobserve(entry.target);
             
             anime.animate({
+              targets: containerRef.current,
               opacity: [0, 1],
               translateY: [20, 0],
-              targets: containerRef.current,
               easing: 'easeOutCubic',
               duration: 800,
               delay: 200
