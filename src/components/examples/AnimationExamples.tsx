@@ -16,9 +16,9 @@ const AnimationExamples = () => {
       const cards = containerRef.current?.querySelectorAll(".animation-card");
 
       if (cards) {
-        // Use anime.default instead of anime.animate
+        // Use anime instead of anime.default
         cards.forEach(card => {
-          anime.default({
+          anime({
             targets: card,
             opacity: 0,
             translateY: 20,
@@ -26,7 +26,7 @@ const AnimationExamples = () => {
           });
         });
         
-        anime.default({
+        anime({
           targets: Array.from(cards),
           opacity: 1,
           translateY: 0,
@@ -68,7 +68,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime.default({
+      anime({
         targets: window.document.scrollingElement,
         scrollTop: topOffset,
         duration: 600,

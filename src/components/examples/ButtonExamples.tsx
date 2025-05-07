@@ -115,7 +115,7 @@ const ButtonExamples = () => {
                     {btn.description}
                   </p>
                 </div>
-                <div className="min-h-[60px]">{btn.component}</div>
+                <div className="min-h-[60px] flex justify-center items-center">{btn.component}</div>
               </div>
             }
             codeContent={btn.code}

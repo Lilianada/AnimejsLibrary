@@ -1,104 +1,51 @@
 
-import { useRef, useEffect, ReactNode } from "react";
+import React, { useEffect, useRef } from 'react';
 import * as anime from 'animejs';
 
 interface TextRevealOnScrollProps {
-  children: ReactNode;
-  threshold?: number;
+  children: React.ReactNode;
+  delay?: number;
 }
 
-const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
+const TextRevealOnScroll: React.FC<TextRevealOnScrollProps> = ({ 
+  children, 
+  delay = 0 
+}) => {
+  const textRef = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && containerRef.current) {
-            observer.unobserve(entry.target);
-            
-            anime.default({
-              targets: containerRef.current,
-              opacity: [0, 1],
-              translateY: [20, 0],
-              easing: 'easeOutCubic',
-              duration: 800,
-              delay: 200
-            });
-          }
-        });
-      },
-      { threshold }
-    );
-    
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          anime({
+            targets: textRef.current,
+            opacity: [0, 1],
+            translateY: [20, 0],
+            easing: 'easeOutExpo',
+            duration: 800,
+            delay: delay
+          });
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+
+    if (textRef.current) {
+      observer.observe(textRef.current);
     }
-    
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    };
-  }, [threshold]);
-  
+
+    return () => observer.disconnect();
+  }, [delay]);
+
   return (
-    <div ref={containerRef} className="opacity-0 transform translate-y-5">
+    <span 
+      ref={textRef} 
+      className="inline-block opacity-0"
+      style={{ transform: 'translateY(20px)' }}
+    >
       {children}
-    </div>
+    </span>
   );
 };
 
 export default TextRevealOnScroll;
-
-export const textFadeInCode = `import { useRef, useEffect, ReactNode } from "react";
-import * as anime from 'animejs';
-
-interface TextRevealOnScrollProps {
-  children: ReactNode;
-  threshold?: number;
-}
-
-const TextRevealOnScroll = ({ children, threshold = 0.3 }: TextRevealOnScrollProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && containerRef.current) {
-            observer.unobserve(entry.target);
-            
-            anime.default({
-              targets: containerRef.current,
-              opacity: [0, 1],
-              translateY: [20, 0],
-              easing: 'easeOutCubic',
-              duration: 800,
-              delay: 200
-            });
-          }
-        });
-      },
-      { threshold }
-    );
-    
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-    
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    };
-  }, [threshold]);
-  
-  return (
-    <div ref={containerRef} className="opacity-0 transform translate-y-5">
-      {children}
-    </div>
-  );
-};
-
-export default TextRevealOnScroll;`;
