@@ -37,7 +37,7 @@ const AnimeToast = ({ message, type = 'info', duration = 3000, onClose }: ToastP
     if (!toastRef.current) return;
 
     // Animate toast entrance
-    anime({
+    anime.default({
       targets: toastRef.current,
       translateX: [30, 0],
       opacity: [0, 1],
@@ -47,33 +47,18 @@ const AnimeToast = ({ message, type = 'info', duration = 3000, onClose }: ToastP
 
     // Animate progress bar
     if (progressRef.current) {
-      anime({
+      anime.default({
         targets: progressRef.current,
         width: ['100%', '0%'],
         easing: 'linear',
-        duration: duration,
-        complete: () => {
-          // Exit animation when done
-          if (toastRef.current) {
-            anime({
-              targets: toastRef.current,
-              translateX: [0, 30],
-              opacity: [1, 0],
-              easing: 'easeInQuad',
-              duration: 300,
-              complete: () => {
-                if (onClose) onClose();
-              }
-            });
-          }
-        }
+        duration: duration
       });
     }
 
-    // Manual cleanup
+    // Exit animation when done
     const timer = setTimeout(() => {
       if (toastRef.current) {
-        anime({
+        anime.default({
           targets: toastRef.current,
           translateX: [0, 30],
           opacity: [1, 0],
@@ -86,6 +71,7 @@ const AnimeToast = ({ message, type = 'info', duration = 3000, onClose }: ToastP
       }
     }, duration);
 
+    // Manual cleanup
     return () => clearTimeout(timer);
   }, [duration, onClose]);
   

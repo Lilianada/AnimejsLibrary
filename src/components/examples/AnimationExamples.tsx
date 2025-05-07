@@ -16,9 +16,9 @@ const AnimationExamples = () => {
       const cards = containerRef.current?.querySelectorAll(".animation-card");
 
       if (cards) {
-        // Use anime instead of anime.default
+        // Use anime.default instead of anime
         cards.forEach(card => {
-          anime({
+          anime.default({
             targets: card,
             opacity: 0,
             translateY: 20,
@@ -26,13 +26,13 @@ const AnimationExamples = () => {
           });
         });
         
-        anime({
+        anime.default({
           targets: Array.from(cards),
           opacity: 1,
           translateY: 0,
           duration: 600,
           easing: 'easeOutExpo',
-          delay: anime.stagger(100)
+          delay: anime.default.stagger(100)
         });
       }
     };
@@ -68,7 +68,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime({
+      anime.default({
         targets: window.document.scrollingElement,
         scrollTop: topOffset,
         duration: 600,

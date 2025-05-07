@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import * as anime from "animejs";
 
@@ -11,7 +10,8 @@ const StaggeredHeroText = () => {
     // Create a sequence of animations manually instead of using timeline
     const playAnimation = () => {
       // First animate the container
-      anime.animate(containerRef.current, {
+      anime.default({
+        targets: containerRef.current,
         opacity: [0, 1],
         translateY: [40, 0],
         easing: 'easeOutExpo',
@@ -25,12 +25,13 @@ const StaggeredHeroText = () => {
       if (!containerRef.current) return;
       const lines = containerRef.current.querySelectorAll('.hero-line');
       
-      anime.animate(lines, {
+      anime.default({
+        targets: lines,
         translateY: [40, 0],
         opacity: [0, 1],
         easing: 'easeOutExpo',
         duration: 750,
-        delay: anime.stagger(200),
+        delay: anime.default.stagger(200),
         complete: animateHighlights
       });
     };
@@ -41,7 +42,8 @@ const StaggeredHeroText = () => {
       const highlights = containerRef.current.querySelectorAll('.hero-highlight');
       
       highlights.forEach((highlight, index) => {
-        anime.animate(highlight, {
+        anime.default({
+          targets: highlight,
           backgroundPosition: ['-100% 0', '200% 0'],
           easing: 'easeInOutQuad',
           duration: 1200,
@@ -81,7 +83,8 @@ const StaggeredHeroText = () => {
     // Create a sequence of animations manually
     const playAnimation = () => {
       // First animate the container
-      anime.animate(containerRef.current, {
+      anime.default({
+        targets: containerRef.current,
         opacity: [0, 1],
         translateY: [40, 0],
         easing: 'easeOutExpo',
@@ -95,12 +98,13 @@ const StaggeredHeroText = () => {
       if (!containerRef.current) return;
       const lines = containerRef.current.querySelectorAll('.hero-line');
       
-      anime.animate(lines, {
+      anime.default({
+        targets: lines,
         translateY: [40, 0],
         opacity: [0, 1],
         easing: 'easeOutExpo',
         duration: 750,
-        delay: anime.stagger(200),
+        delay: anime.default.stagger(200),
         complete: animateHighlights
       });
     };
@@ -111,7 +115,8 @@ const StaggeredHeroText = () => {
       const highlights = containerRef.current.querySelectorAll('.hero-highlight');
       
       highlights.forEach((highlight, index) => {
-        anime.animate(highlight, {
+        anime.default({
+          targets: highlight,
           backgroundPosition: ['-100% 0', '200% 0'],
           easing: 'easeInOutQuad',
           duration: 1200,
@@ -135,6 +140,4 @@ const StaggeredHeroText = () => {
       </div>
     </div>
   );
-};
-
-export default StaggeredHeroText;`;
+};`;

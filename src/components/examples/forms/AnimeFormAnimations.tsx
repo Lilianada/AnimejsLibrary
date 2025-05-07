@@ -24,17 +24,14 @@ const AnimeFormAnimations = () => {
                 <FloatingLabelInput 
                   label="Name" 
                   type="text" 
-                  className="bg-transparent border-border text-foreground" 
                 />
                 <FloatingLabelInput 
                   label="Email" 
                   type="email" 
-                  className="bg-transparent border-border text-foreground" 
                 />
                 <FloatingLabelInput 
                   label="Password" 
                   type="password" 
-                  className="bg-transparent border-border text-foreground" 
                 />
                 <Button className="w-full">Submit</Button>
               </form>
@@ -50,11 +47,11 @@ const FormEntrance = () => {
   useEffect(() => {
     const formElements = formRef.current.querySelectorAll(".form-item");
     
-    anime({
+    anime.default({
       targets: formElements,
       opacity: [0, 1],
       translateY: [20, 0],
-      delay: anime.stagger(100),
+      delay: anime.default.stagger(100),
       easing: "easeOutQuad",
       duration: 500
     });

@@ -24,7 +24,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Entrance animation
     if (toastRef.current) {
-      anime({
+      anime.default({
         targets: toastRef.current,
         translateY: ['-100%', '0%'],
         opacity: [0, 1],
@@ -35,7 +35,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Progress bar animation
     if (progressRef.current) {
-      anime({
+      anime.default({
         targets: progressRef.current,
         width: ['100%', '0%'],
         duration: duration,
@@ -53,7 +53,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   
   const handleClose = () => {
     if (toastRef.current) {
-      anime({
+      anime.default({
         targets: toastRef.current,
         translateY: ['0%', '-120%'],
         opacity: [1, 0],
@@ -144,7 +144,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Entrance animation
     if (toastRef.current) {
-      anime({
+      anime.default({
         targets: toastRef.current,
         translateY: ['-100%', '0%'],
         opacity: [0, 1],
@@ -155,7 +155,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Progress bar animation
     if (progressRef.current) {
-      anime({
+      anime.default({
         targets: progressRef.current,
         width: ['100%', '0%'],
         duration: duration,
@@ -173,7 +173,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   
   const handleClose = () => {
     if (toastRef.current) {
-      anime({
+      anime.default({
         targets: toastRef.current,
         translateY: ['0%', '-120%'],
         opacity: [1, 0],
@@ -235,4 +235,4 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   );
 };
 
-export default ToastWithActions;`;
+export default ToastWithActions;

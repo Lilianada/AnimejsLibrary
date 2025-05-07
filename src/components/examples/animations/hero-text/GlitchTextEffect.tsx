@@ -10,7 +10,8 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.animate(textRef.current, {
+      anime.default({
+        targets: textRef.current,
         duration: 10,
         translateX: 0,
         translateY: 0,
@@ -18,7 +19,8 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.animate(textRef.current, {
+          anime.default({
+            targets: textRef.current,
             translateX: [
               { value: 3, duration: 100, delay: 500 },
               { value: -5, duration: 100, delay: 0 },
@@ -48,7 +50,8 @@ const GlitchTextEffect = () => {
     return () => {
       if (element) {
         // Create a "stop" animation to effectively pause any ongoing animations
-        anime.animate(element, {
+        anime.default({
+          targets: element,
           duration: 1,
           complete: () => {
             // This callback runs after the stop animation completes
@@ -109,7 +112,8 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.animate(textRef.current, {
+      anime.default({
+        targets: textRef.current,
         duration: 10,
         translateX: 0,
         translateY: 0,
@@ -117,7 +121,8 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.animate(textRef.current, {
+          anime.default({
+            targets: textRef.current,
             translateX: [
               { value: 3, duration: 100, delay: 500 },
               { value: -5, duration: 100, delay: 0 },
@@ -145,7 +150,8 @@ const GlitchTextEffect = () => {
     return () => {
       if (textRef.current) {
         // Create a "stop" animation to effectively pause ongoing animations
-        anime.animate(textRef.current, {
+        anime.default({
+          targets: textRef.current,
           duration: 1
         });
       }
@@ -173,7 +179,6 @@ const GlitchTextEffect = () => {
         </span>
       </div>
       
-      {/* You can add some CSS for additional glitch effects */}
       <style>{\`
         @keyframes glitch-anim {
           0%, 100% { clip-path: inset(20% 0 30% 0); }
@@ -185,6 +190,4 @@ const GlitchTextEffect = () => {
       \`}</style>
     </div>
   );
-};
-
-export default GlitchTextEffect;`;
+};`;
