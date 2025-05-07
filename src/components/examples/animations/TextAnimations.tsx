@@ -1,10 +1,9 @@
 
 import { CodeToggle } from "../CodeToggle";
 import TypewriterEffect, { typewriterCode } from "./text/TypewriterEffect";
-import TextRevealOnScroll from "./text/TextRevealOnScroll";
+import TextRevealOnScroll, { textFadeInCode } from "./text/TextRevealOnScroll";
 import LetterFlyIn, { letterFlyInCode } from "./text/LetterFlyIn";
 import GradientText, { gradientTextCode } from "./text/GradientText";
-import { textFadeInCode } from "./text/TextRevealOnScroll"; // Update the import
 
 const TextAnimations = () => {
   return (

@@ -5,7 +5,7 @@ import TextAnimations from "./animations/TextAnimations";
 import ImageRevealAnimations from "./animations/image-reveal";
 import DraggableCardStack from "./animations/DraggableCardStack";
 import HeroTextAnimations from "./animations/HeroTextAnimations";
-import * as anime from "animejs";
+import anime from "animejs";
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,9 +16,9 @@ const AnimationExamples = () => {
       const cards = containerRef.current?.querySelectorAll(".animation-card");
 
       if (cards) {
-        // Use anime.default instead of anime
+        // Use anime instead of anime.default
         cards.forEach(card => {
-          anime.default({
+          anime({
             targets: card,
             opacity: 0,
             translateY: 20,
@@ -26,13 +26,13 @@ const AnimationExamples = () => {
           });
         });
         
-        anime.default({
+        anime({
           targets: Array.from(cards),
           opacity: 1,
           translateY: 0,
           duration: 600,
           easing: 'easeOutExpo',
-          delay: anime.default.stagger(100)
+          delay: anime.stagger(100)
         });
       }
     };
@@ -68,7 +68,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime.default({
+      anime({
         targets: window.document.scrollingElement,
         scrollTop: topOffset,
         duration: 600,
@@ -78,7 +78,7 @@ const AnimationExamples = () => {
   };
 
   return (
-    <div ref={containerRef} className="space-y-12">
+    <div ref={containerRef} className="space-y-12 px-4 md:px-6 lg:px-8">
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-3">Web Animation Examples</h2>
         <p className="text-muted-foreground">

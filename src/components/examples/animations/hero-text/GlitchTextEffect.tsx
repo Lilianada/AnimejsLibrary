@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from "react";
-import * as anime from "animejs";
+import anime from "animejs";
 
 const GlitchTextEffect = () => {
   const textRef = useRef<HTMLDivElement>(null);
@@ -10,7 +10,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.default({
+      anime({
         targets: textRef.current,
         duration: 10,
         translateX: 0,
@@ -19,7 +19,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.default({
+          anime({
             targets: textRef.current,
             translateX: [
               { value: 3, duration: 100, delay: 500 },
@@ -50,7 +50,7 @@ const GlitchTextEffect = () => {
     return () => {
       if (element) {
         // Create a "stop" animation to effectively pause any ongoing animations
-        anime.default({
+        anime({
           targets: element,
           duration: 1,
           complete: () => {
@@ -102,7 +102,7 @@ const GlitchTextEffect = () => {
 export default GlitchTextEffect;
 
 export const glitchTextEffectCode = `import { useRef, useEffect } from "react";
-import * as anime from "animejs";
+import anime from "animejs";
 
 const GlitchTextEffect = () => {
   const textRef = useRef(null);
@@ -112,7 +112,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.default({
+      anime({
         targets: textRef.current,
         duration: 10,
         translateX: 0,
@@ -121,7 +121,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.default({
+          anime({
             targets: textRef.current,
             translateX: [
               { value: 3, duration: 100, delay: 500 },
@@ -150,7 +150,7 @@ const GlitchTextEffect = () => {
     return () => {
       if (textRef.current) {
         // Create a "stop" animation to effectively pause ongoing animations
-        anime.default({
+        anime({
           targets: textRef.current,
           duration: 1
         });
