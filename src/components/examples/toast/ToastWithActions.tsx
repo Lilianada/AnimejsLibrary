@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import * as anime from 'animejs';
 import { Button } from '@/components/ui/button';
@@ -235,4 +236,5 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   );
 };
 
-export default ToastWithActions;
+export default ToastWithActions;`;
+

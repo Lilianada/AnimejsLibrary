@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import useAnimeToast from "./useAnimeToast";
@@ -212,4 +213,5 @@ const useAnimeToast = () => {
   };
   
   return { addToast, removeToast, ToastWrapper };
-};
+};`;
+
