@@ -1,11 +1,10 @@
-
 import { useRef, useEffect, useState } from "react";
 import ScrollProgressAnimation from "./animations/ScrollProgressAnimation";
 import TextAnimations from "./animations/TextAnimations";
 import ImageRevealAnimations from "./animations/image-reveal";
 import DraggableCardStack from "./animations/DraggableCardStack";
 import HeroTextAnimations from "./animations/HeroTextAnimations";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -1,6 +1,5 @@
-
 import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const StaggeredHeroText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -73,7 +72,7 @@ const StaggeredHeroText = () => {
 export default StaggeredHeroText;
 
 export const staggeredHeroTextCode = `import { useRef, useEffect } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const StaggeredHeroText = () => {
   const containerRef = useRef(null);

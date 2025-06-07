@@ -1,6 +1,5 @@
-
 import React, { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 
 interface TextRevealOnScrollProps {
   children: React.ReactNode;
@@ -52,7 +51,7 @@ export default TextRevealOnScroll;
 
 // Export the code snippet for documentation
 export const textFadeInCode = `import React, { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 
 const TextRevealOnScroll = ({ children, delay = 0 }) => {
   const textRef = useRef(null);

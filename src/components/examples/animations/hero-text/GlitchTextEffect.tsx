@@ -1,6 +1,5 @@
-
 import { useEffect, useRef } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const GlitchTextEffect = () => {
   const textRef = useRef<HTMLDivElement>(null);
@@ -102,7 +101,7 @@ const GlitchTextEffect = () => {
 export default GlitchTextEffect;
 
 export const glitchTextEffectCode = `import { useRef, useEffect } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const GlitchTextEffect = () => {
   const textRef = useRef(null);

@@ -1,6 +1,5 @@
-
 import { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const MaskedHeroText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +47,7 @@ const MaskedHeroText = () => {
 export default MaskedHeroText;
 
 export const maskedHeroTextCode = `import { useRef, useEffect, useState } from "react";
-import anime from "animejs";
+import * as anime from "animejs";
 
 const MaskedHeroText = () => {
   const containerRef = useRef(null);
