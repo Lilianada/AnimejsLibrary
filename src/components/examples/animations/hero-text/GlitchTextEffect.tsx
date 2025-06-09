@@ -1,6 +1,5 @@
-
 import { useEffect, useRef } from "react";
-import * as anime from "animejs";
+import { animate } from "animejs";
 
 const GlitchTextEffect = () => {
   const textRef = useRef<HTMLDivElement>(null);
@@ -10,8 +9,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.default({
-        targets: textRef.current,
+      animate(textRef.current, {
         duration: 10,
         translateX: 0,
         translateY: 0,
@@ -19,8 +17,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.default({
-            targets: textRef.current,
+          animate(textRef.current, {
             translateX: [
               { value: 3, duration: 100, delay: 500 },
               { value: -5, duration: 100, delay: 0 },
@@ -50,8 +47,7 @@ const GlitchTextEffect = () => {
     return () => {
       if (element) {
         // Create a "stop" animation to effectively pause any ongoing animations
-        anime.default({
-          targets: element,
+        animate(element, {
           duration: 1,
           complete: () => {
             // This callback runs after the stop animation completes
@@ -102,7 +98,7 @@ const GlitchTextEffect = () => {
 export default GlitchTextEffect;
 
 export const glitchTextEffectCode = `import { useRef, useEffect } from "react";
-import * as anime from "animejs";
+import { animate } from "animejs";
 
 const GlitchTextEffect = () => {
   const textRef = useRef(null);
@@ -112,8 +108,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime.default({
-        targets: textRef.current,
+      animate(textRef.current, {
         duration: 10,
         translateX: 0,
         translateY: 0,
@@ -121,8 +116,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime.default({
-            targets: textRef.current,
+          animate(textRef.current, {
             translateX: [
               { value: 3, duration: 100, delay: 500 },
               { value: -5, duration: 100, delay: 0 },
@@ -150,8 +144,7 @@ const GlitchTextEffect = () => {
     return () => {
       if (textRef.current) {
         // Create a "stop" animation to effectively pause ongoing animations
-        anime.default({
-          targets: textRef.current,
+        animate(textRef.current, {
           duration: 1
         });
       }

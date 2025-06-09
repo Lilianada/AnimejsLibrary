@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 
 const GradientText = ({ text }: { text: string }) => {
   const textRef = useRef<HTMLSpanElement>(null);
@@ -8,8 +8,7 @@ const GradientText = ({ text }: { text: string }) => {
     if (!textRef.current) return;
     
     // Fixed anime.js call syntax
-    const animation = anime.default({
-      targets: textRef.current,
+    const animation = animate(textRef.current, {
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
       duration: 4000,
@@ -40,7 +39,7 @@ const GradientText = ({ text }: { text: string }) => {
 export default GradientText;
 
 export const gradientTextCode = `import { useEffect, useRef } from "react";
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 
 const GradientText = ({ text }: { text: string }) => {
   const textRef = useRef<HTMLSpanElement>(null);
@@ -48,8 +47,7 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
-    const animation = anime.default({
-      targets: textRef.current,
+    const animation = animate(textRef.current, {
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
       duration: 4000,

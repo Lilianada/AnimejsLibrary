@@ -1,11 +1,10 @@
-
 import { useRef, useEffect, useState } from "react";
 import ScrollProgressAnimation from "./animations/ScrollProgressAnimation";
 import TextAnimations from "./animations/TextAnimations";
 import ImageRevealAnimations from "./animations/image-reveal";
 import DraggableCardStack from "./animations/DraggableCardStack";
 import HeroTextAnimations from "./animations/HeroTextAnimations";
-import * as anime from "animejs";
+import { animate, stagger } from "animejs";
 
 const AnimationExamples = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,23 +15,21 @@ const AnimationExamples = () => {
       const cards = containerRef.current?.querySelectorAll(".animation-card");
 
       if (cards) {
-        // Use anime.default instead of anime
+        // Set initial state
         cards.forEach(card => {
-          anime.default({
-            targets: card,
+          animate(card, {
             opacity: 0,
             translateY: 20,
             duration: 1,
           });
         });
         
-        anime.default({
-          targets: Array.from(cards),
+        animate(Array.from(cards), {
           opacity: 1,
           translateY: 0,
           duration: 600,
           easing: 'easeOutExpo',
-          delay: anime.default.stagger(100)
+          delay: stagger(100)
         });
       }
     };
@@ -68,8 +65,7 @@ const AnimationExamples = () => {
     if (section) {
       const topOffset = section.getBoundingClientRect().top + window.scrollY;
       
-      anime.default({
-        targets: window.document.scrollingElement,
+      animate(window.document.scrollingElement, {
         scrollTop: topOffset,
         duration: 600,
         easing: 'easeInOutQuad'

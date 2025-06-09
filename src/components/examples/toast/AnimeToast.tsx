@@ -1,6 +1,5 @@
-
 import React, { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 
 export interface ToastProps {
   message: string;
@@ -37,8 +36,7 @@ const AnimeToast = ({ message, type = 'info', duration = 3000, onClose }: ToastP
     if (!toastRef.current) return;
 
     // Animate toast entrance
-    anime.default({
-      targets: toastRef.current,
+    animate(toastRef.current, {
       translateX: [30, 0],
       opacity: [0, 1],
       easing: 'easeOutQuad',
@@ -47,8 +45,7 @@ const AnimeToast = ({ message, type = 'info', duration = 3000, onClose }: ToastP
 
     // Animate progress bar
     if (progressRef.current) {
-      anime.default({
-        targets: progressRef.current,
+      animate(progressRef.current, {
         width: ['100%', '0%'],
         easing: 'linear',
         duration: duration
@@ -58,8 +55,7 @@ const AnimeToast = ({ message, type = 'info', duration = 3000, onClose }: ToastP
     // Exit animation when done
     const timer = setTimeout(() => {
       if (toastRef.current) {
-        anime.default({
-          targets: toastRef.current,
+        animate(toastRef.current, {
           translateX: [0, 30],
           opacity: [1, 0],
           easing: 'easeInQuad',

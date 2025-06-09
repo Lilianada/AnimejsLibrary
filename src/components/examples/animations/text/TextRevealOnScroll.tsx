@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 
 interface TextRevealOnScrollProps {
   children: React.ReactNode;
@@ -16,8 +16,7 @@ const TextRevealOnScroll: React.FC<TextRevealOnScrollProps> = ({
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          anime.default({
-            targets: textRef.current,
+          animate(textRef.current, {
             opacity: [0, 1],
             translateY: [20, 0],
             easing: 'easeOutExpo',
@@ -51,7 +50,7 @@ export default TextRevealOnScroll;
 
 // Export the code snippet for documentation
 export const textFadeInCode = `import React, { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 
 const TextRevealOnScroll = ({ children, delay = 0 }) => {
   const textRef = useRef(null);
@@ -60,8 +59,7 @@ const TextRevealOnScroll = ({ children, delay = 0 }) => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          anime.default({
-            targets: textRef.current,
+          animate(textRef.current, {
             opacity: [0, 1],
             translateY: [20, 0],
             easing: 'easeOutExpo',

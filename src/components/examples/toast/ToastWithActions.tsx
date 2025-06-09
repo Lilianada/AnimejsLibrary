@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 import { Button } from '@/components/ui/button';
 
 interface ToastWithActionsProps {
@@ -24,8 +24,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Entrance animation
     if (toastRef.current) {
-      anime.default({
-        targets: toastRef.current,
+      animate(toastRef.current, {
         translateY: ['-100%', '0%'],
         opacity: [0, 1],
         duration: 400,
@@ -35,8 +34,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Progress bar animation
     if (progressRef.current) {
-      anime.default({
-        targets: progressRef.current,
+      animate(progressRef.current, {
         width: ['100%', '0%'],
         duration: duration,
         easing: 'linear'
@@ -53,8 +51,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   
   const handleClose = () => {
     if (toastRef.current) {
-      anime.default({
-        targets: toastRef.current,
+      animate(toastRef.current, {
         translateY: ['0%', '-120%'],
         opacity: [1, 0],
         duration: 300,
@@ -119,7 +116,7 @@ export default ToastWithActions;
 
 // Code snippet for documentation
 export const ToastWithActionsCode = `import React, { useState, useRef, useEffect } from 'react';
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 import { Button } from '@/components/ui/button';
 
 interface ToastWithActionsProps {
@@ -144,8 +141,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Entrance animation
     if (toastRef.current) {
-      anime.default({
-        targets: toastRef.current,
+      animate(toastRef.current, {
         translateY: ['-100%', '0%'],
         opacity: [0, 1],
         duration: 400,
@@ -155,8 +151,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
     
     // Progress bar animation
     if (progressRef.current) {
-      anime.default({
-        targets: progressRef.current,
+      animate(progressRef.current, {
         width: ['100%', '0%'],
         duration: duration,
         easing: 'linear'
@@ -173,8 +168,7 @@ const ToastWithActions: React.FC<ToastWithActionsProps> = ({
   
   const handleClose = () => {
     if (toastRef.current) {
-      anime.default({
-        targets: toastRef.current,
+      animate(toastRef.current, {
         translateY: ['0%', '-120%'],
         opacity: [1, 0],
         duration: 300,

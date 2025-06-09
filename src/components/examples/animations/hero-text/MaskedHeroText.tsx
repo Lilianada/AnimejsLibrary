@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import * as anime from "animejs";
+import { animate, stagger } from "animejs";
 
 const MaskedHeroText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -8,12 +8,11 @@ const MaskedHeroText = () => {
   useEffect(() => {
     if (!containerRef.current || isAnimated) return;
     
-    const animation = anime.default({
-      targets: '.mask-target',
+    const animation = animate('.mask-target', {
       translateY: ["101%", 0],
       easing: 'easeOutQuart',
       duration: 800,
-      delay: anime.default.stagger(200),
+      delay: stagger(200),
       complete: () => {
         setIsAnimated(true);
       }
@@ -47,7 +46,7 @@ const MaskedHeroText = () => {
 export default MaskedHeroText;
 
 export const maskedHeroTextCode = `import { useRef, useEffect, useState } from "react";
-import * as anime from "animejs";
+import { animate, stagger } from "animejs";
 
 const MaskedHeroText = () => {
   const containerRef = useRef(null);
@@ -56,12 +55,11 @@ const MaskedHeroText = () => {
   useEffect(() => {
     if (!containerRef.current || isAnimated) return;
     
-    const animation = anime.default({
-      targets: '.mask-target',
+    const animation = animate('.mask-target', {
       translateY: ["101%", 0],
       easing: 'easeOutQuart',
       duration: 800,
-      delay: anime.default.stagger(200),
+      delay: stagger(200),
       complete: () => {
         setIsAnimated(true);
       }

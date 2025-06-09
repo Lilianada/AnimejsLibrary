@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 import AnimeToast, { AnimeToastContainer, ToastProps } from "./AnimeToast";
 
 const useAnimeToast = () => {
@@ -35,8 +35,7 @@ const useAnimeToast = () => {
       const translateY = -6 * (toastElements.length - 1 - i);
       const scale = 1 - 0.05 * (toastElements.length - 1 - i);
       
-      anime.default({
-        targets: toastElements[i],
+      animate(toastElements[i], {
         translateY: translateY,
         scale: scale,
         opacity: 0.9 - (0.1 * (toastElements.length - 1 - i)),

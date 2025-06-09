@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import * as anime from 'animejs';
+import { animate, stagger } from 'animejs';
 
 interface LetterFlyInProps {
   text: string;
@@ -21,8 +21,7 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.default({
-        targets: letter,
+      animate(letter, {
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
         translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
@@ -31,8 +30,7 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime.default({
-      targets: Array.from(letters),
+    animate(Array.from(letters), {
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -41,7 +39,7 @@ const LetterFlyIn = ({
       ],
       duration: 600,
       easing: 'easeOutQuad',
-      delay: anime.default.stagger(80, { start: delay }),
+      delay: stagger(80, { start: delay }),
     });
     
   }, [text, delay, direction]);
@@ -64,7 +62,7 @@ const LetterFlyIn = ({
 export default LetterFlyIn;
 
 export const letterFlyInCode = `import { useEffect, useRef } from "react";
-import * as anime from 'animejs';
+import { animate, stagger } from 'animejs';
 
 interface LetterFlyInProps {
   text: string;
@@ -86,8 +84,7 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime.default({
-        targets: letter,
+      animate(letter, {
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
         translateY: direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0),
@@ -96,8 +93,7 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime.default({
-      targets: Array.from(letters),
+    animate(Array.from(letters), {
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
       translateY: [direction === 'top' ? -30 : (direction === 'bottom' ? 30 : 0), 0],
@@ -106,7 +102,7 @@ const LetterFlyIn = ({
       ],
       duration: 600,
       easing: 'easeOutQuad',
-      delay: anime.default.stagger(80, { start: delay }),
+      delay: stagger(80, { start: delay }),
     });
     
   }, [text, delay, direction]);
