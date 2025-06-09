@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import * as anime from "animejs";
 
@@ -9,7 +10,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime({
+      anime.default({
         targets: textRef.current,
         duration: 10,
         translateX: 0,
@@ -18,7 +19,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime({
+          anime.default({
             targets: textRef.current,
             translateX: [
               { value: 3, duration: 100, delay: 500 },
@@ -49,7 +50,7 @@ const GlitchTextEffect = () => {
     return () => {
       if (element) {
         // Create a "stop" animation to effectively pause any ongoing animations
-        anime({
+        anime.default({
           targets: element,
           duration: 1,
           complete: () => {
@@ -111,7 +112,7 @@ const GlitchTextEffect = () => {
     
     const glitchAnimation = () => {
       // Reset before animating
-      anime({
+      anime.default({
         targets: textRef.current,
         duration: 10,
         translateX: 0,
@@ -120,7 +121,7 @@ const GlitchTextEffect = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           // Begin glitch sequence
-          anime({
+          anime.default({
             targets: textRef.current,
             translateX: [
               { value: 3, duration: 100, delay: 500 },
@@ -149,7 +150,7 @@ const GlitchTextEffect = () => {
     return () => {
       if (textRef.current) {
         // Create a "stop" animation to effectively pause ongoing animations
-        anime({
+        anime.default({
           targets: textRef.current,
           duration: 1
         });

@@ -16,7 +16,7 @@ const TextRevealOnScroll: React.FC<TextRevealOnScrollProps> = ({
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          anime({
+          anime.default({
             targets: textRef.current,
             opacity: [0, 1],
             translateY: [20, 0],
@@ -60,7 +60,7 @@ const TextRevealOnScroll = ({ children, delay = 0 }) => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          anime({
+          anime.default({
             targets: textRef.current,
             opacity: [0, 1],
             translateY: [20, 0],

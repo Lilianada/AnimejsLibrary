@@ -21,7 +21,7 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime({
+      anime.default({
         targets: letter,
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
@@ -31,7 +31,7 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime({
+    anime.default({
       targets: Array.from(letters),
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
@@ -41,7 +41,7 @@ const LetterFlyIn = ({
       ],
       duration: 600,
       easing: 'easeOutQuad',
-      delay: anime.stagger(80, { start: delay }),
+      delay: anime.default.stagger(80, { start: delay }),
     });
     
   }, [text, delay, direction]);
@@ -86,7 +86,7 @@ const LetterFlyIn = ({
     
     // Set initial properties
     letters.forEach(letter => {
-      anime({
+      anime.default({
         targets: letter,
         opacity: 0,
         translateX: direction === 'left' ? -30 : (direction === 'right' ? 30 : 0),
@@ -96,7 +96,7 @@ const LetterFlyIn = ({
     });
     
     // Animate letters
-    anime({
+    anime.default({
       targets: Array.from(letters),
       opacity: [0, 1],
       translateX: [direction === 'left' ? -30 : (direction === 'right' ? 30 : 0), 0],
@@ -106,7 +106,7 @@ const LetterFlyIn = ({
       ],
       duration: 600,
       easing: 'easeOutQuad',
-      delay: anime.stagger(80, { start: delay }),
+      delay: anime.default.stagger(80, { start: delay }),
     });
     
   }, [text, delay, direction]);
@@ -126,4 +126,4 @@ const LetterFlyIn = ({
   );
 };
 
-export default LetterFlyIn;`;
+export default LetterFlyIn;`

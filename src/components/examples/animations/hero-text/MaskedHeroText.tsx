@@ -8,12 +8,12 @@ const MaskedHeroText = () => {
   useEffect(() => {
     if (!containerRef.current || isAnimated) return;
     
-    const animation = anime({
+    const animation = anime.default({
       targets: '.mask-target',
       translateY: ["101%", 0],
       easing: 'easeOutQuart',
       duration: 800,
-      delay: anime.stagger(200),
+      delay: anime.default.stagger(200),
       complete: () => {
         setIsAnimated(true);
       }
@@ -56,12 +56,12 @@ const MaskedHeroText = () => {
   useEffect(() => {
     if (!containerRef.current || isAnimated) return;
     
-    const animation = anime({
+    const animation = anime.default({
       targets: '.mask-target',
       translateY: ["101%", 0],
       easing: 'easeOutQuart',
       duration: 800,
-      delay: anime.stagger(200),
+      delay: anime.default.stagger(200),
       complete: () => {
         setIsAnimated(true);
       }

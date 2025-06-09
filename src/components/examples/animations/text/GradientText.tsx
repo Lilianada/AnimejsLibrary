@@ -8,7 +8,7 @@ const GradientText = ({ text }: { text: string }) => {
     if (!textRef.current) return;
     
     // Fixed anime.js call syntax
-    const animation = anime({
+    const animation = anime.default({
       targets: textRef.current,
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
@@ -48,7 +48,7 @@ const GradientText = ({ text }: { text: string }) => {
   useEffect(() => {
     if (!textRef.current) return;
     
-    const animation = anime({
+    const animation = anime.default({
       targets: textRef.current,
       backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
       easing: 'easeInOutSine',
